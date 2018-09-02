@@ -1,6 +1,5 @@
 package com.pet.transport.uc.shrio.realm;
 
-import com.pet.transport.uc.shrio.util.CipherUtil;
 import com.pet.transport.uc.user.po.User;
 import com.pet.transport.uc.user.service.UserService;
 import org.apache.shiro.authc.*;
@@ -13,6 +12,7 @@ import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +22,7 @@ public class UcShiroDbRealm extends AuthorizingRealm {
     private static final String ALGORITHM = "MD5";
 
     @Autowired
+    @Qualifier("userServiceImpl")
     private UserService userService;
 
     public UcShiroDbRealm() {
@@ -37,10 +38,10 @@ public class UcShiroDbRealm extends AuthorizingRealm {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
         System.out.println(token.getUsername());
         User user = userService.selectUserById(token.getUsername());
-        System.out.println(user);
-        CipherUtil cipher = new CipherUtil();//MD5加密
+        //System.out.println(user);
+       // CipherUtil cipher = new CipherUtil();//MD5加密
         if (user != null) {
-            return new SimpleAuthenticationInfo(user.getUserId(), cipher.generatePassword(user.getUserPassword()), getName());
+            return new SimpleAuthenticationInfo(user.getUserId(), user.getUserPassword(), getName());
         }else{
             throw new AuthenticationException();
         }

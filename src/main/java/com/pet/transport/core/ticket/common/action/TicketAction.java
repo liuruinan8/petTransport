@@ -15,4 +15,10 @@ public class TicketAction {
         return new ModelAndView("pet/transport/ticket/hkx/hkxsygz");
     }
 
+    @RequestMapping("/cityTest")
+    @ResponseBody
+    public ModelAndView cityTest(){
+        return new ModelAndView("test/city/city");
+    }
+
 }

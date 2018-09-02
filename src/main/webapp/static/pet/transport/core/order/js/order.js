@@ -12,3 +12,5 @@ $('#slide1').swipeSlide({
         me.find('.dot').children().eq(i).addClass('cur').siblings().removeClass('cur');
     }
 });
+
+
