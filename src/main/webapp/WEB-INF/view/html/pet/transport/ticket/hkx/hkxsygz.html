@@ -1,0 +1,74 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="/pet/static/pet/transport/common/weui/css/weui.min.css">
+    <link rel="stylesheet" href="/pet/static/pet/transport/common/weui/css/weui-extend.css">
+    <script src="/pet/static/pet/transport/common/weui/js/zepto.min.js"></script>
+</head>
+
+<body ontouchstart="" style="background-color: #f8f8f8;">
+<div class="weui-weixin">
+    <div class="weui-weixin-ui">
+        <!--页面开始-->
+        <div class="weui-weixin-page">
+            <h2 class="weui-weixin-title">航空箱适用规则</h2>
+            <div class="weui-weixin-info"><!--meta-->
+                <span class="weui-weixin-em">宠物航空箱的规格及适用范围</span>
+            </div><!--meta结束-->
+
+            <div class="weui-weixin-img"><!--图片开始-->
+                <img src="/pet/images/hkx/hkx.png"
+                     class="weixin">
+            </div><!--图片结束-->
+
+            <div class="weui-weixin-content"><!--内容-->
+                <p>0号航空箱规格：长50、宽34、高32，（小型犬/1只猫）</p>
+                <p>1号航空箱规格：长61、宽41、高40，（中型犬/2只猫）</p>
+                <p>2号航空箱规格：长69、宽51、高48，（中型犬/4只猫）</p>
+                <p>3号航空箱规格：长80、宽56、高59，（大型犬/6只猫）</p>
+            </div><!--内容结束-->
+
+            <!--<div class="weui-weixin-tools">&lt;!&ndash;工具条&ndash;&gt;
+                <a href="javascript:void(0);">阅读原文</a>
+                <div class="weui-weixin-read">阅读<span id="readnum">100000+</span> <span class="weui-weixin-read"><i
+                        class="weui-weixin-zan"></i><span class="weui-weixin-num">0</span></span></div>
+                <a href="javascript:void(0);" class="right" id="jubao">举报</a>
+            </div>&lt;!&ndash;工具条结束&ndash;&gt;
+            <script>
+                $(function () {
+                    $("img").addClass('weixin');
+                    $('.weui-weixin-zan').click(function () {
+                        if ($(this).hasClass('zaned')) {
+                            $(this).removeClass('zaned');
+                            var val = $(this).next().html();
+                            if (parseInt(val) == 0) {
+                                var i = 1;
+                            } else {
+                                var i = parseInt(val) - 1;
+                            }
+                            $(this).next().html(i);
+
+                        } else {
+                            $(this).addClass('zaned');
+                            var val = $(this).next().html();
+                            $(this).next().html(parseInt(val) + 1);
+                            //ajax操作
+                        }
+
+                    });
+
+
+                });
+            </script>-->
+
+        </div><!--页面结束-->
+
+
+    </div>
+</div>
+
+
+</body>
+</html>

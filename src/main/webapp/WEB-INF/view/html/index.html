@@ -1,0 +1,139 @@
+﻿<html data-dpr="1" style="font-size: 54px;">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>宠宝机票</title>
+    <link href="static/pet/transport/common/vendor/css/vendor.css" rel="stylesheet">
+    <link href="static/pet/transport/core/order/css/order.css" rel="stylesheet">
+    <link href="static/pet/transport/core/order/css/order-old.css" rel="stylesheet">
+    <link href="static/pet/transport/common/weui/css/weui.min.css" rel="stylesheet">
+    <script charset="UTF-8"></script>
+</head>
+<body style="font-size: 12px;">
+<div id="app">
+    <div class="wrapper">
+        <div id="app_content" class="">
+            <div class="slide" id="slide1">
+                <ul style="transition: all 0.3s cubic-bezier(0.22, 0.69, 0.72, 0.88); transform: translate3d(0px, 0px, 0px);">
+                    <li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88); transform: translate3d(-1309px, 0px, 0px);">
+                        <a href="#">
+                            <img src="images/index/adv_01.png" alt="">
+                        </a>
+                        <div class="slide-desc">测试1</div>
+                    </li>
+                    <li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88); transform: translate3d(0px, 0px, 0px);">
+                        <a href="#">
+                            <img src="images/index/adv_02.png" alt="">
+                        </a>
+                        <div class="slide-desc">测试2</div>
+                    </li>
+                    <li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88); transform: translate3d(1309px, 0px, 0px);">
+                        <a href="#">
+                            <img src="images/index/adv_03.png" alt="">
+                        </a>
+                        <div class="slide-desc">测试3</div>
+                    </li>
+                </ul>
+                <div class="dot">
+                    <span class=""></span>
+                    <span class=""></span>
+                    <span class="cur"></span>
+                </div>
+            </div>
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">出发地</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="text" placeholder="请选择出发地">
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">目的地</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="text" placeholder="请选择目的地">
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell weui-cell_select" style="width: 100%">
+                        <div class="weui-cell__bd" style="width: 100%">
+                            <!--<select class="weui-select" name="select1" style="width: 100%">
+                                <option value="0901">9月1日 星期天</option>
+                            </select>-->
+                            <a href="javascript:;" class="weui-btn weui-btn_default" id="showDatePicker">请选择航班日期</a>
+                            <input type="hidden" id="selectDate"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <select class="weui-select" style="width: 165px;" name="select2">
+                            <option value="0">请选择宝宠品种</option>
+                            <option value="1">汪星人</option>
+                            <option value="2">喵星人</option>
+                            <option value="3">其他品种</option>
+                        </select>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入宝宠重量"/>
+                    </div>
+                    <div class="weui-textarea-counter"><span>Kg</span></div>
+                </div>
+            </div>
+
+            <div class="weui-cells__title weui-cells-Addtitle">增值服务</div>
+            <div class="weui-cells weui-cells_checkbox">
+                <label class="weui-cell weui-check__label" for="s11">
+                    <div class="weui-cell__hd">
+                        <input type="checkbox" class="weui-check" name="checkbox1" id="s11">
+                        <i class="weui-icon-checked"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>购买航空箱</p>
+                    </div>
+                    <a style="color:red" href="ticket/hkxsygz">航空箱适用规则</a>
+                </label>
+                <div class="weui-cells__tips">如果自备航空箱，请确认符合航空公司以及机场要求，以免影响运送或者产生相关额外费用!</div>
+                <label class="weui-cell weui-check__label" for="s12">
+                    <div class="weui-cell__hd">
+                        <input type="checkbox" name="checkbox1" class="weui-check" id="s12">
+                        <i class="weui-icon-checked"></i>
+                    </div>
+
+                    <div class="weui-cell__bd">
+                        <p>上门接宠</p>
+                    </div>
+
+                </label>
+            </div>
+            <!--<div id="insured_item" class="added-content-item">
+                <div class="added-content-title"><label class="item-title">保价</label> <label
+                        id="value_desc">(<span class="font-style">费率2%</span>)</label>
+                    <button id="value_check_button" class="check_botton"></button> &lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt;</div>
+            </div>-->
+        </div>
+    </div>
+    <div class="footer-div">
+        <div id="customservice" class="content-item"><label>联系客服</label>
+            <button id="customservice_call"></button>
+        </div>
+        <!---->
+        <div id="price_count_div" style="padding-right: 10px;">
+            <button id="price_count_sumbit">
+                费用预估
+            </button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="static/pet/transport/common/weui/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="static/pet/transport/common/weui/js/weui.min.js"></script>
+<script type="text/javascript" src="static/pet/transport/common/weui/js/zepto.min.js"></script>
+<script type="text/javascript" src="static/pet/transport/common/weui/js/swipe.js"></script>
+<script type="text/javascript" src="static/pet/transport/core/order/js/order-datapicker.js"></script>
+<script type="text/javascript" src="static/pet/transport/common/vendor/js/vendor.js"></script>
+<script type="text/javascript" src="static/pet/transport/core/order/js/order.js"></script>
+</body>
+</html>

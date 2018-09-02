@@ -1,0 +1,139 @@
+.weui-cell_orderForm {
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    line-height: 45px;
+}
+.weui-cells-Addtitle{
+    margin-top: .77em;
+    margin-bottom: .3em;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: #999;
+    font-size: 19px !important;
+}
+
+
+<!--顶部滚轮-->
+.slide {
+    position: relative;
+    max-width: 100%;
+    max-height: 60%;
+    overflow: hidden;
+    margin: 0px auto;
+}
+
+.slide ul {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.slide li {
+    list-style: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.slide li:first-child {
+    z-index: 1;
+}
+
+.slide .slide-desc {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    bottom: 0;
+    overflow: hidden;
+    padding: 5px;
+    width: 100%;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    white-space: nowrap;
+    word-break: break-all;
+    text-overflow: ellipsis;
+}
+
+#app .footer-div {
+    height: 1.813333rem;
+    width: 100%;
+    background: #fff;
+    position: fixed;
+    bottom: .026667rem;
+    z-index: 2;
+    box-shadow: 0 0 .32rem .026667rem rgba(0, 0, 0, .1);
+    display: -ms-flexbox;
+    display: flex;
+    display: -webkit-flex;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-align-items: center;
+}
+
+#app .footer-div #customservice {
+    height: 100%;
+    border-right: .026667rem solid #dbdbdb;
+    line-height: 100%;
+    width: 1.733333rem;
+}
+
+#app .footer-div #bottom_money_div {
+    height: calc(100% - .106667rem);
+    width: calc(100% - 5.84rem);
+}
+
+#app .footer-div #price_count_div #price_count_sumbit {
+    margin-bottom: .133333rem;
+    height: calc(75% - .08rem);
+    width: 3.2rem;
+    line-height: 1.173333rem;
+    background: #e71b1b;
+    font-size: .48rem;
+    color: #fff;
+    text-align: center;
+    border-radius: .16rem;
+    border: none;
+    vertical-align: middle;
+}
+#app .footer-div #customservice label {
+    display: inline-block;
+    font-size: .293333rem;
+    height: auto;
+    width: .693333rem;
+    line-height: .346667rem;
+    margin-left: .213333rem;
+    padding: .373333rem 0;
+}
+
+#app .footer-div #customservice #customservice_call {
+    display: inline-block;
+    background: url("/pet/images/pet/transport/core/order/phone.png");
+    background-size: cover;
+    width: .453333rem;
+    height: .453333rem;
+    border: none;
+    padding: 0;
+}
+
+#app .footer-div #bottom_money_title {
+    display: inline-block;
+    height: 100%;
+    line-height: 1.44rem;
+    font-size: .426667rem;
+    color: #666;
+}
+
+#app .footer-div #bottom_money_label {
+    display: inline-block;
+    height: 100%;
+    line-height: 1.44rem;
+    font-size: .56rem;
+    color: #e71b1b;
+}

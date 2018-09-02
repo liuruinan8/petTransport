@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.transport.core.order.dao.OrderDao">
+    <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
+    <resultMap id="BaseResultMap" type="com.pet.transport.core.order.po.Order">
+        <id column="ID" property="id" jdbcType="VARCHAR" />
+        <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+        <result column="START_PLACE_ID" property="startPlaceId" jdbcType="VARCHAR" />
+        <result column="START_PLACE_NAME" property="startPlaceName" jdbcType="VARCHAR" />
+        <result column="END_PLACE_ID" property="endPlaceId" jdbcType="VARCHAR" />
+        <result column="END_PLACE_NAME" property="endPlaceName" jdbcType="VARCHAR" />
+        <result column="TRANS_DATE" property="transDate" jdbcType="VARCHAR" />
+        <result column="PET_WEIGHT" property="petWeight" jdbcType="VARCHAR" />
+        <result column="TICKET_PRICE" property="ticketPrice" jdbcType="VARCHAR" />
+        <result column="PET_BOX_TYPE_ID" property="petBoxTypeId" jdbcType="VARCHAR" />
+        <result column="PET_BOX_TYPE_NAME" property="petBoxTypeName" jdbcType="VARCHAR" />
+        <result column="PET_BOX_PRICE" property="petBoxPrice" jdbcType="VARCHAR" />
+        <result column="PLACE_AREA_CODE" property="placeAreaCode" jdbcType="VARCHAR" />
+        <result column="PLACE_AREA_NAME" property="placeAreaName" jdbcType="VARCHAR" />
+        <result column="PLACE_DETAIL" property="placeDetail" jdbcType="VARCHAR" />
+        <result column="PLACE_PRICE" property="placePrice" jdbcType="VARCHAR" />
+        <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+        <result column="USER_MOBILE" property="userMobile" jdbcType="VARCHAR" />
+        <result column="INSURED_PRICE" property="insuredPrice" jdbcType="VARCHAR" />
+        <result column="TOTAL_PRICE" property="totalPrice" jdbcType="VARCHAR" />
+        <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
+        <result column="PAY_STATUS" property="payStatus" jdbcType="VARCHAR" />
+        <result column="PAY_SERIAL_NO" property="paySerialNo" jdbcType="VARCHAR" />
+        <result column="PAY_ACCOUNT" property="payAccount" jdbcType="VARCHAR" />
+    </resultMap>
+    <!-- 查询单条记录-->
+    <select id="selectOrderById" parameterType="string" resultMap="BaseResultMap">
+        SELECT * FROM CORE_ORDER WHERE ID = #{id}
+    </select>
+
+    <!-- 查询单条记录-->
+    <select id="selectOrderByOrderNo" parameterType="string" resultMap="BaseResultMap">
+        SELECT * FROM CORE_ORDER WHERE ORDER_NO = #{orderNo}
+    </select>
+    <!--
+    <insert id="addOrder" parameterType="Map">
+        INSERT INTO t_user (USER_ID, USER_NAME, USER_PASSWORD) VALUES (#{userId}, #{userName}, #{userPassword});
+    </insert> -->
+</mapper>

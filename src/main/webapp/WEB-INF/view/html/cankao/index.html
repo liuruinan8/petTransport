@@ -1,0 +1,396 @@
+﻿<html data-dpr="1" style="font-size: 54px;">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>宠宝机票</title>
+    <link href="static/pet/transport/common/vendor/css/vendor.css" rel="stylesheet">
+    <link href="static/pet/transport/core/order/css/order.css" rel="stylesheet">
+    <link href="static/pet/transport/core/order/css/order-old.css" rel="stylesheet">
+    <link href="static/pet/transport/common/weui/css/weui.min.css" rel="stylesheet">
+    <script charset="UTF-8"></script>
+</head>
+<body style="font-size: 12px;">
+<div id="app">
+
+    <div class="wrapper">
+        <div id="app_content" class=""
+             style="transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1); transition-duration: 0ms; transform: translate(0px, 0px) scale(1) translateZ(0px);">
+            index.html
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">出发地</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="text" placeholder="请选择出发地">
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">目的地</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="text" placeholder="请选择目的地">
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell weui-cell_select" style="width: 100%">
+                        <div class="weui-cell__bd" style="width: 100%">
+                            <select class="weui-select" name="select1" style="width: 100%">
+                                <option value="0901">9月1日 星期天</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <select class="weui-select"  style="width: 165px;" name="select2">
+                            <option value="0">请选择宝宠品种</option>
+                            <option value="1">汪星人</option>
+                            <option value="2">喵星人</option>
+                            <option value="3">其他品种</option>
+                        </select>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入宝宠重量"/>
+                    </div>
+                    <div class="weui-textarea-counter"><span>Kg</span></div>
+                </div>
+            </div>
+            <div id="added" class="content-item">
+                <div id="added_content"><label class="fun-title">增值服务</label>
+                    <div class="added-content-item buy-box">
+                        <div class="added-content-title"><label class="item-title">购买航空箱</label> <!---->
+                            <button id="box_check_button" class="changeCheck"></button> <!----></div>
+                        <div>
+                            <div class="box-detail-af-item"><!----></div>
+                        </div>
+                    </div>
+                    <div class="added-content-item">
+                        <div class="added-content-title"><label class="item-title">上门接宠</label>
+                            <button id="door_check_button" class="check_botton"></button> <!----> <!----></div>
+                    </div>
+                    <div id="insured_item" class="added-content-item">
+                        <div class="added-content-title"><label class="item-title">保价</label> <label
+                                id="value_desc">(<span class="font-style">费率2%</span>)</label>
+                            <button id="value_check_button" class="check_botton"></button> <!----> <!----> <!----></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="orderbottom_div">
+            <div id="housekeeper" class="content-item"><label>宠宝客服</label>
+                <button id="housekeeper_call"></button>
+            </div>
+            <div id="bottom_money_div"><span id="bottom_money_title">预估金额</span> <span id="bottom_money_label"><span
+                    class="money-ut font-style">¥</span> <span id="money" class="font-style">0</span></span></div>
+            <div id="bottom_detial_div">
+                <button id="bottom_button_sumbit">
+                    预订
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="vux-popup-dialog vux-popup-bottom vux-popup-dialog vux-popup-dialog-j87ig"
+         style="height: auto; display: none;">
+        <div class="popcontent_title"><span>请选择航班日期</span>
+            <button>确定</button>
+        </div>
+        <div class="vux-picker">
+            <div class="vux-flexbox vux-flex-row">
+                <div class="vux-flexbox-item" style="margin-left: 0px;">
+                    <div id="vux-picker-zxidd-0" class="vux-picker-item">
+                        <div class="scroller-component" data-role="component">
+                            <div class="scroller-mask" data-role="mask"></div>
+                            <div class="scroller-indicator" data-role="indicator"></div>
+                            <div class="scroller-content" data-role="content"
+                                 style="transform: translate3d(0px, 68px, 0px);">
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-1&quot;}">9月1日
+                                </div>
+                                <div class="scroller-item scroller-item-selected"
+                                     data-value="{&quot;value&quot;:&quot;2018-9-2&quot;}">9月2日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-3&quot;}">9月3日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-4&quot;}">9月4日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-5&quot;}">9月5日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-6&quot;}">9月6日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-7&quot;}">9月7日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-8&quot;}">9月8日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-9&quot;}">9月9日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-10&quot;}">
+                                    9月10日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-11&quot;}">
+                                    9月11日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-12&quot;}">
+                                    9月12日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-13&quot;}">
+                                    9月13日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-14&quot;}">
+                                    9月14日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-15&quot;}">
+                                    9月15日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-16&quot;}">
+                                    9月16日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-17&quot;}">
+                                    9月17日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-18&quot;}">
+                                    9月18日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-19&quot;}">
+                                    9月19日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-20&quot;}">
+                                    9月20日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-21&quot;}">
+                                    9月21日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-22&quot;}">
+                                    9月22日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-23&quot;}">
+                                    9月23日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-24&quot;}">
+                                    9月24日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-25&quot;}">
+                                    9月25日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-26&quot;}">
+                                    9月26日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-27&quot;}">
+                                    9月27日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-28&quot;}">
+                                    9月28日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-29&quot;}">
+                                    9月29日
+                                </div>
+                                <div class="scroller-item" data-value="{&quot;value&quot;:&quot;2018-9-30&quot;}">
+                                    9月30日
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="vux-popup-dialog vux-popup-bottom vux-popup-dialog vux-popup-dialog-j8gza"
+         style="height: auto; background: transparent; display: none;">
+        <ul data-v-73631ec1="" id="detail_money_ul">
+            <li data-v-73631ec1="">
+                <div data-v-73631ec1="" id="flight_weight" class="detail-money-title">宠宝机票</div>
+                <div data-v-73631ec1="" class="dotted-line"></div>
+                <div data-v-73631ec1="" id="flight_money" class="detail-money-label"><span data-v-73631ec1=""
+                                                                                           style="font-size: 12px; font-weight: normal;">¥</span>
+                    <span data-v-73631ec1="" class="money">0</span></div>
+            </li>
+            <li data-v-73631ec1="">
+                <div data-v-73631ec1="" id="box_type" class="detail-money-title">航空箱</div>
+                <div data-v-73631ec1="" class="dotted-line"></div>
+                <div data-v-73631ec1="" id="box_money" class="detail-money-label"><span data-v-73631ec1=""
+                                                                                        style="font-size: 12px; font-weight: normal;">¥</span>
+                    <span data-v-73631ec1="" class="money">0</span></div>
+            </li>
+            <li data-v-73631ec1="">
+                <div data-v-73631ec1="" id="service_type" class="detail-money-title">上门收宠</div>
+                <div data-v-73631ec1="" class="dotted-line"></div>
+                <div data-v-73631ec1="" id="service_money" class="detail-money-label"><span data-v-73631ec1=""
+                                                                                            style="font-size: 12px; font-weight: normal;">¥</span>
+                    <span data-v-73631ec1="" class="money">0</span></div>
+            </li>
+            <li data-v-73631ec1="">
+                <div data-v-73631ec1="" id="insured_type" class="detail-money-title">保价</div>
+                <div data-v-73631ec1="" class="dotted-line"></div>
+                <div data-v-73631ec1="" id="insured_money" class="detail-money-label"><span data-v-73631ec1=""
+                                                                                            style="font-size: 12px; font-weight: normal;">¥</span>
+                    <span data-v-73631ec1="" class="money">0</span></div>
+            </li>
+        </ul>
+    </div>
+    <div class="vux-popup-dialog popup vux-popup-bottom vux-popup-dialog vux-popup-dialog-vlrpo"
+         style="height: 80%; display: none;">
+        <div class="popcontent_title"><span>目前支持区域</span>
+            <button>取消</button>
+        </div>
+        <div id="area_content">
+            <div><!---->
+                <div class="weui-cells vux-no-group-title"></div> <!----></div>
+        </div>
+    </div>
+    <div class="vux-popup-dialog popup vux-popup-bottom vux-popup-dialog vux-popup-dialog-qpeql"
+         style="height: 68%; display: none;">
+        <div class="popcontent_title"><span>目前支持城市</span>
+            <button>取消</button>
+        </div>
+        <div class="citys_content">
+            <div slot="content" class="city-view-section">
+                <div class="view-wrapper">
+                    <div class="index-list-wrapper">
+                        <div class="index-list">
+                            <div class="list-wrapper">
+                                <div class="scroll-content"
+                                     style="transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1); transition-duration: 0ms; transform: translate(0px, 0px) scale(1) translateZ(0px);">
+                                    <div>
+                                        <div class="index-list-content"><!---->
+                                            <ul></ul>
+                                        </div>
+                                    </div> <!----></div> <!----></div>
+                            <div class="index-list-nav">
+                                <ul></ul>
+                            </div>
+                            <div class="index-list-fixed" style="display: none;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="vux-popup-dialog vux-popup-bottom vux-popup-dialog vux-popup-dialog-hnnkv"
+         style="height: 100%; max-height: 100%; display: none;">
+        <div data-v-526563e3="" class="container">
+            <div data-v-526563e3="" id="vux-scroller-9b326"
+                 style="height: 748px; touch-action: auto; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative; overflow: hidden;">
+                <div class="xs-container"
+                     style="transform-origin: 0px 0px 0px; transform: translate(0px, 0px) translateZ(0px);">
+                    <div data-v-526563e3="" class="bill-body"
+                         style="transform-origin: 0px 0px 0px; transform: translate(0px, 0px) scale(1) translateZ(0px);">
+                        <img data-v-526563e3="" src="../static/img/box_ruls.jpg"></div>
+                </div>
+                <div class=" xs-fixed-container"></div>
+            </div>
+            <div data-v-526563e3="" class="bill-footer">
+                <button data-v-526563e3="">关闭</button>
+            </div>
+        </div>
+    </div>
+    <div class="vux-popup-dialog vux-popup-my-dialog vux-popup-bottom vux-popup-dialog vux-popup-dialog-9qc41"
+         style="height: auto; display: none;">
+        <div data-v-52fa1a30="" class="contact-pop"><a data-v-52fa1a30="" href="tel:"></a> <!----></div>
+    </div>
+    <div id="video_bg" style="display: none;">
+        <div class="video-wrapper">
+            <button type="button" class="vjs-right-close-button"></button>
+            <div id="video_line"></div> <!----></div>
+    </div>
+</div>
+<!-- built files will be auto injected -->
+<script type="text/javascript" src="static/pet/transport/common/vendor/js/vendor.js"></script>
+<script type="text/javascript" src="static/pet/transport/core/order/js/order.js"></script>
+<div class="vux-alert">
+    <div class="vux-x-dialog">
+        <div class="weui-mask" style="display: none;"></div>
+        <div class="weui-dialog" style="display: none;">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title"></strong></div>
+            <div class="weui-dialog__bd">
+                <div></div>
+            </div>
+            <div class="weui-dialog__ft"><a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">确定</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="weui-loading_toast vux-loading" style="display: none;">
+    <div class="weui-mask_transparent"></div>
+    <div class="weui-toast"><i class="weui-loading weui-icon_toast"></i>
+        <p class="weui-toast__content">请稍等</p></div>
+</div>
+<div class="vux-toast">
+    <div class="weui-mask_transparent" style="display: none;"></div>
+    <div class="weui-toast weui-toast_success" style="width: 7.6em; display: none;"><i
+            class="weui-icon-success-no-circle weui-icon_toast"></i>
+        <p class="weui-toast__content"></p></div>
+</div>
+<a class="vux-popup-mask" data-uuid=",j87ig,j8gza,vlrpo,qpeql,hnnkv,9qc41" href="javascript:void(0)"></a>
+
+<ins id="newBridge"><!-- target: nodeBoard -->
+    <ins class="nb-nodeboard-base nb-nodeboard-position-base nb-nodeboard-left-bottom nb-hide" id="nb_nodeboard">
+        <ins class="nb-nodeboard-contain-base nb-nodeboard-contain">
+            <ins class="nb-nodeboard-top nb-nodeboard-top-5">
+                <ins class="nb-head-title">请您留言</ins>
+                <ins class="nb-nodeboard-close" id="nb_nodeboard_close" data-type="min"></ins>
+            </ins>
+            <ins id="nb_nodeboard_text" class="nb-nodeboard-text"><p class="nb-nodeboard-company">悟空丰运平台</p>
+                <p class="nb-nodeboard-link"></p></ins>
+            <form id="nb_nodeboard_form" autocomplete="off" class="nb-board-form"
+                  action="//p.qiao.baidu.com/cps2//bookmanage/saveBook.action?userId=24948027" method="post"
+                  accept-charset="utf-8">
+                <ins id="nb_nodeboard_set" class="nb-nodeboard-set">
+                    <ins class="nb-nodeboard-content"><textarea id="nb-nodeboard-set-content-js" name="content"
+                                                                data-ph="请在此输入留言内容，我们会尽快与您联系。（必填）"
+                                                                placeholder="请在此输入留言内容，我们会尽快与您联系。（必填）"
+                                                                class="nb-nodeboard-set-content"></textarea></ins>
+                    <ins class="nb-nodeboard-name" style="z-index:6;">
+                        <ins class="nb-nodeboard-icon nodeName"></ins>
+                        <input id="nb_nodeboard_set_name" data-write="1" name="visitorName" maxlength="30"
+                               class="nb-nodeboard-input" type="text" data-ph="姓名（必填）" placeholder="姓名（必填）"></ins>
+                    <ins class="nb-nodeboard-name" id="nb_nodeboard_phone" style="z-index:5;">
+                        <ins class="nb-nodeboard-icon nodePhone"></ins>
+                        <input id="nb_nodeboard_set_phone" name="visitorPhone" maxlength="30" class="nb-nodeboard-input"
+                               data-write="1" type="text" data-ph="电话（必填）" placeholder="电话（必填）"></ins>
+                    <ins class="nb-nodeboard-name nb-nodeboard-ext-input" style="z-index:2;">
+                        <ins class="nb-nodeboard-icon nodeExt"></ins>
+                        <input id="nb_nodeboard_ext_2" name="item0" class="nb-nodeboard-input" maxlength="50"
+                               type="text" data-write="1" data-ph="始发城市（必填）" placeholder="始发城市（必填）"></ins>
+                    <ins class="nb-nodeboard-name nb-nodeboard-ext-input" style="z-index:1;">
+                        <ins class="nb-nodeboard-icon nodeExt"></ins>
+                        <input id="nb_nodeboard_ext_1" name="item1" class="nb-nodeboard-input" maxlength="50"
+                               type="text" data-write="1" data-ph="目的城市（必填）" placeholder="目的城市（必填）"></ins>
+                </ins>
+            </form>
+            <ins class="nb-nodeboard-success" id="nb_nodeboard_success">
+                <ins class="nb-success-box">
+                    <ins class="nb-success-icon"></ins>
+                    <ins class="nb-success-title" id="nb_node_messagetitle">感谢留言</ins>
+                    <ins class="nb-success-content" id="nb_node_messagecontent">我们会尽快与您联系</ins>
+                    <ins id="sucess_close" class="nb-sucess-close">关闭</ins>
+                </ins>
+            </ins>
+            <ins class="nb-nodeboard-send" id="nb_node_contain">
+                <ins id="nb_nodeboard_send" class="nb-nodeboard-send-btn nb-nodeboard-send-btn-5">发送</ins>
+            </ins>
+        </ins>
+    </ins><!-- end --><!-- target: iconIcon -->
+    <ins class="nb-icon-wrap nb-icon-base icon-right-center nb-icon-skin-xc-1 nb-icon-icon" id="nb_icon_wrap"
+         style="margin-top:-76px;width:190px;">
+        <ins class="nb-icon-inner-wrap" style="height:151px;width:190px;;">
+            <ins class="nb-icon-bridge0 nb-icon-bridge-base" data-type="iconInvite"></ins>
+        </ins>
+    </ins><!-- end --><!-- target: invite -->
+    <ins class="nb-invite-wrap nb-invite-wrap-base nb-position-base nb-middle customer-invite-style "
+         id="nb_invite_wrap" style="width:400px;display:none;margin-left: -200px;margin-top: -141px;">
+        <ins class="nb-invite-body nb-invite-skin-xc-1" style="height:282px;">
+            <ins class="nb-invite-tool nb-invite-tool-base" id="nb_invite_tool" style=""></ins>
+            <ins class="nb-invite-text nb-invite-text-base">
+                <ins class="nb-invite-welcome nb-invite-welcome-base nb-show" id="nb_invite_welcome"><p
+                        style="color: #fff"><span style="font-size: 10pt;">欢迎来到悟空丰运，请问有什么可以帮您？</span></p></ins>
+            </ins>
+            <ins class="nb-invite-btn-base nb-invte-btns-1">
+                <ins class="nb-invite-cancel nb-invite-cancel-base" id="nb_invite_cancel">稍后再说</ins>
+                <ins class="nb-invite-ok nb-invite-ok-base" id="nb_invite_ok">现在咨询</ins>
+            </ins>
+        </ins>
+    </ins><!-- end --></ins>
+</body>
+</html>
