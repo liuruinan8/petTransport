@@ -68,7 +68,15 @@ function subMitOrder(){
         url : "/pet/ticket/order/sumbitOrder",
         data : param,
         success : function(data) {
-            console.log(data);
+            var retData = JSON.parse(data);
+            if(retData.status =="success"){
+                $('#hkxsysm,#sumbitFail').fadeOut();
+                $('#sumbitSuccess').fadeIn();
+            }else{
+                $('#hkxsysm,#sumbitSuccess').fadeOut();
+                $('#sumbitFail').fadeIn();
+            }
+            // console.log(data);
         },
         error : function(){
             showErrorTips("出现网络错误");

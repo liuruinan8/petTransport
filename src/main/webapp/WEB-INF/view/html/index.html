@@ -5,8 +5,9 @@
     <title>宠宝机票</title>
     <link href="static/pet/transport/common/vendor/css/vendor.css" rel="stylesheet">
     <link href="static/pet/transport/core/order/css/order.css" rel="stylesheet">
-    <link href="static/pet/transport/core/order/css/order-old.css" rel="stylesheet">
+    <!--<link href="static/pet/transport/core/order/css/order-old.css" rel="stylesheet">-->
     <link href="static/pet/transport/common/weui/css/weui.min.css" rel="stylesheet">
+    <link href="static/pet/transport/common/weui/css/weui-extend.css" rel="stylesheet">
     <script type="text/javascript" src="static/pet/transport/common/weui/js/zepto.min.js" ></script>
 </head>
 <body style="font-size: 12px;">
@@ -20,19 +21,19 @@
                         <a href="#">
                             <img src="images/index/adv_01.png" alt="">
                         </a>
-                        <div class="slide-desc">测试1</div>
+                        <!--<div class="slide-desc">测试1</div>-->
                     </li>
                     <li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88); transform: translate3d(0px, 0px, 0px);">
                         <a href="#">
                             <img src="images/index/adv_02.png" alt="">
                         </a>
-                        <div class="slide-desc">测试2</div>
+                        <!--<div class="slide-desc">测试2</div>-->
                     </li>
                     <li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88); transform: translate3d(1309px, 0px, 0px);">
                         <a href="#">
                             <img src="images/index/adv_03.png" alt="">
                         </a>
-                        <div class="slide-desc">测试3</div>
+                       <!-- <div class="slide-desc">测试3</div>-->
                     </li>
                 </ul>
                 <div class="dot">
@@ -95,9 +96,9 @@
                     <div class="weui-cell__bd">
                         <p>购买航空箱</p>
                     </div>
-                    <a style="color:red" href="ticket/hkxsygz">航空箱适用规则</a>
                 </label>
-                <div class="weui-cells__tips">如果自备航空箱，请确认符合航空公司以及机场要求，以免影响运送或者产生相关额外费用!</div>
+
+                <div class="weui-cells__tips"><div id="ckhkxsygz" style="color:red">航空箱适用规则 --->请仔细阅读，以免需要增加相关费用或者影响宝宠运送</div></div>
                 <label class="weui-cell weui-check__label" for="selSmjc">
                     <div class="weui-cell__hd">
                         <input type="checkbox" name="checkbox1" class="weui-check" id="selSmjc">
@@ -159,6 +160,65 @@
             </div>
         </div>
         <!--END dialog4-->
+    </div>
+    <div class="weui_msg hide" id="sumbitSuccess" style="opacity: 0; display: none;">
+        <div class="weui_icon_area"><i class="weui_icon_success weui_icon_msg"></i></div>
+        <div class="weui_text_area">
+            <h2 class="weui_msg_title">操作成功</h2>
+            <p class="weui_msg_desc">内容详情，可根据实际需要安排，如果换行则不超过规定长度</p>
+        </div>
+        <div class="weui_opr_area">
+            <p class="weui_btn_area">
+                <a id="toPay" href="javascript:;" class="weui_btn weui_btn_primary">支付</a>
+                <a id="offlinePay" href="javascript:;" class="weui_btn weui_btn_default">线下支付</a>
+            </p>
+        </div>
+        <div class="weui_extra_area">
+
+        </div>
+    </div>
+    <div class="weui_msg hide" id="sumbitFail" style="opacity: 0; display: none;">
+        <div class="weui_icon_area"><i class="weui_icon_warn weui_icon_msg"></i></div>
+        <div class="weui_text_area">
+            <h2 class="weui_msg_title">操作失败</h2>
+            <p class="weui_msg_desc">内容详情，可根据实际需要安排，如果换行则不超过规定长度</p>
+        </div>
+        <div class="weui_opr_area">
+            <p class="weui_btn_area">
+                <a id="reCommit" href="javascript:;" class="weui_btn weui_btn_primary">重新提交</a>
+                <a id="commitGiveUp" href="javascript:;" class="weui_btn weui_btn_default">残忍放弃</a>
+            </p>
+        </div>
+        <div class="weui_extra_area">
+
+        </div>
+    </div>
+    <div class="weui_msg_img hide" id="hkxsysm" style="opacity: 0; display: none;">
+        <div class="weui_msg_com">
+            <div  style="z-index: 7" onclick="$('#hkxsysm').fadeOut();" class="weui_msg_close"><i class="icon icon-95"></i></div>
+            <div class="weui_msg_src">
+                <!--<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAArIAAAGFBAMAAADzwA07AAAAIVBMVEXr6+vPz8/X19fp6ene3t7k5OTm5ubh4eHT09Pb29vR0dHqLrSfAAACyklEQVR42uzBgQAAAACAoP2pF6kCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGB27GdHaSiO4vgJ5e+s5lzAFlZ2Y1yWoIm6AjPJbItG3VJdmLiiOg9Aow8AybinK1/Tey9ldDttl+eTFC6w+4b+2luRNi2XcIJl8v/H6quHhf9BHiXnFlbGE6wep/D8+gm8Dp8CnEAeJePOBz4n7XKssi254gFWzEkVUWVb0uEeVklz7rxS2ZYM/PnfZ8zEz4atyrYkYOjn63emAPI5VLYtxczHe+HnbWxc7K9fVLYFxwjAIur5eVuGQLcgn6lsczkTYDNDOQb6Nma/oJWqbGMLV/EYIg6BAffIaG5iTlW2sSFXQDFGblzDAwqTIIi5VdmmRrZbYI/F3FXeDbj3uQ8q29SA1/ZYYcgtFkzeMAXQ50llmwo4RYcpRlwhj5DN4RShyjZWTHA1Bwa233Fm435w4onKNnY0yAwQ8BrFFGuezVS2sc0c6xBAPA04Rswz8+9Z7VBl61lwG48BrCd+IEQ33i36DB8eNKpsHUP+KPcAMuMvYgYXnFzS71S2jhF/8+D/mq+YIotwURh4GVOVraPHXy4dOsznfrNb3XUh9kv3nqhsHQEjlw5dFsa97qudAnK/RI8GKltLTANfkyEQlFECfOMBGDFKAaw5Vtl61lW1wifMaW7fMkpcZJr7u+fkTmXr2VRbgqM/+3slrZ+wPtP7A5WtZ8FTVfgA63VhYyZw3tGaJSrbkuDTe1Re3t1/hIiIiIiIiIiIiIj8ZQ8OBAAAAACA/F8bQVVVVVVVVVVVVVVVVVVVhT04EAAAAAAA8n9tBFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVpT04JAAAAAAQ9P+10RMAAAAAAAAAAAAAAADAArTtXKLPR7LcAAAAAElFTkSuQmCC">-->
+                <!--页面开始-->
+                <div class="weui-weixin-page">
+                    <h2 class="weui-weixin-title">航空箱适用规则</h2>
+                    <div class="weui-weixin-info"><!--meta-->
+                        <span class="weui-weixin-em">宠物航空箱的规格及适用范围</span>
+                    </div><!--meta结束-->
+
+                    <div class="weui-weixin-img"><!--图片开始-->
+                        <img src="/pet/images/hkx/hkx.png"
+                             class="weixin">
+                    </div><!--图片结束-->
+                    <!--
+                                        <div class="weui-weixin-content">
+                                            <p>0号航空箱规格：长50、宽34、高32，（小型犬/1只猫）</p>
+                                            <p>1号航空箱规格：长61、宽41、高40，（中型犬/2只猫）</p>
+                                            <p>2号航空箱规格：长69、宽51、高48，（中型犬/4只猫）</p>
+                                            <p>3号航空箱规格：长80、宽56、高59，（大型犬/6只猫）</p>
+                                        </div>内容结束-->
+                </div>
+            </div>
+            <p class="weui_msg_comment">请仔细阅读</p></div>
     </div>
 </div>
 

@@ -305,6 +305,47 @@ $(function(){
     $('#submitOrder').on('click', function () {
         subMitOrder();
     });
+    /**
+     * 监听查看航空箱适用规则
+     */
+    $('#ckhkxsygz').on('click', function () {
+        $('#sumbitSuccess,#hkxsysm').fadeOut();
+        $('#sumbitFail').fadeIn();
+    });
 
+    /**
+     * 线上支付监听
+     */
+    $('#toPay').on('click', function () {
+        $('#hkxsysm,#sumbitFail').fadeOut();
+        //$('#sumbitSuccess').fadeOut();
+        //调用支付功能
+    });
+    /**
+     * 线下支付监听
+     */
+    $('#offlinePay').on('click', function () {
+        $('#hkxsysm,#sumbitFail').fadeOut();
+        $('#sumbitSuccess').fadeOut();
+        //跳转我的订单
+    });
+
+    /**
+     * 重新提交监听 关闭所有的框，重新提交
+     */
+    $('#reCommit').on('click', function () {
+        $('#hkxsysm,#sumbitFail').fadeOut();
+        $('#sumbitSuccess').fadeOut();
+        //调用支付功能
+    });
+
+    /**
+     * 残忍放弃 关闭
+     */
+    $('#commitGiveUp').on('click', function () {
+        $('#hkxsysm,#sumbitFail').fadeOut();
+        $('#sumbitSuccess').fadeOut();
+        //调用支付功能
+    });
 });
 
