@@ -6,13 +6,15 @@ import com.pet.transport.core.order.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service("orderServiceImpl")
 public class OrderServiceImpl implements IOrderService {
 
     @Autowired
     private  OrderDao orderDao;
 
-    public Order selectUserById(String id){
+    public Order selectOrderById(String id){
 
         return orderDao.selectOrderById(id);
     }
@@ -20,5 +22,10 @@ public class OrderServiceImpl implements IOrderService {
     public Order selectOrderByOrderNo(String orderNo){
 
         return orderDao.selectOrderByOrderNo(orderNo);
+    }
+
+    public int sumbitOrder(Map param) {
+        //组装Order
+        return 1;
     }
 }

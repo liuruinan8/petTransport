@@ -14,3 +14,66 @@ $('#slide1').swipeSlide({
 });
 
 
+function subMitOrder(){
+    //组装前端参数
+    var startPlaceCode = $("#startPlaceCode").val();
+    if(startPlaceCode==undefined || startPlaceCode==""){
+        showErrorTips("请选择出发地");
+        return;
+    }
+    var destinationPlaceCode = $("#destinationPlaceCode").val();
+    if(destinationPlaceCode==undefined || destinationPlaceCode==""){
+        showErrorTips("请选择目的地");
+        return;
+    }
+    var selectDate = $("#selectDate").val();
+    if(selectDate==undefined || selectDate==""){
+        showErrorTips("请选择航班时间");
+        return;
+    }
+
+    var petKind = $("#petKind").val();
+    if(petKind==undefined || petKind==""){
+        showErrorTips("请填写宠物品种");
+        return;
+    }
+
+    var petWeight = $("#petWeight").val();
+    if(petWeight==undefined || petWeight==""){
+        showErrorTips("请填写宠物重量");
+        return;
+    }
+
+    var selHkx = $("#selHkx").val();
+    if(selHkx==undefined || selHkx==""){
+        //showErrorTips("请选择"); 使用提示的方式进行提示没有选择航空箱
+    }
+    var selSmjc = $("#selSmjc").val();
+    if(selSmjc==undefined || selSmjc==""){
+        //showErrorTips("请选择"); 使用提示的方式进行提示没有选择航空箱
+    }
+
+    var param = {};
+    param.startPlaceCode=startPlaceCode;
+    param.destinationPlaceCode=destinationPlaceCode;
+    param.selectDate=selectDate;
+    param.petKind=petKind;
+    param.petWeight=petWeight;
+    param.selHkx=selHkx;
+    param.selSmjc=selSmjc;
+
+    $.ajax({
+        type : "POST",
+        contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+        url : "/pet/ticket/order/sumbitOrder",
+        data : param,
+        success : function(data) {
+            console.log(data);
+        },
+        error : function(){
+            showErrorTips("出现网络错误");
+        }
+
+    });
+
+}

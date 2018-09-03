@@ -15,7 +15,7 @@ public class OrderServiceTest extends SpringTestCase {
 
     @Test
     public void selectUserByIdTest(){
-        Order order = orderService.selectUserById("1");
+        Order order = orderService.selectOrderById("1");
         System.out.println(order.getOrderNo() + ":" + order.getStartPlaceId());
     }
     @Test

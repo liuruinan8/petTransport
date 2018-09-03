@@ -15,7 +15,9 @@ public class Order {
     private String endPlaceName;
     //寄送日期
     private String transDate;
-    //宠物体重下限
+    //宠物类型
+    private String petKind;
+    //宠物体重
     private String petWeight;
     //价格
     private String ticketPrice;

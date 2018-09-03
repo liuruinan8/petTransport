@@ -14,19 +14,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/ticket/startPlace")
+@RequestMapping("/ticket/destPlace")
 public class DestinationPlaceAction {
     @Autowired
     @Qualifier("destinationPlaceServiceImpl")
     private IDestinationPlaceService destinationPlaceService;
 
     //produces只有第一个是有效的？
-    @RequestMapping(value="/getAll",produces={"text/html;charset=UTF-8;"})
+    @RequestMapping(value="/getDstAll",produces={"text/html;charset=UTF-8;"})
     @ResponseBody
     public String getAllStartPlaceJsonData(HttpServletRequest request, HttpServletResponse response){
         Map paramMap = new HashMap();
         String startPlaceCode = request.getParameter("startPlaceCode");
-        paramMap.put("START_PLACE_CODE",startPlaceCode);
+        paramMap.put("startPlaceCode",startPlaceCode);
         paramMap.put("orderfield","destination_PLACE_SIMPLE");
         paramMap.put("orderdir","DESC");
         String json = destinationPlaceService.selectDestinationPlaceByStartPlaceJson(paramMap);

@@ -137,3 +137,10 @@
     font-size: .56rem;
     color: #e71b1b;
 }
+.order-weight{
+    text-align: right;
+    padding-right: 10px;
+}
+.order-kind{
+    width: 165px;
+}

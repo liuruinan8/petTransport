@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pet.transport.core.ticket.DESTIONATIONPlace.dao.IDESTIONATIONPlaceDao">
+<mapper namespace="com.pet.transport.core.ticket.destinationPlace.dao.IDestinationPlaceDao">
     <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
-    <resultMap id="BaseResultMap" type="com.pet.transport.core.ticket.DESTIONATIONPlace.po.DESTIONATIONPlace">
-        <id column="DESTIONATION_PLACE_CODE" property="destinationPlaceCode" jdbcType="VARCHAR" />
-        <result column="DESTIONATION_PLACE_NAME" property="destinationPlaceName" jdbcType="VARCHAR" />
-        <result column="DESTIONATION_PLACE_SIMPLE" property="destinationPlaceSimple" jdbcType="VARCHAR" />
+    <resultMap id="BaseResultMap" type="com.pet.transport.core.ticket.destinationPlace.po.DestinationPlace">
+        <id column="DESTINATION_PLACE_CODE" property="destinationPlaceCode" jdbcType="VARCHAR" />
+        <result column="DESTINATION_PLACE_NAME" property="destinationPlaceName" jdbcType="VARCHAR" />
+        <result column="DESTINATION_PLACE_SIMPLE" property="destinationPlaceSimple" jdbcType="VARCHAR" />
         <result column="START_PLACE_NAME" property="startPlaceName" jdbcType="VARCHAR" />
         <result column="START_PLACE_CODE" property="startPlaceCode" jdbcType="VARCHAR" />
         <result column="PRICE" property="price" jdbcType="VARCHAR" />
     </resultMap>
     <!-- 查询单条记录-->
     <select id="selectDestinationPlaceByName" parameterType="string" resultMap="BaseResultMap">
-        SELECT * FROM ticket_DESTIONATION_place WHERE DESTIONATION_PLACE_CODE = #{destinationPlaceCode}
+        SELECT * FROM ticket_DESTINATION_place WHERE DESTINATION_PLACE_CODE = #{destinationPlaceCode}
     </select>
     <!-- 查询单条记录-->
     <select id="selectDestinationPlaceByStartPlace" resultMap="BaseResultMap"  parameterType="Map">
-        SELECT * FROM ticket_DESTIONATION_place
+        SELECT * FROM ticket_DESTINATION_place
         where START_PLACE_CODE =#{startPlaceCode}
         <if test="groupfield != null" >
             group by ${groupfield}
@@ -27,16 +27,16 @@
     </select>
 
     <insert id="addDestinationPlace" parameterType="Map">
-        INSERT INTO ticket_DESTIONATION_place (DESTIONATION_PLACE_CODE, DESTIONATION_PLACE_NAME, Destination_PLACE_SIMPLE,START_PLACE_NAME, START_PLACE_CODE, PRICE)
+        INSERT INTO ticket_DESTINATION_place (DESTINATION_PLACE_CODE, DESTINATION_PLACE_NAME, Destination_PLACE_SIMPLE,START_PLACE_NAME, START_PLACE_CODE, PRICE)
         VALUES (#{destinationPlaceCode}, #{destinationPlaceName}, #{destinationPlaceSimple},#{startPlaceName}, #{startPlaceCode}, #{price});
     </insert> <!---->
     <update id="updateDestinationPlace" parameterType="map">
-        update ticket_DESTIONATION_place set DESTIONATION_PLACE_CODE=#{destinationPlaceCode}
+        update ticket_DESTINATION_place set DESTINATION_PLACE_CODE=#{destinationPlaceCode}
         <if test="destinationPlaceName != null">
-            ,DESTIONATION_PLACE_NAME=#{destinationPlaceName}
+            ,DESTINATION_PLACE_NAME=#{destinationPlaceName}
         </if>
         <if test="destinationPlaceSimple != null">
-            ,DESTIONATION_PLACE_SIMPLE=#{destinationPlaceSimple}
+            ,DESTINATION_PLACE_SIMPLE=#{destinationPlaceSimple}
         </if>
         <if test="startPlaceName != null">
             ,START_PLACE_NAME=#{startPlaceName}
@@ -47,6 +47,6 @@
         <if test="price != null">
             ,PRICE=#{price}
         </if>
-        where DESTIONATION_PLACE_CODE=#{destinationPlaceCode};
+        where DESTINATION_PLACE_CODE=#{destinationPlaceCode};
     </update>
 </mapper>
