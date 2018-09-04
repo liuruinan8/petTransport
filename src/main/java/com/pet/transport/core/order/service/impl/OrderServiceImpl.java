@@ -7,6 +7,8 @@ import com.pet.transport.core.order.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service("orderServiceImpl")
@@ -71,5 +73,21 @@ public class OrderServiceImpl implements IOrderService {
 
         //组装Order
         return orderDao.addOrder(param);
+    }
+
+    public int updateOrderStatus(Map param) {
+        return 0;
+    }
+
+    public List<Map> selectOrderByStatus(String uid, List<String> statusLst,int start,int limit) {
+        Map param = new HashMap();
+        param.put("userId",uid);
+        param.put("orderStatusLst",statusLst);
+        param.put("start",start);
+        param.put("limit",limit);
+        return selectOrderByParm(param);
+    }
+    public List<Map> selectOrderByParm( Map param ) {
+        return orderDao.selectOrderByStatus(param);
     }
 }

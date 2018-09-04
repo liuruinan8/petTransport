@@ -6,8 +6,10 @@ import com.pet.transport.uc.user.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,14 +23,13 @@ public class OrderAction {
     @Qualifier("orderServiceImpl")
     private IOrderService orderService;
 
-
-    @RequestMapping("/sumbitOrder")
+    @RequestMapping("/mine")
     @ResponseBody
-    public String sumbitOrder(HttpServletRequest request, HttpServletResponse response){
-        String ret = "";
-        Map map = new HashMap();
+    public ModelAndView myOrder(){
+        return new ModelAndView("myOrder");
+    }
 
-
+    private Map organizeRequest(HttpServletRequest  request){
         String startPlaceCode = (String) request.getParameter("startPlaceCode");
         String startPlaceName = (String) request.getParameter("startPlaceName");
 
@@ -72,11 +73,7 @@ public class OrderAction {
         String insuredPrice = (String)request.getParameter("insuredPrice");
         //总价 需要传递
         String totalPrice ="123";// (String)request.getParameter("totalPrice");
-        //orderStatus 三种 草稿draft 已提交sumbit 已支付pay 已完成complate
-        String orderStatus = "sumbit";//(String)request.getParameter("orderStatus");
-        String payStatus = "0";//(String)request.getParameter("payStatus");
-        String paySerialNo = "-1";//(String)request.getParameter("paySerialNo");
-        String payAccount = "-1";//(String)request.getParameter("payAccount");
+
 
         Map param = new HashMap();
         param.put("startPlaceCode",startPlaceCode);
@@ -98,17 +95,95 @@ public class OrderAction {
         param.put("userMobile",userMobile);
         param.put("insuredPrice",insuredPrice);
         param.put("totalPrice",totalPrice);
+
+        return param;
+    }
+
+    @RequestMapping("/save")
+    @ResponseBody
+    public String saveOrder(HttpServletRequest request, HttpServletResponse response){
+        String ret = "";
+        Map map = new HashMap();
+        Map param =organizeRequest(request);
+
+        //orderStatus 三种 草稿draft 已提交sumbit 已支付pay 已完成complate 线下支付 offlinePay
+        String orderStatus = "draft";//(String)request.getParameter("orderStatus");
+        String payStatus = "0";//(String)request.getParameter("payStatus");
+        String paySerialNo = "-1";//(String)request.getParameter("paySerialNo");
+        String payAccount = "-1";//(String)request.getParameter("payAccount");
+
         param.put("orderStatus",orderStatus);
         param.put("payStatus",payStatus);
         param.put("paySerialNo",paySerialNo);
         param.put("payAccount",payAccount);
 
         int i = orderService.sumbitOrder(param);
+        if(i==1){
+            map.put("status","success");
+        }else{
+            map.put("status","fail");
+        }
 
-        map.put("status","success");
         if(map!=null){
             ret =  DataConvertUtil.convertMapToJson(map);
         }
         return ret;
     }
+
+    @RequestMapping("/sumbitOrder")
+    @ResponseBody
+    public String sumbitOrder(HttpServletRequest request, HttpServletResponse response){
+        String ret = "";
+        Map map = new HashMap();
+        Map param =organizeRequest(request);
+
+        //orderStatus 三种 草稿draft 已提交sumbit 已支付pay 已完成complate
+        String orderStatus = "sumbit";//(String)request.getParameter("orderStatus");
+        String payStatus = "0";//(String)request.getParameter("payStatus");
+        String paySerialNo = "-1";//(String)request.getParameter("paySerialNo");
+        String payAccount = "-1";//(String)request.getParameter("payAccount");
+
+        param.put("orderStatus",orderStatus);
+        param.put("payStatus",payStatus);
+        param.put("paySerialNo",paySerialNo);
+        param.put("payAccount",payAccount);
+
+        int i = orderService.sumbitOrder(param);
+        if(i==1){
+            map.put("status","success");
+        }else{
+            map.put("status","fail");
+        }
+        map.put("status","success");
+
+        if(map!=null){
+            ret =  DataConvertUtil.convertMapToJson(map);
+        }
+        return ret;
+    }
+
+    @RequestMapping("/updateStatus/${status}")
+    @ResponseBody
+    public String updateStatus(HttpServletRequest request, HttpServletResponse response,@PathVariable("status") String status){
+        String ret = "";
+        Map map = new HashMap();
+        String id = request.getParameter("id");
+        Map param = new HashMap();
+        param.put("id",id);
+        param.put("status",param);
+        int i = orderService.updateOrderStatus(param);
+        if(i==1){
+            map.put("status","success");
+        }else{
+            map.put("status","fail");
+        }
+        map.put("status","success");
+
+        if(map!=null){
+            ret =  DataConvertUtil.convertMapToJson(map);
+        }
+        return ret;
+    }
+
+
 }

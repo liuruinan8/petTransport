@@ -42,6 +42,19 @@
     <select id="selectOrderById" parameterType="string" resultMap="BaseResultMap">
         SELECT * FROM CORE_ORDER WHERE ID = #{id}
     </select>
+    <!-- 查询单条记录-->
+    <select id="selectOrderByStatus" parameterType="Map" resultMap="BaseResultMap">
+        SELECT *
+        FROM CORE_ORDER WHERE USER_ID = #{userId}
+        and ORDER_STATUS in
+        <foreach item="item" index="index" collection="orderStatusLst"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <if test="start !=0 or limit!=0">
+            limit #{start},#{limit}
+        </if>
+    </select>
 
     <!-- 查询单条记录-->
     <select id="selectOrderByOrderNo" parameterType="string" resultMap="BaseResultMap">

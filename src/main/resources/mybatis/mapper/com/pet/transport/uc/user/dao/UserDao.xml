@@ -10,7 +10,7 @@
         <result column="APP_ID" property="appId" jdbcType="VARCHAR" />
         <result column="ACCESS_TOKEN" property="accessToken" jdbcType="VARCHAR" />
         <result column="EXPIRES_IN" property="expiresIn" jdbcType="VARCHAR" />
-        <result column="CREATE_TIME" property="createTime" jdbcType="DATETIME" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
         <result column="REFRESH_TOKEN" property="refreshToken" jdbcType="VARCHAR" />
         <result column="SUBSCRIBE" property="subscribe" jdbcType="VARCHAR" />
         <result column="SUBSCRIBE_TIME" property="subscribeTime" jdbcType="VARCHAR" />
@@ -23,7 +23,6 @@
         <result column="HEAD_IMG_URL" property="headImgUrl" jdbcType="VARCHAR" />
         <result column="IS_CERTIFIED" property="isCertified" jdbcType="VARCHAR" />
         <result column="OPEN_ID" property="openId" jdbcType="VARCHAR" />
-
     </resultMap>
     <!-- 查询单条记录-->
     <select id="selectUserById" parameterType="string" resultMap="BaseResultMap">

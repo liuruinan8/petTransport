@@ -1,7 +1,5 @@
 package com.pet.transport.uc.user.po;
 
-import java.util.Date;
-
 public class User {
     private String userId;
     private String userName;
@@ -23,7 +21,7 @@ public class User {
     /**
      *  创建时间
      */
-    private Date createTime;
+    private String createTime;
     /**
      * refresh_token 时间较长 都是30天
      */
@@ -130,11 +128,11 @@ public class User {
         this.expiresIn = expiresIn;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
