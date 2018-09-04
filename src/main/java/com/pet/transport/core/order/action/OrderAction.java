@@ -49,6 +49,7 @@ public class OrderAction {
         //地址
         String placeAreaCode = (String)request.getParameter("placeAreaCode");
         String placeAreaName = (String)request.getParameter("placeAreaName");
+        String placeDetail = (String)request.getParameter("placeDetail");
         //地址价格需要从后台生成
         String placePrice = "34";//(String)request.getParameter("placePrice");
         //获取当前登录人 判空 如果为空 从shrio中获取
@@ -56,8 +57,7 @@ public class OrderAction {
         String userId = (String)request.getParameter("userId");
         String userMobile = (String)request.getParameter("userMobile");
         if(userId == null || "".equals(userId)){
-            UserUtil userUtil =UserUtil.getInstance();
-            Map userMap =userUtil.getLoginUserMap();
+            Map userMap =UserUtil.getInstance().getLoginUserMap();
             if(userMap!=null && !userMap.isEmpty()){
                 if(userMap.containsKey("userId")){
                     userId = (String) userMap.get("userId");
@@ -92,6 +92,7 @@ public class OrderAction {
         param.put("petBoxPrice",petBoxPrice);
         param.put("placeAreaCode",placeAreaCode);
         param.put("placeAreaName",placeAreaName);
+        param.put("placeDetail",placeDetail);
         param.put("placePrice",placePrice);
         param.put("userId",userId);
         param.put("userMobile",userMobile);

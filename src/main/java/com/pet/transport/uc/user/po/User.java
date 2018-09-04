@@ -1,6 +1,5 @@
 package com.pet.transport.uc.user.po;
 
-import javax.persistence.Column;
 import java.util.Date;
 
 public class User {
@@ -73,7 +72,6 @@ public class User {
     /**
      * openId:一个公众号对应一个
      * */
-    @Column(name = "OPEN_ID")
     private String openId;
 
     public String getUserId() {
