@@ -21,11 +21,15 @@ function subMitOrder(){
         showErrorTips("请选择出发地");
         return;
     }
+    var startPlaceName = $("#startPlaceName").val();
+
     var destinationPlaceCode = $("#destinationPlaceCode").val();
     if(destinationPlaceCode==undefined || destinationPlaceCode==""){
         showErrorTips("请选择目的地");
         return;
     }
+    var destinationPlaceName = $("#destinationPlaceName").val();
+
     var selectDate = $("#selectDate").val();
     if(selectDate==undefined || selectDate==""){
         showErrorTips("请选择航班时间");
@@ -55,8 +59,14 @@ function subMitOrder(){
 
     var param = {};
     param.startPlaceCode=startPlaceCode;
+    param.startPlaceName=startPlaceName;
     param.destinationPlaceCode=destinationPlaceCode;
-    param.selectDate=selectDate;
+    param.destinationPlaceName=destinationPlaceName;
+    param.insuredPrice="0";
+    param.placeAreaCode="370101";
+    param.placeAreaName="历下区";
+    param.placeDetail="万科城18-2-1703";
+    param.transDate=selectDate;
     param.petKind=petKind;
     param.petWeight=petWeight;
     param.selHkx=selHkx;

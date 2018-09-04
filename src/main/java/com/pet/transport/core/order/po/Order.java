@@ -10,9 +10,9 @@ public class Order {
     //寄送地名称
     private String startPlaceName;
     //目的地ID
-    private String distinationPlaceCode;
+    private String destinationPlaceCode;
     //目的地名称
-    private String distinationPlaceName;
+    private String destinationPlaceName;
     //寄送日期
     private String transDate;
     //宠物类型
@@ -75,29 +75,28 @@ public class Order {
     public void setStartPlaceName(String startPlaceName) {
         this.startPlaceName = startPlaceName;
     }
-
-    public String getDistinationPlaceCode() {
-        return distinationPlaceCode;
-    }
-
-    public void setDistinationPlaceCode(String distinationPlaceCode) {
-        this.distinationPlaceCode = distinationPlaceCode;
-    }
-
-    public String getDistinationPlaceName() {
-        return distinationPlaceName;
-    }
-
-    public void setDistinationPlaceName(String distinationPlaceName) {
-        this.distinationPlaceName = distinationPlaceName;
-    }
-
     public String getPetKind() {
         return petKind;
     }
 
     public void setPetKind(String petKind) {
         this.petKind = petKind;
+    }
+
+    public String getDestinationPlaceCode() {
+        return destinationPlaceCode;
+    }
+
+    public void setDestinationPlaceCode(String destinationPlaceCode) {
+        this.destinationPlaceCode = destinationPlaceCode;
+    }
+
+    public String getDestinationPlaceName() {
+        return destinationPlaceName;
+    }
+
+    public void setDestinationPlaceName(String destinationPlaceName) {
+        this.destinationPlaceName = destinationPlaceName;
     }
 
     public String getTransDate() {

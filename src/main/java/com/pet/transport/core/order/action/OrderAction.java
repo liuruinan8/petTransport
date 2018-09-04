@@ -2,7 +2,7 @@ package com.pet.transport.core.order.action;
 
 import com.pet.transport.common.util.DataConvertUtil;
 import com.pet.transport.core.order.service.IOrderService;
-import org.apache.shiro.SecurityUtils;
+import com.pet.transport.uc.user.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -33,34 +33,45 @@ public class OrderAction {
         String startPlaceName = (String) request.getParameter("startPlaceName");
 
         String destinationPlaceCode = (String)request.getParameter("destinationPlaceCode");
-        String distinationPlaceName = (String) request.getParameter("distinationPlaceName");
+        String destinationPlaceName = (String) request.getParameter("destinationPlaceName");
 
         String transDate = (String)request.getParameter("transDate");
+        String petKind = (String)request.getParameter("petKind");
         String petWeight = (String)request.getParameter("petWeight");
 
         //票价需要从后台生成 不能依赖前台传递的值
         String ticketPrice = "12";//(String)request.getParameter("ticketPrice");
         //航空箱自动匹配 需要判断 如果为空 根据体重生成
-        String petBoxTypeName = (String)request.getParameter("petBoxTypeName");
+        String petBoxTypeId = "1";//(String)request.getParameter("petBoxTypeName");
+        String petBoxTypeName = "1号航空箱";//(String)request.getParameter("petBoxTypeName");
         //航空箱价格需要从后台生成
-        String petBoxPrice = (String)request.getParameter("petBoxPrice");
+        String petBoxPrice = "23";//(String)request.getParameter("petBoxPrice");
         //地址
         String placeAreaCode = (String)request.getParameter("placeAreaCode");
         String placeAreaName = (String)request.getParameter("placeAreaName");
         //地址价格需要从后台生成
-        String placePrice = (String)request.getParameter("placePrice");
+        String placePrice = "34";//(String)request.getParameter("placePrice");
         //获取当前登录人 判空 如果为空 从shrio中获取
 
         String userId = (String)request.getParameter("userId");
-        if(userId == null || "".equals(userId)){
-            userId = (String) SecurityUtils.getSubject().getPrincipal();
-            //User user = userService.selectUserById(token.getUsername());
-        }
         String userMobile = (String)request.getParameter("userMobile");
+        if(userId == null || "".equals(userId)){
+            UserUtil userUtil =UserUtil.getInstance();
+            Map userMap =userUtil.getLoginUserMap();
+            if(userMap!=null && !userMap.isEmpty()){
+                if(userMap.containsKey("userId")){
+                    userId = (String) userMap.get("userId");
+                }
+                if(userMap.containsKey("userMobile")){
+                    userMobile = (String) userMap.get("userMobile");
+                }
+            }
+        }
+
         //保价 从前台传递
         String insuredPrice = (String)request.getParameter("insuredPrice");
         //总价 需要传递
-        String totalPrice = (String)request.getParameter("totalPrice");
+        String totalPrice ="123";// (String)request.getParameter("totalPrice");
         //orderStatus 三种 草稿draft 已提交sumbit 已支付pay 已完成complate
         String orderStatus = "sumbit";//(String)request.getParameter("orderStatus");
         String payStatus = "0";//(String)request.getParameter("payStatus");
@@ -71,10 +82,12 @@ public class OrderAction {
         param.put("startPlaceCode",startPlaceCode);
         param.put("startPlaceName",startPlaceName);
         param.put("destinationPlaceCode",destinationPlaceCode);
-        param.put("distinationPlaceName",distinationPlaceName);
+        param.put("destinationPlaceName",destinationPlaceName);
         param.put("transDate",transDate);
         param.put("petWeight",petWeight);
+        param.put("petKind",petKind);
         param.put("ticketPrice",ticketPrice);
+        param.put("petBoxTypeId",petBoxTypeId);
         param.put("petBoxTypeName",petBoxTypeName);
         param.put("petBoxPrice",petBoxPrice);
         param.put("placeAreaCode",placeAreaCode);
