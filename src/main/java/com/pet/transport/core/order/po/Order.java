@@ -6,13 +6,13 @@ public class Order {
     //订单编号
     private String orderNo;
     //寄送地ID
-    private String startPlaceId;
+    private String startPlaceCode;
     //寄送地名称
     private String startPlaceName;
     //目的地ID
-    private String endPlaceId;
+    private String distinationPlaceCode;
     //目的地名称
-    private String endPlaceName;
+    private String distinationPlaceName;
     //寄送日期
     private String transDate;
     //宠物类型
@@ -60,12 +60,12 @@ public class Order {
         this.id = id;
     }
 
-    public String getStartPlaceId() {
-        return startPlaceId;
+    public String getStartPlaceCode() {
+        return startPlaceCode;
     }
 
-    public void setStartPlaceId(String startPlaceId) {
-        this.startPlaceId = startPlaceId;
+    public void setStartPlaceCode(String startPlaceCode) {
+        this.startPlaceCode = startPlaceCode;
     }
 
     public String getStartPlaceName() {
@@ -76,20 +76,28 @@ public class Order {
         this.startPlaceName = startPlaceName;
     }
 
-    public String getEndPlaceId() {
-        return endPlaceId;
+    public String getDistinationPlaceCode() {
+        return distinationPlaceCode;
     }
 
-    public void setEndPlaceId(String endPlaceId) {
-        this.endPlaceId = endPlaceId;
+    public void setDistinationPlaceCode(String distinationPlaceCode) {
+        this.distinationPlaceCode = distinationPlaceCode;
     }
 
-    public String getEndPlaceName() {
-        return endPlaceName;
+    public String getDistinationPlaceName() {
+        return distinationPlaceName;
     }
 
-    public void setEndPlaceName(String endPlaceName) {
-        this.endPlaceName = endPlaceName;
+    public void setDistinationPlaceName(String distinationPlaceName) {
+        this.distinationPlaceName = distinationPlaceName;
+    }
+
+    public String getPetKind() {
+        return petKind;
+    }
+
+    public void setPetKind(String petKind) {
+        this.petKind = petKind;
     }
 
     public String getTransDate() {

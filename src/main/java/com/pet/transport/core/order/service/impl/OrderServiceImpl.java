@@ -1,5 +1,6 @@
 package com.pet.transport.core.order.service.impl;
 
+import com.pet.transport.common.util.SnowflakeIdWorker;
 import com.pet.transport.core.order.dao.OrderDao;
 import com.pet.transport.core.order.po.Order;
 import com.pet.transport.core.order.service.IOrderService;
@@ -25,7 +26,50 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     public int sumbitOrder(Map param) {
+        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+
+        String id = (String) param.get("id");
+        if(id ==null || "".equals(id)){
+            id = String.valueOf(idWorker.nextId());
+            param.put("id",id);
+        }
+        String orderNo = (String) param.get("orderNo");
+        if(orderNo ==null || "".equals(orderNo)){
+            orderNo = id;
+            param.put("orderNo",orderNo);
+        }
+
+        /*String startPlaceCode = (String) param.get("startPlaceCode");
+        String startPlaceName = (String) param.get("startPlaceName");
+
+        String destinationPlaceCode = (String)param.get("destinationPlaceCode");
+        String distinationPlaceName = (String) param.get("distinationPlaceName");
+
+        String transDate = (String)param.get("transDate");
+        String petWeight = (String)param.get("petWeight");
+
+        String ticketPrice = (String)param.get("ticketPrice");
+
+        String petBoxTypeName = (String)param.get("petBoxTypeName");
+        String petBoxPrice = (String)param.get("petBoxPrice");
+
+        String placeAreaCode = (String)param.get("placeAreaCode");
+        String placeAreaName = (String)param.get("placeAreaName");
+        String placePrice = (String)param.get("placePrice");
+
+        String userId = (String)param.get("userId");
+        String userMobile = (String)param.get("userMobile");
+
+        String insuredPrice = (String)param.get("insuredPrice");
+
+        String totalPrice = (String)param.get("totalPrice");
+        String orderStatus = (String)param.get("orderStatus");
+        String payStatus = (String)param.get("payStatus");
+        String paySerialNo = (String)param.get("paySerialNo");
+        String payAccount = (String)param.get("payAccount");*/
+
+
         //组装Order
-        return 1;
+        return orderDao.addOrder(param);
     }
 }

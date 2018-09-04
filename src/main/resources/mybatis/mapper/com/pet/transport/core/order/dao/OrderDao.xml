@@ -5,10 +5,10 @@
     <resultMap id="BaseResultMap" type="com.pet.transport.core.order.po.Order">
         <id column="ID" property="id" jdbcType="VARCHAR" />
         <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
-        <result column="START_PLACE_ID" property="startPlaceId" jdbcType="VARCHAR" />
+        <result column="START_PLACE_CODE" property="startPlaceCode" jdbcType="VARCHAR" />
         <result column="START_PLACE_NAME" property="startPlaceName" jdbcType="VARCHAR" />
-        <result column="END_PLACE_ID" property="endPlaceId" jdbcType="VARCHAR" />
-        <result column="END_PLACE_NAME" property="endPlaceName" jdbcType="VARCHAR" />
+        <result column="DISTINATION_PLACE_CODE" property="distinationPlaceCode" jdbcType="VARCHAR" />
+        <result column="DISTINATION_PLACE_NAME" property="distinationPlaceName" jdbcType="VARCHAR" />
         <result column="TRANS_DATE" property="transDate" jdbcType="VARCHAR" />
         <result column="PET_WEIGHT" property="petWeight" jdbcType="VARCHAR" />
         <result column="TICKET_PRICE" property="ticketPrice" jdbcType="VARCHAR" />
@@ -28,6 +28,15 @@
         <result column="PAY_SERIAL_NO" property="paySerialNo" jdbcType="VARCHAR" />
         <result column="PAY_ACCOUNT" property="payAccount" jdbcType="VARCHAR" />
     </resultMap>
+    <insert id="addOrder" parameterType="Map">
+        INSERT INTO CORE_ORDER (ID, ORDER_NO, START_PLACE_CODE,START_PLACE_NAME,DISTINATION_PLACE_CODE,DISTINATION_PLACE_NAME,
+        TRANS_DATE,PET_WEIGHT,TICKET_PRICE,PET_BOX_TYPE_ID,PET_BOX_TYPE_NAME,PET_BOX_PRICE,PLACE_AREA_CODE,PLACE_AREA_NAME,
+        PLACE_DETAIL,PLACE_PRICE,USER_ID,USER_MOBILE,INSURED_PRICE,TOTAL_PRICE,ORDER_STATUS,PAY_STATUS,PAY_SERIAL_NO,PAY_ACCOUNT)
+        VALUES (#{id}, #{orderNo},#{startPlaceCode},#{startPlaceName},#{distinationPlaceCode},#{distinationPlaceName},#{transDate},
+        #{petWeight},#{ticketPrice},#{petBoxTypeId},#{petBoxTypeName},#{petBoxPrice},#{placeAreaCode},#{placeAreaName},
+        #{placeDetail},#{placePrice},#{userId},#{userMobile},#{insuredPrice},#{totalPrice},#{orderStatus}
+        ,#{payStatus},#{paySerialNo},#{payAccount});
+    </insert> <!---->
     <!-- 查询单条记录-->
     <select id="selectOrderById" parameterType="string" resultMap="BaseResultMap">
         SELECT * FROM CORE_ORDER WHERE ID = #{id}
@@ -37,8 +46,6 @@
     <select id="selectOrderByOrderNo" parameterType="string" resultMap="BaseResultMap">
         SELECT * FROM CORE_ORDER WHERE ORDER_NO = #{orderNo}
     </select>
-    <!--
-    <insert id="addOrder" parameterType="Map">
-        INSERT INTO t_user (USER_ID, USER_NAME, USER_PASSWORD) VALUES (#{userId}, #{userName}, #{userPassword});
-    </insert> -->
+
+
 </mapper>
