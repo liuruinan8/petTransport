@@ -26,7 +26,16 @@ public class WeChatUtil {
 		}
 		return weChatUtil;
 	}
-	
+    /**
+     * 生成用于获取access_token的Code的Url
+     *
+     * @param redirectUrl
+     * @return
+     */
+    public String getRequestCodeUrl() {
+        return String.format("https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&response_type=code&scope=%s&state=%s#wechat_redirect",
+                APPID, "snsapi_userinfo", "xxxx_state");
+    }
 	/**
      * 生成用于获取access_token的Code的Url
      *

@@ -309,24 +309,49 @@ $(function(){
      * 监听查看航空箱适用规则
      */
     $('#ckhkxsygz').on('click', function () {
-        $('#sumbitSuccess,#hkxsysm').fadeOut();
-        $('#sumbitFail').fadeIn();
+        //TODO 航空箱适用规则需要美化 图片更改为字 但是字体不要太大
+        $('#sumbitSuccess,#sumbitFail').fadeOut();
+        $('#hkxsysm').fadeIn();
+    });
+    /**
+     * 监听动物检疫
+     */
+    $('#DWJYHG').on('click', function () {
+        //TODO 航空箱适用规则需要美化 图片更改为字 但是字体不要太大
+        $('#sumbitSuccess,#sumbitFail,#hkxsysm').fadeOut();
+        $('#dwjyhgzmkjfs').fadeIn();
     });
 
+    /**
+     * selSmjc
+     */
+    $('#selSmjc').on('click', function () {
+        //出发地是否选择 如果没有 先选择出发地
+
+        //点击上门取宠后 加载相关信息
+
+        //加载所在区域相关信息
+
+
+        //如果选择了上门接宠 显示相关信息
+        $('#jieChongInfo').toggle();
+    });
     /**
      * 线上支付监听
      */
     $('#toPay').on('click', function () {
-        $('#hkxsysm,#sumbitFail').fadeOut();
+        //$('#hkxsysm,#sumbitFail').fadeOut();
         //$('#sumbitSuccess').fadeOut();
-        //调用支付功能
+        //TODO 调用支付功能
     });
     /**
      * 线下支付监听
      */
     $('#offlinePay').on('click', function () {
-        $('#hkxsysm,#sumbitFail').fadeOut();
-        $('#sumbitSuccess').fadeOut();
+        //$('#hkxsysm,#sumbitFail').fadeOut();
+        //$('#sumbitSuccess').fadeOut();
+        //TODO 调用线下支付按钮修改线下支付状态
+        location.href="/pet/ticket/order/mine";
         //跳转我的订单
     });
 
@@ -336,7 +361,6 @@ $(function(){
     $('#reCommit').on('click', function () {
         $('#hkxsysm,#sumbitFail').fadeOut();
         $('#sumbitSuccess').fadeOut();
-        //调用支付功能
     });
 
     /**
@@ -345,7 +369,8 @@ $(function(){
     $('#commitGiveUp').on('click', function () {
         $('#hkxsysm,#sumbitFail').fadeOut();
         $('#sumbitSuccess').fadeOut();
-        //调用支付功能
+        //残忍放弃直接跳转订单页面
+        location.href="/pet/ticket/order/mine";
     });
 });
 

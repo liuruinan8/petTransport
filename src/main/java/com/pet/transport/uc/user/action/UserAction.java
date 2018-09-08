@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/uc")
@@ -24,6 +25,32 @@ public class UserAction {
     }
 
 
+    @RequestMapping("/weiXinLogin/getCode")
+    @ResponseBody
+    public ModelAndView weiXinLoginGetCode(){
+        ModelAndView mav = new ModelAndView();
+        //先调用微信的授权登录 获取到
+        mav.setViewName("login");
+        return mav;
+    }
+    @RequestMapping("/weiXinLoginGetAccessToken")
+    @ResponseBody
+    public ModelAndView weiXinLoginGetAccessToken(HttpServletRequest request, HttpServletResponse response){
+        String state = request.getParameter("state");
+        String code = request.getParameter("code");
+
+        //通过COde获取OPENID
+
+        //获取全局的accessToken
+
+        //通过accessToken，openId获得人员相关信息
+
+        //根据 code 获取微信的token openId等
+        ModelAndView mav = new ModelAndView();
+        //先调用微信的授权登录 获取到
+        mav.setViewName("login");
+        return mav;
+    }
 
     @RequestMapping("/login")
     @ResponseBody

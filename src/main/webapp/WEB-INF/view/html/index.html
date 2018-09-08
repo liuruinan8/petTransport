@@ -12,10 +12,9 @@
 </head>
 <body style="font-size: 12px;">
 <div id="app">
-    <a href="/pet/ticket/order/mine">订单查看</a>
     <div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
     <div class="wrapper">
-        <div id="app_content" class="">
+        <div id="app_content" class="" style="margin-bottom: 100px;">
             <div class="slide" id="slide1">
                 <ul style="transition: all 0.3s cubic-bezier(0.22, 0.69, 0.72, 0.88); transform: translate3d(0px, 0px, 0px);">
                     <li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88); transform: translate3d(-1309px, 0px, 0px);">
@@ -70,6 +69,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="weui-cell weui-cell_orderForm">
                     <div class="weui-cell__hd">
                         <input class="weui-input order-kind" id="petKind" type="text"  placeholder="请输入宝宠品种"/>
@@ -87,6 +87,18 @@
                 </div>
             </div>
 
+            <div class="weui-cells weui-cells_checkbox">
+                <label class="weui-cell weui-check__label" for="selDWJYHG">
+                    <div class="weui-cell__hd">
+                        <input type="checkbox" class="weui-check" name="checkbox1" id="selDWJYHG">
+                        <i class="weui-icon-checked"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>已开具出发当日有效的《动物检疫合格证明》</p>
+                    </div>
+                </label>
+                <div class="weui-cells__tips"><div id="DWJYHG" style="color:red">如何办理 --->各地开具方式可能略有不同，前往前请电话咨询联系以免浪费时间</div></div>
+            </div>
             <div class="weui-cells__title weui-cells-Addtitle">增值服务</div>
             <div class="weui-cells weui-cells_checkbox">
                 <label class="weui-cell weui-check__label" for="selHkx">
@@ -98,11 +110,11 @@
                         <p>购买航空箱</p>
                     </div>
                 </label>
-
+                <div class="weui-cells__tips"><p style="margin-bottom:0;font-size:15px;color:#f09100;">*根据宠物体型、体重，系统已自动匹配<span id="PetAirBox"></span><input type="hidden" name="PetAirBoxID" value="0" id="PetAirBoxID" data-target="#msg_FlightDate"></p></div>
                 <div class="weui-cells__tips"><div id="ckhkxsygz" style="color:red">航空箱适用规则 --->请仔细阅读，以免需要增加相关费用或者影响宝宠运送</div></div>
                 <label class="weui-cell weui-check__label" for="selSmjc">
                     <div class="weui-cell__hd">
-                        <input type="checkbox" name="checkbox1" class="weui-check" id="selSmjc">
+                        <input type="checkbox" name="checkbox1" class="weui-check" id="selSmjc" >
                         <i class="weui-icon-checked"></i>
                     </div>
 
@@ -112,6 +124,61 @@
 
                 </label>
             </div>
+            <div id="jieChongInfo" class="hide">
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__bd" style="padding:0 20px;margin-top:10px;">
+                        <select style="width:100%;height:30px;backgroun:#fff;border:1px solid #b7b7b7;color:#4c4c4c;font-size:15px;" name="RecvDistrictID" id="RecvDistrictID"><option value="104091">锦江区</option><option value="104092">青羊区</option><option value="104093">金牛区</option><option value="104094">武侯区</option><option value="104095">成华区</option><option value="104096">龙泉驿区</option><option value="104098">新都区</option><option value="104099">温江区</option><option value="104105">双流县</option><option value="104106">郫县</option><option value="104109">新津县</option></select>
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <span style="font-size:16px;">详细地址:</span>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input type="text" name="receiptPlace" id="receiptPlace" style="width:100%;height:30px;backgroun:#fff;border:1px solid #b7b7b7;color:#4c4c4c;font-size:15px;" data-msg=" " data-target="#msg_receiptPlace" class="n-valid">
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <span style="font-size:16px;">上门时间为乘机当天的</span>
+                    </div>
+                    <!--<div class="weui-cell__hd">
+                        <input type="date" style="width:100%;height:30px;backgroun:#fff;border:1px solid #b7b7b7;color:#4c4c4c;font-size:15px;" name="GetPetDate">
+                    </div>-->
+                    <div class="weui-cell__bd">
+                        <select style="width:100%;height:30px;backgroun:#fff;border:1px solid #b7b7b7;color:#4c4c4c;font-size:15px;" name="DeliveryTimeNotes">
+                            <option value="凌晨0点左右">凌晨0点左右</option>
+                            <option value="凌晨1点左右">凌晨1点左右</option>
+                            <option value="凌晨2点左右">凌晨2点左右</option>
+                            <option value="凌晨3点左右">凌晨3点左右</option>
+                            <option value="上午4点左右">上午4点左右</option>
+                            <option value="上午5点左右">上午5点左右</option>
+                            <option value="上午6点左右">上午6点左右</option>
+                            <option value="上午7点左右">上午7点左右</option>
+                            <option value="上午8点左右">上午8点左右</option>
+                            <option value="上午9点左右">上午9点左右</option>
+                            <option value="上午10点左右">上午10点左右</option>
+                            <option value="上午11点左右">上午11点左右</option>
+                            <option value="中午12点左右">中午12点左右</option>
+                            <option value="下午13点左右">下午13点左右</option>
+                            <option value="下午14点左右">下午14点左右</option>
+                            <option value="下午15点左右">下午15点左右</option>
+                            <option value="下午16点左右">下午16点左右</option>
+                            <option value="下午17点左右">下午17点左右</option>
+                            <option value="下午18点左右">下午18点左右</option>
+                            <option value="晚上19点左右">晚上19点左右</option>
+                            <option value="晚上20点左右">晚上20点左右</option>
+                            <option value="晚上21点左右">晚上21点左右</option>
+                            <option value="晚上22点左右">晚上22点左右</option>
+                            <option value="晚上23点左右">晚上23点左右</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-cells__title weui-cells-Addtitle">保险服务</div>
+
+
+
             <div>
                 <input type="hidden" id="ticketPrice">
                 <input type="hidden" id="petBoxPrice">
@@ -207,8 +274,16 @@
                     </div><!--meta结束-->
 
                     <div class="weui-weixin-img"><!--图片开始-->
-                        <img src="/pet/images/hkx/hkx.png"
-                             class="weixin">
+                       <!-- <img src="/pet/images/hkx/hkx.png"
+                             class="weixin">-->
+                        <div class="weui-weixin-content" style="text-align: left">
+                        1号航空箱 48*32*30 重量范围(KGS)：大于等于0~~小于6;<br/>
+                        2号航空箱 56*37*35 重量范围(KGS)：大于等于6~~小于10;<br/>
+                        3号航空箱 66*47*45 重量范围(KGS)：大于等于10~~小于15;<br/>
+                        4号航空箱 91*63*68 重量范围(KGS)：大于等于15~~小于25;<br/>
+                        5号钢筋笼航空箱 70*50*65 重量范围(KGS)：大于等于0~~小于25;<br/>
+                        6号钢筋笼航空箱 90*50*80 重量范围(KGS)：大于等于25~~小于50.1;
+                        </div>
                     </div><!--图片结束-->
                     <!--
                                         <div class="weui-weixin-content">
@@ -221,6 +296,27 @@
             </div>
             <p class="weui_msg_comment">请仔细阅读</p></div>
     </div>
+    <div class="weui_msg_img hide" id="dwjyhgzmkjfs" style="opacity: 0; display: none;">
+        <div class="weui_msg_com">
+            <div  style="z-index: 7" onclick="$('#dwjyhgzmkjfs').fadeOut();" class="weui_msg_close"><i class="icon icon-95"></i></div>
+            <div class="weui_msg_src">
+                <!--页面开始-->
+                <div class="weui-weixin-page" style="max-height: 500px;">
+                    <h2 class="weui-weixin-title">宠物托运检疫证明办理流程及注意事项</h2>
+                        <div class="weui-weixin-content" style="text-align: left">
+                            一、宠物具备动物卫生监督所或授权委托的宠物医院开具的狂犬疫苗《免疫证》，且宠物疫苗接种时间应在20天以上一年以内。<br/>
+                            二、省级动物卫生监督机构指定动物检疫实验室出具的《宠物检测报告》。<br/>
+                            2.1带上宠物和《免疫证》前往动物检疫实验室办理《宠物检测报告》。<br/>
+                            2.2动物检疫实验室对宠物进行抽血化验，检查是否具有疫苗抗体。<br/>
+                            2.3费用：290元/只 办理时间：约1小时 《宠物检测报告》有效期：7天<br/>
+                            三、带上宠物、办理人身份证、《免疫证》、《宠物检测报告》、前往动物卫生监督所申报办理《动物检疫证明》。<br/>
+                            费用：免费 办理时间：约0.5小时 《动物检疫证明》有效期：5天<br/>
+                    </div>
+                </div>
+            </div>
+            <p class="weui_msg_comment">因相关证件含有效期，请根据机票航班合理安排办证时间,由于各省市对宠物《动物检疫证明》的办理要求不同，有返程需求的客户请提前做好异地办理攻略。</p></div>
+    </div>
+
 </div>
 
 <script type="text/javascript" src="static/pet/transport/common/weui/js/jweixin-1.0.0.js"></script>

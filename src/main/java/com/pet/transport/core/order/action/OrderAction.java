@@ -13,7 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -162,7 +164,7 @@ public class OrderAction {
         return ret;
     }
 
-    @RequestMapping("/updateStatus/${status}")
+    @RequestMapping(value = "/updateStatus/${status}",produces={"text/html;charset=UTF-8;"})
     @ResponseBody
     public String updateStatus(HttpServletRequest request, HttpServletResponse response,@PathVariable("status") String status){
         String ret = "";
@@ -184,6 +186,45 @@ public class OrderAction {
         }
         return ret;
     }
+    @RequestMapping("/orderLst/{status}")
+    @ResponseBody
+    public String selectOrderByStatus(HttpServletRequest request, HttpServletResponse response,@PathVariable("status") String status){
+        List<String> statusLst = new ArrayList<String>();
+        if("noPay".equals(status)){
+            statusLst.add("draft");
+            statusLst.add("sumbit");
+        }else if("pay".equals(status)){
+            statusLst.add("pay");
+            statusLst.add("offlinePay");
+        }else if("all".equals(status)){
+            statusLst.add("draft");
+            statusLst.add("sumbit");
+            statusLst.add("pay");
+            statusLst.add("offlinePay");
+            statusLst.add("complate");
+        }else{
+            return "";
+        }
+        String userId = request.getParameter("userId");
+        if(userId == null || "".equals(userId)){
+            Map userMap =UserUtil.getInstance().getLoginUserMap();
+            if(userMap!=null && !userMap.isEmpty()){
+                if(userMap.containsKey("userId")){
+                    userId = (String) userMap.get("userId");
+                }
+            }
+        }
+        Map param = new HashMap();
+        param.put("userId",userId);
+        int start = Integer.parseInt(request.getParameter("start"));
+        int limit = Integer.parseInt(request.getParameter("limit"));
+        param.put("orderStatusLst",statusLst);
+        param.put("start",start);
+        param.put("limit",limit);
 
+        List<Map> orderLst = orderService.selectOrderByParm(param);
+        String ret = DataConvertUtil.convertBeanToJson(orderLst);
+        return ret;
+    }
 
 }
