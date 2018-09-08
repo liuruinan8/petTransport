@@ -39,7 +39,7 @@ public class TicektPriceAction {
         costParam.put("selHkx",selHkx);
         costParam.put("selSmjc",selSmjc);
         costParam.put("transDate",transDate);
-        costParam.put("detailId",placeAreaCode);
+        costParam.put("placeAreaCode",placeAreaCode);
         costParam.put("petKind",petKind);
         costParam.put("petWeight",petWeight);
         costParam.put("startPlaceCode",startPlaceCode);

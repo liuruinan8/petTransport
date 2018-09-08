@@ -9,4 +9,6 @@ public interface IStartPlaceDetailService {
     List<StartPlaceDetail> selectAllDetailStartPlace(Map paramMap);
 
     public String selectAllDetailStartPlaceToJson(Map paramMap);
+
+    public StartPlaceDetail selectDetailByDetailCode(Map paramMap);
 }

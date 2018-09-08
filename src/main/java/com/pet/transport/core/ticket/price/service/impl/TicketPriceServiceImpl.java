@@ -6,6 +6,8 @@ import com.pet.transport.core.ticket.airBox.service.IAirBoxService;
 import com.pet.transport.core.ticket.destinationPlace.po.DestinationPlace;
 import com.pet.transport.core.ticket.destinationPlace.service.IDestinationPlaceService;
 import com.pet.transport.core.ticket.price.service.ITicketPriceService;
+import com.pet.transport.core.ticket.startPlaceDetail.po.StartPlaceDetail;
+import com.pet.transport.core.ticket.startPlaceDetail.service.IStartPlaceDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,9 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
     @Qualifier("airBoxServiceImpl")
     private IAirBoxService airBoxService;
 
+    @Autowired
+    @Qualifier("startPlaceDetailServiceImpl")
+    private IStartPlaceDetailService startPlaceDetailService;
     public Map getAllCost(Map param) {
         //String startPlaceCode = (String) param.get("startPlaceCode");
         //String destinationPlaceCode = (String) param.get("destinationPlaceCode");
@@ -32,7 +37,7 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
         String petWeight = (String) param.get("petWeight");
         String selHkx = (String) param.get("selHkx");
         String selSmjc = (String) param.get("selSmjc");
-
+        String placeAreaCode = (String) param.get("placeAreaCode");
         String insuredPrice = (String) param.get("insuredPrice");
         if(insuredPrice == null || "".equals(insuredPrice)){
             insuredPrice = "0";
@@ -51,15 +56,24 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
             Map airParaMmap = new HashMap();
             airParaMmap.put("weight",Integer.parseInt(petWeight));
             List<AirBox> lst = airBoxService.selectAirBoxListByFeature(airParaMmap);
-            AirBox airBox = lst.get(0);
-            petBoxPrice = airBox.getPrice();
-            boxTypeId = airBox.getBoxTypeId();
-            boxTypeName = airBox.getBoxTypeName();
+            if(lst != null && lst.size()>0){
+                AirBox airBox = lst.get(0);
+                if(airBox != null ){
+                    petBoxPrice = airBox.getPrice();
+                    boxTypeId = airBox.getBoxTypeId();
+                    boxTypeName = airBox.getBoxTypeName();
+                }
+            }
+
         }
         String placePrice = "0";
         if(selSmjc!=null && selSmjc.equals("true")){
-            //TODO 需要改为实际计算价格
-            placePrice = "200";
+            Map placeMap = new HashMap();
+            placeMap.put("detailCode",placeAreaCode);
+            StartPlaceDetail dt = startPlaceDetailService.selectDetailByDetailCode(placeMap);
+            if(dt != null){
+                placePrice = dt.getPrice();
+            }
         }
 
         Double totalPrice = Double.parseDouble(ticketPrice) +

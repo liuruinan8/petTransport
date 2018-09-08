@@ -9,4 +9,5 @@ public interface IStartPlaceDetailDao {
 
     public List<StartPlaceDetail> selectAllDetailStartPlace(Map paramMap);
 
+    public StartPlaceDetail selectDetailByDetailCode(Map paramMap);
 }

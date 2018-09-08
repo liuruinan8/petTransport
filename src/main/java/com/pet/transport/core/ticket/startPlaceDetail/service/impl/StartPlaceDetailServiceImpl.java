@@ -41,4 +41,8 @@ public class StartPlaceDetailServiceImpl implements IStartPlaceDetailService {
         }
         return ret;
     }
+
+    public StartPlaceDetail selectDetailByDetailCode(Map paramMap){
+        return startPlaceDetailDao.selectDetailByDetailCode(paramMap);
+    }
 }
