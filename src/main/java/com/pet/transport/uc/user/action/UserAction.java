@@ -52,14 +52,14 @@ public class UserAction {
         return mav;
     }
 
-    @RequestMapping("/login")
+    @RequestMapping(value = "/login",produces={"text/html;charset=UTF-8;"})
     @ResponseBody
     public ModelAndView login(){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("login");
         return mav;
     }
-    @RequestMapping("/checkLogin")
+    @RequestMapping(value ="/checkLogin",produces={"text/html;charset=UTF-8;"})
     @ResponseBody
     public ModelAndView  checkLogin(HttpServletRequest request){
         String result = "/uc/login";

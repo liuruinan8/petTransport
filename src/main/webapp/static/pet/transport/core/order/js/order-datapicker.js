@@ -63,6 +63,10 @@ $.ajax({
                     $("#destinationPlaceCode").val("");
                     $("#destinationPlaceName").val("");
 
+                    //清空上门取宠 和option
+                    $('#selSmjc').prop("checked","");
+                    $('#jieChongInfo').hide();
+                    $("#detailId").empty();
                 },
                 onConfirm: function (result) {
                     var start = result[1];
@@ -327,14 +331,49 @@ $(function(){
      */
     $('#selSmjc').on('click', function () {
         //出发地是否选择 如果没有 先选择出发地
+        var startPlaceCode = $("#startPlaceCode").val();
+        if(startPlaceCode==undefined || startPlaceCode==""){
+            showErrorTips("请选择出发地");
+            $('#selSmjc').prop("checked","");
+            return;
+        }
+        if($("#selSmjc").is(":checked") ==true){
+            //点击上门取宠后 加载相关信息
+            var param = {};
+            param.startPlaceCode=startPlaceCode;
+            $.ajax({
+                type : "POST",
+                contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+                url : "/pet/ticket/startPlaceDetail/getAllDetail",
+                data : param,
+                success : function(data) {
+                    console.log(data);
+                    if(data == "[]"){
+                        showErrorTips("当前城市未开通上门接宠服务，敬请期待");
+                        $('#selSmjc').prop("checked","");
+                        return;
+                    }
+                    //
+                    var obj = $("#detailId");
+                    var placeData = JSON.parse(data);
+                    for (var i = 0; i < placeData.length; i++) {
+                        var detail =  placeData[i];
+                        //obj.options.add(new Option(detail.get("name"),detail.get("code"))); //这个兼容IE与firefox
+                        $("#detailId").append("<option value='"+detail.code+"'>"+detail.name+"</option>");
+                    }
+                    //如果选择了上门接宠 显示相关信息
+                    $('#jieChongInfo').toggle();
+                },
+                error : function(){
+                    showErrorTips("出现网络错误");
+                }
 
-        //点击上门取宠后 加载相关信息
+            });
+        }
 
-        //加载所在区域相关信息
 
 
-        //如果选择了上门接宠 显示相关信息
-        $('#jieChongInfo').toggle();
+
     });
     /**
      * 线上支付监听

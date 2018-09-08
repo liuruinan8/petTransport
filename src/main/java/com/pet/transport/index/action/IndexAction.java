@@ -13,7 +13,7 @@ public class IndexAction {
     public ModelAndView index(){
         return new ModelAndView("index");
     }
-    @RequestMapping("/index")
+    @RequestMapping(value = "/index",produces={"text/html;charset=UTF-8;"})
     @ResponseBody
     public ModelAndView indexWithIndex(){
         return new ModelAndView("index");

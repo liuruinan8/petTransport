@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.transport.core.ticket.airBox.dao.IAirBoxDao">
+    <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
+    <resultMap id="BaseResultMap" type="com.pet.transport.core.ticket.airBox.po.AirBox">
+        <id column="BOX_TYPE_ID" property="boxTypeId" jdbcType="VARCHAR" />
+        <result column="BOX_TYPE_NAME" property="boxTypeName" jdbcType="VARCHAR" />
+        <result column="WEIGHT_START" property="weightStart" jdbcType="DOUBLE" />
+        <result column="WEIGHT_END" property="weightEnd" jdbcType="DOUBLE" />
+        <result column="IS_BIG_BOX" property="isBigBox" jdbcType="VARCHAR" />
+        <result column="IS_USE" property="isUse" jdbcType="VARCHAR" />
+        <result column="PRICE" property="price" jdbcType="VARCHAR" />
+        <result column="NOTE" property="note" jdbcType="VARCHAR" />
+    </resultMap>
+    <!-- 查询单条记录-->
+    <select id="selectAirBoxById" parameterType="string" resultMap="BaseResultMap">
+        SELECT * FROM ticket_AirBox WHERE BOX_TYPE_ID = #{boxTypeId}
+    </select>
+    <!-- 查询单条记录-->
+    <select id="selectAirBoxListByFeature" resultMap="BaseResultMap"  parameterType="Map">
+        <![CDATA[ SELECT * FROM ticket_AirBox
+        where WEIGHT_START <= #{weight}
+        AND WEIGHT_END > #{weight}
+        ]]>
+        <if test="isBigBox != null">
+            AND IS_BIG_BOX = #{isBigBox}
+        </if>
+    </select>
+</mapper>
