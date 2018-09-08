@@ -10,6 +10,10 @@
         <result column="PRICE" property="price" jdbcType="VARCHAR" />
     </resultMap>
     <!-- 查询单条记录-->
+    <select id="selectDetailByDetailCode" resultMap="BaseResultMap"  parameterType="Map">
+        SELECT * FROM ticket_start_place_detail
+        where DETAIL_CODE =#{detailCode}
+    </select>
     <select id="selectAllDetailStartPlace" resultMap="BaseResultMap"  parameterType="Map">
         SELECT * FROM ticket_start_place_detail
           where START_PLACE_CODE =#{startPlaceCode}
