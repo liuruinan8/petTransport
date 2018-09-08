@@ -51,7 +51,7 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
         String petBoxPrice = "0";
         String boxTypeId = "";
         String boxTypeName ="";
-        if(selHkx!=null && selHkx.equals("true")){
+        if(selHkx!=null && (selHkx.equals("true")||selHkx.equals("on"))){
             //计算航空箱价格
             Map airParaMmap = new HashMap();
             airParaMmap.put("weight",Integer.parseInt(petWeight));
@@ -67,7 +67,7 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
 
         }
         String placePrice = "0";
-        if(selSmjc!=null && selSmjc.equals("true")){
+        if(selSmjc!=null && (selSmjc.equals("true")||selSmjc.equals("on"))){
             Map placeMap = new HashMap();
             placeMap.put("detailCode",placeAreaCode);
             StartPlaceDetail dt = startPlaceDetailService.selectDetailByDetailCode(placeMap);
