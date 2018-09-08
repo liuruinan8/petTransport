@@ -15,6 +15,7 @@ $('#slide1').swipeSlide({
 
 
 function subMitOrder(){
+    var param = {};
     //组装前端参数
     var startPlaceCode = $("#startPlaceCode").val();
     if(startPlaceCode==undefined || startPlaceCode==""){
@@ -52,25 +53,47 @@ function subMitOrder(){
     if(selHkx==undefined || selHkx==""){
         //showErrorTips("请选择"); 使用提示的方式进行提示没有选择航空箱
     }
-    var selSmjc = $("#selSmjc").val();
-    if(selSmjc==undefined || selSmjc==""){
-        //showErrorTips("请选择"); 使用提示的方式进行提示没有选择航空箱
+
+    if($("#selDWJYHG").is(":checked") ==false){
+        showErrorTips("请确认已经开具出发当日有效的《动物检疫许可证》！"); //
+        return;
+    }
+    var detailId = $("#detailId").val();
+    var receiptPlace = $("#receiptPlace").val();
+
+    var detailName="";
+    if($("#selSmjc").is(":checked") ==true){
+        //选择了上门取宠 才进行校验
+        if(detailId==undefined || detailId==""){
+            showErrorTips("请选择接宠地点");
+            return;
+        }
+
+        detailName=$("#detailId").find("option:selected").text();
+        if(receiptPlace==undefined || receiptPlace==""){
+            showErrorTips("请填写接宠详细地址");
+            return;
+        }
+
     }
 
-    var param = {};
+
+    //showErrorTips("请选择"); 使用提示的方式进行提示没有选择航空箱
+    param.placeAreaCode=detailId;
+    param.placeAreaName=detailName;//"历下区";
+    param.placeDetail=receiptPlace;
+
     param.startPlaceCode=startPlaceCode;
     param.startPlaceName=startPlaceName;
     param.destinationPlaceCode=destinationPlaceCode;
     param.destinationPlaceName=destinationPlaceName;
     param.insuredPrice="0";
-    param.placeAreaCode="370101";
-    param.placeAreaName="历下区";
-    param.placeDetail="万科城18-2-1703";
+
     param.transDate=selectDate;
     param.petKind=petKind;
     param.petWeight=petWeight;
-    param.selHkx=selHkx;
-    param.selSmjc=selSmjc;
+    param.selHkx=$("#selHkx").is(":checked");
+    param.selSmjc=$("#selSmjc").is(":checked");
 
     $.ajax({
         type : "POST",

@@ -261,14 +261,39 @@ $(function(){
             showErrorTips("请填写宠物重量");
             return;
         }
-
+        if($("#selDWJYHG").is(":checked") ==false){
+            showErrorTips("请确认已经开具出发当日有效的《动物检疫许可证》！"); //
+            return;
+        }
         var selHkx = $("#selHkx").val();
         if(selHkx==undefined || selHkx==""){
             //showErrorTips("请选择"); 使用提示的方式进行提示没有选择航空箱
         }
+        var detailId = $("#detailId").val();
+        if($("#selSmjc").is(":checked") ==true){
+            //选择了上门取宠 才进行校验
+            if(detailId==undefined || detailId==""){
+                showErrorTips("请选择接宠地点");
+                return;
+            }
+
+            if(receiptPlace==undefined || receiptPlace==""){
+                showErrorTips("请填写接宠详细地址");
+                return;
+            }
+
+        }
 
         var param = {};
         param.startPlaceCode=startPlaceCode;
+        param.destinationPlaceCode=destinationPlaceCode;
+        param.placeAreaCode=detailId;
+        param.insuredPrice="0";
+        param.transDate=selectDate;
+        param.petKind=petKind;
+        param.petWeight=petWeight;
+        param.selHkx=$("#selHkx").is(":checked");
+        param.selSmjc=$("#selSmjc").is(":checked");
         $.ajax({
             type : "POST",
             contentType: "application/x-www-form-urlencoded;charset=UTF-8",
@@ -306,7 +331,8 @@ $(function(){
     /**
      * 监听提交按钮
      */
-    $('#submitOrder').on('click', function () {
+    $('#submitOrder').on('click', function (e) {
+        e.preventDefault();
         subMitOrder();
     });
     /**
@@ -351,6 +377,7 @@ $(function(){
                     if(data == "[]"){
                         showErrorTips("当前城市未开通上门接宠服务，敬请期待");
                         $('#selSmjc').prop("checked","");
+                        $('#jieChongInfo').hide();
                         return;
                     }
                     //
@@ -361,8 +388,6 @@ $(function(){
                         //obj.options.add(new Option(detail.get("name"),detail.get("code"))); //这个兼容IE与firefox
                         $("#detailId").append("<option value='"+detail.code+"'>"+detail.name+"</option>");
                     }
-                    //如果选择了上门接宠 显示相关信息
-                    $('#jieChongInfo').toggle();
                 },
                 error : function(){
                     showErrorTips("出现网络错误");
@@ -370,6 +395,8 @@ $(function(){
 
             });
         }
+        //如果选择了上门接宠 显示相关信息
+        $('#jieChongInfo').toggle();
 
 
 

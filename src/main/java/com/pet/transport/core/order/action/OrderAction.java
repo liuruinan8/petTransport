@@ -2,6 +2,7 @@ package com.pet.transport.core.order.action;
 
 import com.pet.transport.common.util.DataConvertUtil;
 import com.pet.transport.core.order.service.IOrderService;
+import com.pet.transport.core.ticket.price.service.ITicketPriceService;
 import com.pet.transport.uc.user.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,6 +26,10 @@ public class OrderAction {
     @Qualifier("orderServiceImpl")
     private IOrderService orderService;
 
+    @Autowired
+    @Qualifier("ticketPriceServiceImpl")
+    ITicketPriceService ticketPriceServiceImpl;
+
     @RequestMapping("/mine")
     @ResponseBody
     public ModelAndView myOrder(){
@@ -41,22 +46,47 @@ public class OrderAction {
         String transDate = (String)request.getParameter("transDate");
         String petKind = (String)request.getParameter("petKind");
         String petWeight = (String)request.getParameter("petWeight");
+        String selHkx = (String) request.getParameter("selHkx");
+        String selSmjc = (String) request.getParameter("selSmjc");
 
-        //票价需要从后台生成 不能依赖前台传递的值
-        String ticketPrice = "12";//(String)request.getParameter("ticketPrice");
-        //航空箱自动匹配 需要判断 如果为空 根据体重生成
-        String petBoxTypeId = "1";//(String)request.getParameter("petBoxTypeName");
-        String petBoxTypeName = "1号航空箱";//(String)request.getParameter("petBoxTypeName");
-        //航空箱价格需要从后台生成
-        String petBoxPrice = "23";//(String)request.getParameter("petBoxPrice");
         //地址
         String placeAreaCode = (String)request.getParameter("placeAreaCode");
         String placeAreaName = (String)request.getParameter("placeAreaName");
         String placeDetail = (String)request.getParameter("placeDetail");
-        //地址价格需要从后台生成
-        String placePrice = "34";//(String)request.getParameter("placePrice");
-        //获取当前登录人 判空 如果为空 从shrio中获取
+        //保价 从前台传递
+        String insuredPrice = (String)request.getParameter("insuredPrice");
 
+
+
+
+        //不使用前台传过来的信息 重新计算价格信息 防止攻击
+        Map costParam = new HashMap();
+        costParam.put("selHkx",selHkx);
+        costParam.put("selSmjc",selSmjc);
+        costParam.put("transDate",transDate);
+        costParam.put("detailId",placeAreaCode);
+        costParam.put("petKind",petKind);
+        costParam.put("petWeight",petWeight);
+        costParam.put("startPlaceCode",startPlaceCode);
+        costParam.put("destinationPlaceCode",destinationPlaceCode);
+        costParam.put("insuredPrice",insuredPrice);
+
+        Map map = ticketPriceServiceImpl.getAllCost(costParam);
+
+        //票价需要从后台生成 不能依赖前台传递的值
+        String ticketPrice = (String) map.get("ticketPrice");//(String)request.getParameter("ticketPrice");
+        //航空箱自动匹配 需要判断 如果为空 根据体重生成
+        String petBoxTypeId = (String) map.get("boxTypeId");//(String)request.getParameter("petBoxTypeName");
+        String petBoxTypeName = (String) map.get("boxTypeName");//(String)request.getParameter("petBoxTypeName");
+        String petBoxPrice = (String) map.get("petBoxPrice");//(String)request.getParameter("petBoxPrice");
+        //地址价格需要从后台生成
+        String placePrice = (String) map.get("placePrice");//(String)request.getParameter("placePrice");
+        //航空箱价格需要从后台生成
+        //总价 需要传递
+        String totalPrice =(String) map.get("totalPrice");// (String)request.getParameter("totalPrice");
+
+
+        //获取当前登录人 判空 如果为空 从shrio中获取
         String userId = (String)request.getParameter("userId");
         String userMobile = (String)request.getParameter("userMobile");
         if(userId == null || "".equals(userId)){
@@ -71,10 +101,7 @@ public class OrderAction {
             }
         }
 
-        //保价 从前台传递
-        String insuredPrice = (String)request.getParameter("insuredPrice");
-        //总价 需要传递
-        String totalPrice ="123";// (String)request.getParameter("totalPrice");
+
 
 
         Map param = new HashMap();

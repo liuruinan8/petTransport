@@ -13,4 +13,6 @@ public interface IDestinationPlaceService {
     public void addDestinationPlace(Map paramMap);
 
     public String selectDestinationPlaceByStartPlaceJson(Map paramMap);
+
+    public DestinationPlace selectDestinationPlaceByStartPlaceAndDistPlace(Map param);
 }

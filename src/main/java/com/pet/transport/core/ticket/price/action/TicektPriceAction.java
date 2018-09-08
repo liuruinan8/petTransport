@@ -26,17 +26,27 @@ public class TicektPriceAction {
         String ret="";
         String startPlaceCode = request.getParameter("startPlaceCode");
         String destinationPlaceCode = request.getParameter("destinationPlaceCode");
-        String selectDate = request.getParameter("selectDate");
-        String petWeight = request.getParameter("petWeight");
-        String selHkx = request.getParameter("selHkx");
-        Map param = new HashMap();
-        param.put("startPlaceCode",startPlaceCode);
-        param.put("destinationPlaceCode",destinationPlaceCode);
-        param.put("selectDate",selectDate);
-        param.put("petWeight",petWeight);
-        param.put("selHkx",selHkx);
+        String transDate = (String)request.getParameter("transDate");
+        String petKind = (String)request.getParameter("petKind");
+        String petWeight = (String)request.getParameter("petWeight");
+        String selHkx = (String) request.getParameter("selHkx");
+        String selSmjc = (String) request.getParameter("selSmjc");
+        String placeAreaCode = (String)request.getParameter("placeAreaCode");
+        //保价 从前台传递
+        String insuredPrice = (String)request.getParameter("insuredPrice");
 
-        Map map = ticketPriceServiceImpl.getAllCost(param);
+        Map costParam = new HashMap();
+        costParam.put("selHkx",selHkx);
+        costParam.put("selSmjc",selSmjc);
+        costParam.put("transDate",transDate);
+        costParam.put("detailId",placeAreaCode);
+        costParam.put("petKind",petKind);
+        costParam.put("petWeight",petWeight);
+        costParam.put("startPlaceCode",startPlaceCode);
+        costParam.put("destinationPlaceCode",destinationPlaceCode);
+        costParam.put("insuredPrice",insuredPrice);
+
+        Map map = ticketPriceServiceImpl.getAllCost(costParam);
         if(map!=null){
             ret = DataConvertUtil.convertMapToJson(map);
         }

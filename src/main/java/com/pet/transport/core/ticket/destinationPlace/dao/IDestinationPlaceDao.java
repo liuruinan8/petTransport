@@ -12,4 +12,6 @@ public interface IDestinationPlaceDao {
     public List<DestinationPlace> selectDestinationPlaceByStartPlace(Map paramMap);
 
     public void addDestinationPlace(Map paramMap);
+
+    public DestinationPlace selectDestinationPlaceByStartPlaceAndDistPlace(Map paramMap);
 }

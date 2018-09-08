@@ -15,14 +15,14 @@ import java.util.Map;
 @Service("destinationPlaceServiceImpl")
 public class DestinationPlaceServiceImpl implements IDestinationPlaceService {
     @Autowired
-    private IDestinationPlaceDao DestinationPlaceDao;
+    private IDestinationPlaceDao destinationPlaceDao;
 
     public void updateDestinationPlace(Map paramMap) {
-        DestinationPlaceDao.updateDestinationPlace(paramMap);
+        destinationPlaceDao.updateDestinationPlace(paramMap);
     }
 
     public List<DestinationPlace> selectDestinationPlaceByStartPlace(Map paramMap) {
-        List<DestinationPlace> spLst =DestinationPlaceDao.selectDestinationPlaceByStartPlace(paramMap);
+        List<DestinationPlace> spLst =destinationPlaceDao.selectDestinationPlaceByStartPlace(paramMap);
         return spLst;
     }
     public String selectDestinationPlaceByStartPlaceJson(Map paramMap) {
@@ -48,7 +48,10 @@ public class DestinationPlaceServiceImpl implements IDestinationPlaceService {
         }
         return ret;
     }
+    public DestinationPlace selectDestinationPlaceByStartPlaceAndDistPlace(Map paramMap) {
+       return destinationPlaceDao.selectDestinationPlaceByStartPlaceAndDistPlace(paramMap);
+    }
     public void addDestinationPlace(Map paramMap) {
-        DestinationPlaceDao.addDestinationPlace(paramMap);
+        destinationPlaceDao.addDestinationPlace(paramMap);
     }
 }
