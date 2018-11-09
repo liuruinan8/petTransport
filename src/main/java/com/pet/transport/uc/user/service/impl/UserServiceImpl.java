@@ -26,4 +26,8 @@ public class UserServiceImpl implements UserService {
     public void updateUser(Map user) {
         userDao.updateUser(user);
     }
+
+    public User selectUserByOpenId(String openId) {
+        return userDao.selectUserByOpenId(openId);
+    }
 }

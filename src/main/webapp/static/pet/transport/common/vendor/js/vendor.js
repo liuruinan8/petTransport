@@ -4296,8 +4296,8 @@ object-assign
                     console.log(s()(e))
                 }
             }), l.onMenuShareTimeline({
-                title: "宠宝机票，为宠物定制的专属机票",
-                desc: "铲屎的，快给本主子买张宠宝机票！",
+                title: "飞狗宠物旅行",
+                desc: "买张飞狗旅行机票开始飞吧！",
                 link: t,
                 imgUrl: e,
                 success: function () {
@@ -4305,9 +4305,9 @@ object-assign
                 cancel: function () {
                 }
             }), l.onMenuShareAppMessage({
-                title: "宠宝机票，为宠物定制的专属机票",
+                title: "飞狗宠物旅行",
                 link: t,
-                desc: "铲屎的，快给本主子买张宠宝机票！",
+                desc: "买张飞狗旅行机票开始飞吧！",
                 imgUrl: e,
                 type: "",
                 dataUrl: "",
@@ -5082,7 +5082,7 @@ object-assign
     "use strict"
 }, function (e, t, n) {
     "use strict";
-    var r = n(345), o = (n.n(r), {appname: "宠宝机票", url_host: window.location.host, background: "#FBF9FE"});
+    var r = n(345), o = (n.n(r), {appname: "飞狗宠物旅行", url_host: window.location.host, background: "#FBF9FE"});
     t.a = o
 }, function (e, t, n) {
     "use strict";

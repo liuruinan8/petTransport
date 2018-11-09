@@ -11,7 +11,7 @@ public interface IOrderService {
 
    public Order selectOrderByOrderNo(String orderNo);
 
-   public int sumbitOrder(Map param);
+   public Map sumbitOrder(Map param);
 
    public int updateOrderStatus(Map param);
 

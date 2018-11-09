@@ -1,21 +1,25 @@
 package com.pet.transport.uc.wechat.core.util;
 
 import com.google.gson.Gson;
+import com.pet.transport.uc.wechat.core.po.AccessToken;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class WeChatUtil {
-	private static final String APPID = "wxe6acbca8b05fe976";
-	private static final String APPSECRET = "5a75d016855142141434aadc258ce69c";
-	private static final String APPTOKEN = "gcloud";
+	private static final String APPID = "wx54d84237cfe4d072";
+	private static final String APPSECRET = "cacb74856f39c376655a161ffab56612";
+	private static final String APPTOKEN = "airgopet20181106";
 	private Log logger = LogFactory.getLog(WeChatUtil.class);
 	
 	private static WeChatUtil weChatUtil = null;
@@ -29,7 +33,6 @@ public class WeChatUtil {
     /**
      * 生成用于获取access_token的Code的Url
      *
-     * @param redirectUrl
      * @return
      */
     public String getRequestCodeUrl() {
@@ -45,6 +48,35 @@ public class WeChatUtil {
     public String getRequestCodeUrl(String redirectUrl) {
         return String.format("https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect",
                              APPID, redirectUrl, "snsapi_userinfo", "xxxx_state");
+    }
+    /**
+     * 根据微信id，secret获取access_token
+     *
+     */
+    public String getAccessToken() {
+        String tmpUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + APPID
+                + "&secret=" + APPSECRET + "";
+        CloseableHttpClient httpCilent = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(tmpUrl);
+        try {
+            HttpResponse httpResponse = httpCilent.execute(httpGet);
+            if (httpResponse.getStatusLine().getStatusCode() == 200) {
+                String entity = EntityUtils.toString(httpResponse.getEntity());
+                Gson token_gson = new Gson();
+                AccessToken accessToken = token_gson.fromJson(entity, AccessToken.class);
+                return accessToken.getAccess_token();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                // 释放资源
+                httpCilent.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "";
     }
 	/**
      * 获取请求用户信息的access_token
@@ -125,10 +157,59 @@ public class WeChatUtil {
     	return APPID;
     }
     /**
-     * 获取APPID
+     * 获取APPTOKEN
      * @return
      */
     public String getAppToken(){
     	return APPTOKEN;
+    }
+
+    /**
+     * 获取APPSECRET
+     * @return
+     */
+    public String getAppsecret(){
+        return APPSECRET;
+    }
+
+    /**
+     * 将字节数组转换为十六进制字符串
+     *
+     * @param byteArray
+     * @return
+     */
+    public  String byteToStr(byte[] byteArray) {
+        String strDigest = "";
+        for (int i = 0; i < byteArray.length; i++) {
+            strDigest += byteToHexStr(byteArray[i]);
+        }
+        return strDigest;
+    }
+
+    /**
+     * 将字节转换为十六进制字符串
+     *
+     * @param mByte
+     * @return
+     */
+    public  String byteToHexStr(byte mByte) {
+        char[] Digit = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+        char[] tempArr = new char[2];
+        tempArr[0] = Digit[(mByte >>> 4) & 0X0F];
+        tempArr[1] = Digit[mByte & 0X0F];
+
+        String s = new String(tempArr);
+        return s;
+    }
+    public  void sort(String a[]) {
+        for (int i = 0; i < a.length - 1; i++) {
+            for (int j = i + 1; j < a.length; j++) {
+                if (a[j].compareTo(a[i]) < 0) {
+                    String temp = a[i];
+                    a[i] = a[j];
+                    a[j] = temp;
+                }
+            }
+        }
     }
 }

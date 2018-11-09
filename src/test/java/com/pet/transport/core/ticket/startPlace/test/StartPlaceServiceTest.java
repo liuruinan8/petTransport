@@ -22,7 +22,7 @@ public class StartPlaceServiceTest extends SpringTestCase {
         startPlace.put("startPlaceName","重庆江北");
         startPlace.put("startPlaceSimple","C");
         startPlaceServiceImpl.updateStartPlace(startPlace);
-        System.out.println("update StartPlaceUer Success" );
+        //System.out.println("update StartPlaceUer Success" );
     }
     @Test
     public void addStartPlace(){
@@ -31,7 +31,7 @@ public class StartPlaceServiceTest extends SpringTestCase {
         paramMap.put("startPlaceName","重庆江北");
         paramMap.put("startPlaceSimple","C");
         startPlaceServiceImpl.addStartPlace(paramMap);
-        System.out.println("AddUer Success" );
+        //System.out.println("AddUer Success" );
     }
     @Test
     public void selectAllStartPlaceTest(){
@@ -42,6 +42,6 @@ public class StartPlaceServiceTest extends SpringTestCase {
         paramMap.put("orderdir","DESC");
         /**/
         String startPlaceLst = startPlaceServiceImpl.selectAllStartPlaceToJson(paramMap);
-        System.out.println(startPlaceLst);
+        //System.out.println(startPlaceLst);
     }
 }

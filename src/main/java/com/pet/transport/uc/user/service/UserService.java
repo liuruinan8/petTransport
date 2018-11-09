@@ -10,4 +10,7 @@ public interface UserService {
     public void addUser(Map user);
 
     public void updateUser(Map user);
+
+    public User selectUserByOpenId(String openId);
+
 }

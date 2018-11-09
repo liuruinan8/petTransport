@@ -36,9 +36,7 @@ public class UcShiroDbRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(
             AuthenticationToken authcToken) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-        System.out.println(token.getUsername());
         User user = userService.selectUserById(token.getUsername());
-        //System.out.println(user);
        // CipherUtil cipher = new CipherUtil();//MD5加密
         if (user != null) {
             return new SimpleAuthenticationInfo(user.getUserId(), user.getUserPassword(), getName());
@@ -46,7 +44,6 @@ public class UcShiroDbRealm extends AuthorizingRealm {
             throw new AuthenticationException();
         }
     }
-
     /**
      * 登陆成功之后，进行角色和权限验证
      */

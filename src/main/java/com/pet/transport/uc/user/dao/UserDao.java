@@ -13,4 +13,7 @@ public interface UserDao {
     public void addUser(Map user);
 
     public void updateUser(Map user);
+
+    /** * @param userId * @return User */
+    public User selectUserByOpenId(String openId);
 }

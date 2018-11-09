@@ -27,7 +27,10 @@
         <property name="filterChainDefinitions">
             <value>
                 /uc/index = authc
+                /CoreServlet = anon
                 /uc/checkLogin = anon
+                /uc/wechatOauth = anon
+                /uc/wxLogin = anon
                 /uc/login = anon
                 /uc/loginout = anon
                 /** = authc

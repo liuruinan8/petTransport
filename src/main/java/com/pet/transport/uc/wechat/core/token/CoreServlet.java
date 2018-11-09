@@ -1,9 +1,10 @@
 package com.pet.transport.uc.wechat.core.token;
 
 import com.pet.transport.uc.wechat.core.util.WeChatUtil;
+import com.pet.transport.uc.wechat.message.po.TextMessage;
+import com.pet.transport.uc.wechat.message.util.MessageUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +15,7 @@ import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.Map;
 
 public class CoreServlet extends HttpServlet {
@@ -44,21 +45,26 @@ public class CoreServlet extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String method = req.getParameter("state");
-		if (method != null && "V".equals(method)) {
-			validateUrl(req, resp);
-		} else if (method != null && "L".equals(method)) {
-
-		} else if (method != null && "R".equals(method)) {
-			regisiter(req, resp);
-		} else {
-			regisiter(req, resp);
-		}
+        validateUrl(req, resp);
 	}
  
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req, resp);
+        String method = req.getParameter("state");
+        resp.setContentType("html/text;charset=utf-8");
+        resp.setCharacterEncoding("utf-8");
+        // 获取输出流
+        PrintWriter printWriter = resp.getWriter();
+        printWriter.write(processRequest(req, resp));
+        /*if (method != null && "V".equals(method)) {
+            validateUrl(req, resp);
+        } else if (method != null && "L".equals(method)) {
+
+        } else if (method != null && "R".equals(method)) {
+            regisiter(req, resp);
+        } else {
+            processRequest(req, resp);
+        }*/
     }
  
     
@@ -121,55 +127,122 @@ public class CoreServlet extends HttpServlet {
             // 接入失败,不用回写
         }
     }
-    private void regisiter(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-    	String code = req.getParameter("code");
-    	//第一步 通过code 获取access_token 请求地址：https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
-    	 Map<String, String> data = new HashMap();
-         Map<String, String> result = weChatUtil.getUserInfoAccessToken(code);//通过这个code获取access_token
-         if(result !=null && result.containsKey("openid")){
-        	 String openId = result.get("openid");
-             if (!StringUtils.isEmpty(openId)) {
-            	 logger.info("try getting user info. [openid={}]"+ openId);
-            	 //第二步 通过openId获取我方数据库中是否有对应的userId 如果使用用户名跳转
-            	 /*Map userMap = gcloudUserUtil.getUserMapByOpenId(openId, "weChat");
-            	 if(userMap!=null){
-            		//跳转首页
-            	 }else{
-            		 //如果没有获取信息 开始注册
-            		 String accessToken=  result.get("access_token");
-            		 String expiresIn=  result.get("expires_in");
-            		 String refreshToken=  result.get("refresh_token");
-                     //第三步 通过openId 获取userInfo
-                     Map<String, String> userInfo = weChatUtil.getUserInfo(accessToken, openId);//使用access_token获取用户信息
-                     *//**
-                      * [result={
-    							"openid":"oN9UryuC0Y01aQt0jKxZXbfe658w",
-    							"nickname":"lovebread",
-    							"sex":1,
-    							"language":"zh_CN",
-    							"city":"",
-    							"province":"",
-    							"country":"中国",
-    							"headimgurl":"http://wx.qlogo.cn/mmopen/bRLXzTf2f6HNfBTd72heAA7vNKsGKvK3dfreewrewsPff9OaMWib0GibbA8daQmNQvQhagtiaicf4vNC5nYU3ia821QQ/0",
-    							"privilege":[]}]
-                      *//*
-                     if(userInfo!=null){
-                    	 logger.info("received user info. [result={}]"+ userInfo);
-                    	 userInfo.put("snsType", "weChat");
-                    	 
-                    	 userInfo.put("appId",weChatUtil.getAppId());
-                    	 userInfo.put("accessToken",accessToken);
-                    	 userInfo.put("expiresIn", expiresIn);
-                    	 userInfo.put("refreshToken", refreshToken);
-                     }*/
-                     //resp.getOutputStream().write("登录成功");
-                     //resp.sendRedirect(req.getContextPath()+"/jsp/gcloud/pubservice/user/auth/wx_regisiter.jsp?opendId="+openId+"&accessToken="+accessToken+"&refreshToken="+refreshToken);
-                     //先将OPENID对应的信息存进去
-                     //后期注册完成后在更新userId
-                     //resp forward("auth", userInfo);
-             }
-         }
-         
+
+
+    public  String processRequest(HttpServletRequest request, HttpServletResponse resp) {
+        // xml格式的消息数据
+        String respXml = null;
+        // 默认返回的文本消息内容
+        String respContent = "未知的消息类型";
+        try {
+            // 调用parseXml方法解析请求消息
+            Map requestMap = MessageUtil.parseXml(request);
+            // 发送方帐号
+            String fromUserName = (String) requestMap.get("FromUserName");
+            // 开发者微信号
+            String toUserName = (String) requestMap.get("ToUserName");
+            // 消息类型
+            String msgType = (String) requestMap.get("MsgType");
+            // 回复文本消息
+            TextMessage textMessage = new TextMessage();
+            textMessage.setToUserName(fromUserName);
+            textMessage.setFromUserName(toUserName);
+            textMessage.setCreateTime(new Date().getTime());
+            textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+            // 文本消息
+            if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {
+                respContent = "您发送的是文本消息！";
+            }
+            // 图片消息
+            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)) {
+                respContent = "您发送的是图片消息！";
+            }
+            // 语音消息
+            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_VOICE)) {
+                respContent = "您发送的是语音消息！";
+            }
+            // 视频消息
+            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_VIDEO)) {
+                respContent = "您发送的是视频消息！";
+            }
+            // 地理位置消息
+            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_LOCATION)) {
+                respContent = "您发送的是地理位置消息！";
+            }
+            // 链接消息
+            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_LINK)) {
+                respContent = "您发送的是链接消息！";
+            }
+            // 事件推送
+            else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {
+                // 事件类型
+                String eventType = (String) requestMap.get("Event");
+                // 关注
+                if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
+                    respContent = "谢谢您的关注！";
+                }
+                // 取消关注
+                else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {
+                    // TODO 取消订阅后用户不会再收到公众账号发送的消息，因此不需要回复
+                }
+                // 扫描带参数二维码
+                else if (eventType.equals(MessageUtil.EVENT_TYPE_SCAN)) {
+                    // TODO 处理扫描带参数二维码事件
+                }
+                // 上报地理位置
+                else if (eventType.equals(MessageUtil.EVENT_TYPE_LOCATION)) {
+                    // TODO 处理上报地理位置事件
+                }
+                // 自定义菜单
+                else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {
+                    // TODO 处理菜单点击事件
+                }
+            }
+            // 设置文本消息的内容
+            textMessage.setContent(respContent);
+
+            // 将文本消息对象转换成xml
+            respXml = MessageUtil.textMessageToXml(textMessage);
+            return respXml;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "success";
     }
-    
+
+    /**
+     * 验证签名
+     *
+     * @param signature
+     * @param timestamp
+     * @param nonce
+     * @return
+
+    public  boolean checkSignature(String signature, String timestamp, String nonce) {
+        String[] arr = new String[] { weChatUtil.getAppToken(), timestamp, nonce };
+        // 将token、timestamp、nonce三个参数进行字典序排序
+        // Arrays.sort(arr);
+        weChatUtil.sort(arr);
+        StringBuilder content = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            content.append(arr[i]);
+        }
+        MessageDigest md = null;
+        String tmpStr = null;
+
+        try {
+            md = MessageDigest.getInstance("SHA-1");
+            // 将三个参数字符串拼接成一个字符串进行sha1加密
+            byte[] digest = md.digest(content.toString().getBytes());
+            tmpStr = weChatUtil.byteToStr(digest);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        content = null;
+        // 将sha1加密后的字符串可与signature对比，标识该请求来源于微信
+        return tmpStr != null ? tmpStr.equals(signature.toUpperCase()) : false;
+    }*/
+
+
 }

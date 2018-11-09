@@ -28,7 +28,7 @@ public class OrderServiceImpl implements IOrderService {
         return orderDao.selectOrderByOrderNo(orderNo);
     }
 
-    public int sumbitOrder(Map param) {
+    public Map sumbitOrder(Map param) {
         SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
 
         String id = (String) param.get("id");
@@ -70,10 +70,10 @@ public class OrderServiceImpl implements IOrderService {
         String payStatus = (String)param.get("payStatus");
         String paySerialNo = (String)param.get("paySerialNo");
         String payAccount = (String)param.get("payAccount");*/
-
-
+        int i=orderDao.addOrder(param);
+        param.put("resultStatus",i);
         //组装Order
-        return orderDao.addOrder(param);
+        return param;
     }
 
     public int updateOrderStatus(Map param) {

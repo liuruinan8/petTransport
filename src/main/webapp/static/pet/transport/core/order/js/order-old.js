@@ -2771,7 +2771,7 @@ webpackJsonp([0], [function (t, e, i) {
             return i("ul", {attrs: {id: "detail_money_ul"}}, [i("li", [i("div", {
                 staticClass: "detail-money-title",
                 attrs: {id: "flight_weight"}
-            }, [t._v("宠宝机票")]), t._v(" "), i("div", {staticClass: "dotted-line"}), t._v(" "), i("div", {
+            }, [t._v("飞狗机票")]), t._v(" "), i("div", {staticClass: "dotted-line"}), t._v(" "), i("div", {
                 staticClass: "detail-money-label",
                 attrs: {id: "flight_money"}
             }, [i("span", {

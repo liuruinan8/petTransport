@@ -13,11 +13,11 @@
     </resultMap>
     <!-- 查询单条记录-->
     <select id="selectDestinationPlaceByName" parameterType="string" resultMap="BaseResultMap">
-        SELECT * FROM ticket_DESTINATION_place WHERE DESTINATION_PLACE_CODE = #{destinationPlaceCode}
+        SELECT * FROM ticket_destination_place WHERE DESTINATION_PLACE_CODE = #{destinationPlaceCode}
     </select>
     <!-- 查询单条记录-->
     <select id="selectDestinationPlaceByStartPlace" resultMap="BaseResultMap"  parameterType="Map">
-        SELECT * FROM ticket_DESTINATION_place
+        SELECT * FROM ticket_destination_place
         where START_PLACE_CODE =#{startPlaceCode}
         <if test="groupfield != null" >
             group by ${groupfield}
@@ -27,16 +27,16 @@
         </if>
     </select>
     <select id="selectDestinationPlaceByStartPlaceAndDistPlace" parameterType="string" resultMap="BaseResultMap">
-        SELECT * FROM ticket_DESTINATION_place WHERE DESTINATION_PLACE_CODE = #{destinationPlaceCode}
+        SELECT * FROM ticket_destination_place WHERE DESTINATION_PLACE_CODE = #{destinationPlaceCode}
         and START_PLACE_CODE =#{startPlaceCode}
     </select>
 
     <insert id="addDestinationPlace" parameterType="Map">
-        INSERT INTO ticket_DESTINATION_place (DESTINATION_PLACE_CODE, DESTINATION_PLACE_NAME, Destination_PLACE_SIMPLE,START_PLACE_NAME, START_PLACE_CODE, PRICE)
+        INSERT INTO ticket_destination_place (DESTINATION_PLACE_CODE, DESTINATION_PLACE_NAME, Destination_PLACE_SIMPLE,START_PLACE_NAME, START_PLACE_CODE, PRICE)
         VALUES (#{destinationPlaceCode}, #{destinationPlaceName}, #{destinationPlaceSimple},#{startPlaceName}, #{startPlaceCode}, #{price});
     </insert> <!---->
     <update id="updateDestinationPlace" parameterType="map">
-        update ticket_DESTINATION_place set DESTINATION_PLACE_CODE=#{destinationPlaceCode}
+        update ticket_destination_place set DESTINATION_PLACE_CODE=#{destinationPlaceCode}
         <if test="destinationPlaceName != null">
             ,DESTINATION_PLACE_NAME=#{destinationPlaceName}
         </if>

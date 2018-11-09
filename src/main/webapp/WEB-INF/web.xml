@@ -65,6 +65,15 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
+    <!-- 微信认证核心Servlet -->
+    <servlet>
+        <servlet-name>CoreServlet</servlet-name>
+        <servlet-class>com.pet.transport.uc.wechat.core.token.CoreServlet</servlet-class>
+    </servlet>
+
+
+
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.html</url-pattern>
@@ -74,5 +83,10 @@
     <servlet-mapping>
         <servlet-name>dispatcherServlet</servlet-name>
         <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CoreServlet</servlet-name>
+        <url-pattern>/CoreServlet</url-pattern>
     </servlet-mapping>
 </web-app>

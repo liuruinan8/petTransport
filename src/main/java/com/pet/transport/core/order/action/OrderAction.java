@@ -2,6 +2,7 @@ package com.pet.transport.core.order.action;
 
 import com.pet.transport.common.util.DataConvertUtil;
 import com.pet.transport.core.order.service.IOrderService;
+import com.pet.transport.core.order.util.OrderMessageUtil;
 import com.pet.transport.core.ticket.price.service.ITicketPriceService;
 import com.pet.transport.uc.user.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class OrderAction {
     @Autowired
     @Qualifier("ticketPriceServiceImpl")
     ITicketPriceService ticketPriceServiceImpl;
+
+
+    private OrderMessageUtil orderMessageUtil = OrderMessageUtil.getInstance();
 
     @RequestMapping("/mine")
     @ResponseBody
@@ -146,8 +150,10 @@ public class OrderAction {
         param.put("paySerialNo",paySerialNo);
         param.put("payAccount",payAccount);
 
-        int i = orderService.sumbitOrder(param);
+        param = orderService.sumbitOrder(param);
+        int i= (Integer) param.get("resultStatus");
         if(i==1){
+            orderMessageUtil.sendOrderSaveSuccessMessage(param);
             map.put("status","success");
         }else{
             map.put("status","fail");
@@ -177,7 +183,8 @@ public class OrderAction {
         param.put("paySerialNo",paySerialNo);
         param.put("payAccount",payAccount);
 
-        int i = orderService.sumbitOrder(param);
+        param = orderService.sumbitOrder(param);
+        int i= (Integer) param.get("resultStatus");
         if(i==1){
             map.put("status","success");
         }else{

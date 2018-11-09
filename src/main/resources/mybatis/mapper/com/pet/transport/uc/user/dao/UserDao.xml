@@ -28,9 +28,16 @@
     <select id="selectUserById" parameterType="string" resultMap="BaseResultMap">
         SELECT * FROM t_user WHERE USER_ID = #{userId}
     </select>
+    <select id="selectUserByOpenId" parameterType="string" resultMap="BaseResultMap">
+        SELECT * FROM t_user WHERE OPEN_ID = #{openId}
+    </select>
+
     <!-- -->
     <insert id="addUser" parameterType="Map">
-        INSERT INTO t_user (USER_ID, USER_NAME, USER_PASSWORD) VALUES (#{userId}, #{userName}, #{userPassword});
+        INSERT INTO t_user (USER_ID, USER_NAME, USER_PASSWORD,USER_MOBILE,APP_ID,ACCESS_TOKEN,EXPIRES_IN,CREATE_TIME,REFRESH_TOKEN,SUBSCRIBE,SUBSCRIBE_TIME,NICK_NAME,
+        SEX,COUNTRY,PROVINCE,CITY,LANGUAGE,HEAD_IMG_URL,IS_CERTIFIED,OPEN_ID)
+        VALUES (#{userId}, #{userName}, #{userPassword}, #{userMobile}, #{appId}, #{accessToken}, #{expiresIn}, #{createTime}, #{refreshToken}, #{subscribe}, #{subscribeTime}, #{nickname}
+        , #{sex}, #{country}, #{province}, #{city}, #{language}, #{headImgUrl}, #{isCertified}, #{openId});
     </insert>
 
     <update id="updateUser" parameterType="Map">

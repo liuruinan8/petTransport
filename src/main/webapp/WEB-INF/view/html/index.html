@@ -2,7 +2,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title>宠宝机票</title>
+    <title>飞狗宠物旅行</title>
     <link href="static/pet/transport/common/vendor/css/vendor.css" rel="stylesheet">
     <link href="static/pet/transport/core/order/css/order.css" rel="stylesheet">
     <!--<link href="static/pet/transport/core/order/css/order-old.css" rel="stylesheet">-->
@@ -69,7 +69,11 @@
                         </div>
                     </div>
                 </div>
-
+            </div>
+            <div class="weui-cells weui-cells_orderForm">
+                <div class="weui-cell weui-cell_orderForm">
+                    <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary"><i class="icon icon-22"></i>增加</a>
+                </div>
                 <div class="weui-cell weui-cell_orderForm">
                     <div class="weui-cell__hd">
                         <input class="weui-input order-kind" id="petKind" type="text"  placeholder="请输入宝宠品种"/>
@@ -80,6 +84,15 @@
                             <option value="3">其他品种</option>
                         </select>-->
                     </div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input order-weight" id="peName"  type="text" placeholder="请输入宝宠名字"/>
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <input class="weui-input order-kind" id="petHeight" type="number" pattern="[0-9]*"  placeholder="请输入宝宠身高"/>
+                    </div>
+                    <div class="weui-textarea-counter"><span>cm</span></div>
                     <div class="weui-cell__bd">
                         <input class="weui-input order-weight" id="petWeight"  type="number" pattern="[0-9]*" placeholder="请输入宝宠重量"/>
                     </div>

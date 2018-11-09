@@ -51,4 +51,50 @@ public class UserUtil {
         }
         return map;
     }
+
+    public  Map getUserMapByUserId(String  userId){
+        Map  map =  new HashMap();
+        if(userId !=null && !"".equals(userId)){
+            if(userUtil.userService !=null){
+                User user = userUtil.userService.selectUserById(userId);
+                if(user != null){
+                    map.put("userId",userId);
+                    String userName = user.getUserName();
+                    map.put("userName",userName);
+                    String userMobile = user.getUserMobile();
+                    map.put("userMobile",userMobile);
+                    String openId = user.getOpenId();
+                    map.put("openId",openId);
+                }
+            }
+
+        }
+        return map;
+    }
+    public  Map getUserMapByOpenId(String  openId){
+        Map  map =  new HashMap();
+        if(openId !=null && !"".equals(openId)){
+            if(userUtil.userService !=null){
+                User user = userUtil.userService.selectUserByOpenId(openId);
+                if(user != null){
+                    String userId = user.getUserId();
+                    map.put("userId",userId);
+                    String userName = user.getUserName();
+                    map.put("userName",userName);
+                    String userMobile = user.getUserMobile();
+                    map.put("userMobile",userMobile);
+                    String password = user.getUserPassword();
+                    map.put("userPassword",password);
+                }
+            }
+            map.put("openId",openId);
+        }
+        return map;
+    }
+
+    public void addUserByMap(Map<String,String> userInfo) {
+        if(userUtil.userService !=null) {
+            userUtil.userService.addUser(userInfo);
+        }
+    }
 }
