@@ -38,7 +38,7 @@ public class OrderServiceImpl implements IOrderService {
         }
         String orderNo = (String) param.get("orderNo");
         if(orderNo ==null || "".equals(orderNo)){
-            orderNo = id;
+            orderNo = String.valueOf(idWorker.nextId());
             param.put("orderNo",orderNo);
         }
 
@@ -76,8 +76,11 @@ public class OrderServiceImpl implements IOrderService {
         return param;
     }
 
-    public int updateOrderStatus(Map param) {
-        return 0;
+    public Map updateOrderStatus(Map param) {
+        int i=orderDao.updateOrderStatus(param);
+        param.put("resultStatus",i);
+        //组装Order
+        return param;
     }
 
     public List<Map> selectOrderByStatus(String uid, List<String> statusLst,int start,int limit) {

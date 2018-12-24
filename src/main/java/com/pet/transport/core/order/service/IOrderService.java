@@ -13,7 +13,7 @@ public interface IOrderService {
 
    public Map sumbitOrder(Map param);
 
-   public int updateOrderStatus(Map param);
+   public Map updateOrderStatus(Map param);
 
    public List<Map> selectOrderByParm( Map param );
 

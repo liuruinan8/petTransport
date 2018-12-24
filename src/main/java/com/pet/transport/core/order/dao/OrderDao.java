@@ -15,4 +15,5 @@ public interface OrderDao {
 
     public int addOrder(Map map);
 
+    public int updateOrderStatus(Map param);
 }

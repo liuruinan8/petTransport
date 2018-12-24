@@ -9,6 +9,8 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.SavedRequest;
+import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -80,9 +82,7 @@ public class UserAction {
                 logger.info("try getting user info. [openid={}]" + openId);
                 //第二步 通过openId获取我方数据库中是否有对应的userId 如果使用用户名跳转
                 Map userMap = UserUtil.getInstance().getUserMapByOpenId(openId);
-                if (userMap != null) {
-
-                } else {
+                if (!(userMap != null && userMap.containsKey("userId"))) {
                     userMap = new HashMap();
                     //如果没有获取信息 开始注册
                     String accessToken = result.get("access_token");
@@ -146,8 +146,17 @@ public class UserAction {
                     token.setRememberMe(true);
                     currentUser.login(token);//验证角色和权限
                 }
-                resultMV = "redirect:/index";//验证成功
 
+                SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+                // 获取保存的URL
+                if (savedRequest == null || savedRequest.getRequestUrl() == null) {
+                    resultMV = "redirect:/index";//验证成功
+                }
+                String url=savedRequest.getRequestUrl();
+                if(url.indexOf("pet")>-1){
+                    url = url.replace("/pet/","/");
+                }
+                resultMV ="redirect:" + url;
             }
 
         }
@@ -165,6 +174,7 @@ public class UserAction {
     @RequestMapping(value = "/checkLogin", produces = {"text/html;charset=UTF-8;"})
     @ResponseBody
     public ModelAndView checkLogin(HttpServletRequest request) {
+
         String result = "/uc/login";
         ModelAndView mv = new ModelAndView(result);
         // 取得用户名
@@ -180,7 +190,13 @@ public class UserAction {
                 token.setRememberMe(true);
                 currentUser.login(token);//验证角色和权限
             }
-            result = "redirect:/index";//验证成功
+            SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+            // 获取保存的URL
+            if (savedRequest == null || savedRequest.getRequestUrl() == null) {
+                result = "redirect:/index";//验证成功
+            }
+            logger.debug("RequestUrl:"+savedRequest.getRequestUrl()+"  RequestUri:"+savedRequest.getRequestURI());
+            result ="redirect:" + savedRequest.getRequestUrl().replaceAll(URLContants.WEB_ROOT_URL,"");
             return new ModelAndView(result);
         } catch (UnknownAccountException e) {
             logger.error(e.getMessage());

@@ -188,6 +188,28 @@ public class CoreServlet extends HttpServlet {
                 // 扫描带参数二维码
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_SCAN)) {
                     // TODO 处理扫描带参数二维码事件
+
+                    //判断场景值  场景值为8888
+
+                    String eventKey = (String) requestMap.get("EventKey");
+                    //
+                    if(eventKey.indexOf("qrscene_")>-1){
+                        //关注后会进行提示 此处不再处理
+                        respContent = "谢谢您的关注！";
+                    }else{
+                        //获取scansrt
+                        //在二维码表中查询 相关具体的推荐人
+                        //发送给当前人办理记录
+                        respContent = "您正在进行二维码扫描 eventKey："+eventKey+"";
+                        //url如何判断失效？
+
+                        //记录表中 每次请求判断以下？
+
+                        //使用以下模板进行 信息发送 pSbva3OD_BSjbOKIMh_d5UQwXuTn9Xy-PdygRGGiaVA
+
+                    }
+
+
                 }
                 // 上报地理位置
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_LOCATION)) {

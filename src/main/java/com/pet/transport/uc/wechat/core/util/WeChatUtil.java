@@ -20,11 +20,14 @@ public class WeChatUtil {
 	private static final String APPID = "wx54d84237cfe4d072";
 	private static final String APPSECRET = "cacb74856f39c376655a161ffab56612";
 	private static final String APPTOKEN = "airgopet20181106";
+    private static final String MCHID = "1517407311";
+    private static final String  MCHSECRET = "fEigOU20181224feiGou4221y8102yfw";
 	private Log logger = LogFactory.getLog(WeChatUtil.class);
 	
 	private static WeChatUtil weChatUtil = null;
 
-	public static synchronized WeChatUtil getInstance() {
+
+    public static synchronized WeChatUtil getInstance() {
 		if (weChatUtil == null) {
 			weChatUtil = new WeChatUtil();
 		}
@@ -157,6 +160,18 @@ public class WeChatUtil {
     	return APPID;
     }
     /**
+     * 获取商户ID
+     */
+    public String getMchid(){
+        return MCHID;
+    }
+    /**
+     * 获取商户ID
+     */
+    public String getMchsecret(){
+        return MCHSECRET;
+    }
+    /**
      * 获取APPTOKEN
      * @return
      */
@@ -169,7 +184,8 @@ public class WeChatUtil {
      * @return
      */
     public String getAppsecret(){
-        return APPSECRET;
+        ///return APPSECRET;
+        return "11222334555";
     }
 
     /**

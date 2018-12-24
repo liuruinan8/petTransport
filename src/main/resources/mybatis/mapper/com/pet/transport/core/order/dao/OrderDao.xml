@@ -60,6 +60,9 @@
     <select id="selectOrderByOrderNo" parameterType="string" resultMap="BaseResultMap">
         SELECT * FROM CORE_ORDER WHERE ORDER_NO = #{orderNo}
     </select>
-
+    <update id="updateOrderStatus" parameterType="Map">
+        UPDATE CORE_ORDER SET ORDER_STATUS=#{orderStatus},PAY_STATUS=#{payStatus}
+        WHERE ID=#{id}
+    </update>
 
 </mapper>

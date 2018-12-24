@@ -1,19 +1,25 @@
 package com.pet.transport.core.order.util;
 
+import com.pet.transport.common.contants.URLContants;
 import com.pet.transport.uc.wechat.core.util.WeChatUtil;
 import com.pet.transport.uc.wechat.template.contants.TemplateContants;
 import com.pet.transport.uc.wechat.template.po.WechatResponse;
 import com.pet.transport.uc.wechat.template.po.WechatTemplate;
 import com.pet.transport.uc.wechat.template.po.WechatTemplateData;
 import com.pet.transport.uc.wechat.template.service.ITemplateMessageService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class OrderMessageUtil {
+    private Log logger = LogFactory.getLog(OrderMessageUtil.class);
 
     private static OrderMessageUtil orderMessageUtil = null;
 
@@ -37,7 +43,12 @@ public class OrderMessageUtil {
     private ITemplateMessageService templateMessageServiceImpl;
 
     public WechatResponse sendOrderSaveSuccessMessage(Map order){
+
+
         String openid = (String) order.get("userId");
+        if( logger.isDebugEnabled()){
+            logger.debug("--------要推送的接受openid:"+openid);
+        }
         //String openid="oYey51VVExpQZ38giMltpW_TIo2M";
         // 获取基础支持的access_token
         String access_token = weChatUtil.getAccessToken();
@@ -47,7 +58,7 @@ public class OrderMessageUtil {
         WechatTemplate wechatTemplate = new WechatTemplate();
         wechatTemplate.setTemplate_id(TemplateContants.TEM_ORDER_SUBMIT_SUCCESS);
         wechatTemplate.setTouser(openid);
-        wechatTemplate.setUrl("http://tw.xxx.com/member/member.html?id=");
+        wechatTemplate.setUrl(URLContants.WEB_URL+"/ticket/order/mine");
         Map<String,WechatTemplateData> mapdata = new HashMap<String,WechatTemplateData>();
         // 封装模板数据
         WechatTemplateData first = new WechatTemplateData();
@@ -71,7 +82,13 @@ public class OrderMessageUtil {
         mapdata.put("remark", remark);
 
         wechatTemplate.setData(mapdata);
+        if( logger.isDebugEnabled()){
+            logger.debug("---------开始推送消息access_token："+access_token);
+        }
         WechatResponse response = orderMessageUtil.templateMessageServiceImpl.sendTemplateMessage(access_token,wechatTemplate);
+        if( logger.isDebugEnabled()){
+            logger.debug("--------结束推送消息---------");
+        }
         return response;
     }
 }

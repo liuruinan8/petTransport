@@ -21,7 +21,7 @@
     <!-- Shiro Filter -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager" />
-        <property name="loginUrl" value="/uc/login" />
+        <property name="loginUrl" value="/uc/wechatOauth" />
         <property name="successUrl" value="/uc/index" />
         <property name="unauthorizedUrl" value="/error/noperms.jsp" />
         <property name="filterChainDefinitions">
@@ -33,6 +33,7 @@
                 /uc/wxLogin = anon
                 /uc/login = anon
                 /uc/loginout = anon
+                /ticket/order/wxPayNotify=anon
                 /** = authc
             </value>
         </property>

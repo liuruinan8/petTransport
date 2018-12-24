@@ -5,5 +5,5 @@ public final class URLContants {
     //http://www.airgopet.com/
     public static final String WEB_URL="http://www.airgopet.com/pet";
 
-
+    public static final String WEB_ROOT_URL="/pet";
 }

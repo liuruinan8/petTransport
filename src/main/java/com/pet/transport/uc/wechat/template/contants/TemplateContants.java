@@ -11,5 +11,6 @@ public final class TemplateContants {
 
     //订单状态更新
     public static final String TEM_ORDER_STATUS_UPDATE = "1IIWzWqzVQXm45-FXzyWw2IMocxpFuWLNrTc7xpA0SY";
-
+    //二维码生成通知
+    public static final String TEM_QRCODE_CREATE = "kiUOumNGW69Hjww-HM9JP-qZ7YAxIJytx86dFbHtTYo";
 }
