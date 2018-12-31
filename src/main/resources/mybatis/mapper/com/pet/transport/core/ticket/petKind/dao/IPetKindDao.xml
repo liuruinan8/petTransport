@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.transport.core.ticket.petKind.dao.IPetKindDao">
+    <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
+    <resultMap id="BaseResultMap" type="com.pet.transport.core.ticket.petKind.po.PetKind">
+        <id column="KIND_ID" property="kindId" jdbcType="VARCHAR" />
+        <result column="KIND_NAME" property="kindName" jdbcType="VARCHAR" />
+        <result column="KIND_CODE" property="kindCode" jdbcType="VARCHAR" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+        <result column="IS_USE" property="isUse" jdbcType="VARCHAR" />
+        <result column="CREATOR_ID" property="creatorId" jdbcType="VARCHAR" />
+        <result column="CREATOR_NAME" property="creatorName" jdbcType="VARCHAR" />
+        <result column="KIND_NAME_SIMPLE" property="kindNameSimple" jdbcType="VARCHAR" />
+    </resultMap>
+    <!-- 查询单条记录-->
+    <select id="selectPetKindById" parameterType="string" resultMap="BaseResultMap">
+        SELECT * FROM ticket_PetKind WHERE KIND_ID = #{kindId}
+    </select>
+    <!-- 查询所有记录-->
+    <select id="selectAllPetKind" resultMap="BaseResultMap"  parameterType="Map">
+        SELECT * FROM ticket_PetKind
+        where 1=1 and is_use='1'
+        <if test="groupfield != null" >
+            group by ${groupfield}
+        </if>
+        <if test="orderfield != null" >
+            order by ${orderfield} ${orderdir}
+        </if>
+    </select>
+</mapper>

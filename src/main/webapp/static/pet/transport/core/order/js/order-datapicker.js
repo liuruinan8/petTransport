@@ -90,9 +90,18 @@ $.ajax({
 var lastMonth = [];
 for(var i = 29;i>=0;i--){
     var obj ={};
-    var dateStr =new Date(new Date()
-        .setDate(new Date().getDate()+i))
-        .toLocaleString().substring(0,9);
+    var dateStr ="";
+    if(new Date(new Date()
+        .setDate(new Date().getDate()+i)).getMonth()<9){
+        dateStr =new Date(new Date()
+            .setDate(new Date().getDate()+i))
+            .toLocaleString().substring(0,9);
+    }else{
+        dateStr =new Date(new Date()
+            .setDate(new Date().getDate()+i))
+            .toLocaleString().substring(0,10);
+    }
+
     obj.label=dateStr;
     obj.value=dateStr;
     lastMonth.unshift(obj);
@@ -118,11 +127,19 @@ $('#destinationPlaceName').on('click', function () {
  * 监听机票预订日期点击方法
  */
 $('#showDatePicker').on('click', function () {
+    var dateStr="";
+    if(new Date().getMonth()<9){
+        dateStr =new Date(new Date()
+            .setDate(new Date().getDate()))
+            .toLocaleString().substring(0,9);
+    }else{
+        dateStr =new Date(new Date()
+            .setDate(new Date().getDate()))
+            .toLocaleString().substring(0,10);
+    }
     weui.picker(lastMonth, {
         className: 'custom-classname',
-        defaultValue: [new Date()
-            .toLocaleString().substring(0,9), new Date()
-            .toLocaleString().substring(0,9)],
+        defaultValue: [dateStr, dateStr],
         onChange: function (result) {
             //console.log(result)
             document.getElementById("showDatePicker").innerText="已选择航班日期"+result;
@@ -135,6 +152,74 @@ $('#showDatePicker').on('click', function () {
         },
         id: 'showDatePicker'
     });
+});
+//加载品种信息
+$.ajax({
+    type : "POST",
+    contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+    url : "/pet/ticket/petKind/getAll",
+    data : "",
+    success : function(data) {
+        //console.log(data);
+        var dataArray = [];
+        var placeData = JSON.parse(data);
+        for( var attr in placeData)
+        {
+            var array = placeData[attr];
+            var newArray = [];
+            for(var i=0;i<array.length;i++){
+                var tmp = {
+                    label:array[i].kindName,
+                    value:array[i].kindCode+";"+array[i].kindName
+                };
+                newArray.push(tmp);
+            }
+            var tmp = {
+                label:attr,
+                value:attr,
+                children:newArray
+            };
+            dataArray.push(tmp);
+        };
+        /**
+         * 监听宠物品种点击方法
+         */
+        $('#showPetKindPicker').on('click', function () {
+            /*var dateStr="";
+            if(new Date().getMonth()<9){
+                dateStr =new Date(new Date()
+                    .setDate(new Date().getDate()))
+                    .toLocaleString().substring(0,9);
+            }else{
+                dateStr =new Date(new Date()
+                    .setDate(new Date().getDate()))
+                    .toLocaleString().substring(0,10);
+            }*/
+            weui.picker(dataArray, {
+                className: 'custom-classname',
+                //defaultValue: [dateStr, dateStr],
+                onChange: function (result) {
+                    //console.log(result)
+                    var value = result[1].split(";")[0];
+                    var disRes = result[1].split(";")[1];
+                    document.getElementById("showPetKindPicker").innerText=""+disRes;
+                    document.getElementById("petKind").value=value;
+                },
+                onConfirm: function (result) {
+                    // console.log(result)
+                    var value = result[1].split(";")[0];
+                    var disRes = result[1].split(";")[1];
+                    document.getElementById("showPetKindPicker").innerText=""+disRes;
+                    document.getElementById("petKind").value=value;
+                },
+                id: 'showDatePicker'
+            });
+        });
+    },
+    error : function(){
+        showErrorTips("出现网络错误");
+    }
+
 });
 
 /**
@@ -409,6 +494,49 @@ $(function(){
         //$('#hkxsysm,#sumbitFail').fadeOut();
         //$('#sumbitSuccess').fadeOut();
         //TODO 调用支付功能
+        var param = {};
+        param.orderId=$('#orderId').val();
+        $.ajax({
+            type : "POST",
+            contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+            url : "/pet/ticket/order/pay4OrderByWx",
+            data : param,
+            success : function(data) {
+                // var retData = JSON.parse(data);
+                /*if(retData.status =="success"){
+                    $('#hkxsysm,#sumbitFail').fadeOut();
+                    $('#sumbitSuccess').fadeIn();
+                }else{
+                    $('#hkxsysm,#sumbitSuccess').fadeOut();
+                    $('#sumbitFail').fadeIn();
+                }*/
+                console.log(data);
+                var retData = JSON.parse(data);
+                var payData = JSON.parse(retData.data);
+                /**
+                 * {
+                                    "appId":"wx2421b1c4370ec43b",     //公众号名称，由商户传入
+                                    "timeStamp":"1395712654",         //时间戳，自1970年以来的秒数
+                                    "nonceStr":"e61463f8efa94090b1f366cccfbbb444", //随机串
+                                    "package":"prepay_id=u802345jgfjsdfgsdg888",
+                                    "signType":"MD5",         //微信签名方式：
+                                    "paySign":"70EA570631E4BB79628FBCA90534C63FF7FADD89" //微信签名
+                                }=
+                 */
+                var bridgeParam ={};
+                bridgeParam.appId=payData.appId;
+                bridgeParam.timeStamp=payData.timeStamp;
+                bridgeParam.nonceStr=payData.nonceStr;
+                bridgeParam.package=payData.package;
+                bridgeParam.signType="MD5";
+                bridgeParam.paySign=payData.sign;
+                onBridgeReady(bridgeParam);
+            },
+            error : function(){
+                showErrorTips("出现网络错误");
+            }
+
+        });
     });
     /**
      * 线下支付监听

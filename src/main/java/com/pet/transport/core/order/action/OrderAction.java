@@ -164,6 +164,7 @@ public class OrderAction {
             }
             orderMessageUtil.sendOrderSaveSuccessMessage(param);
             map.put("status","success");
+            map.put("orderId",param.get("id"));
         }else{
             map.put("status","fail");
         }
@@ -200,6 +201,7 @@ public class OrderAction {
             }
             orderMessageUtil.sendOrderSaveSuccessMessage(param);
             map.put("status","success");
+            map.put("orderId",param.get("id"));
         }else{
             map.put("status","fail");
         }

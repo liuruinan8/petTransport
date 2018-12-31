@@ -12,7 +12,7 @@
 </head>
 <body style="font-size: 12px;">
 <div id="app">
-    <div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+    <div class="weui-toptips weui-toptips_warn js_tooltips">信息提示</div>
     <div class="wrapper">
         <div id="app_content" class="" style="margin-bottom: 100px;">
             <div class="slide" id="slide1">
@@ -71,12 +71,13 @@
                 </div>
             </div>
             <div class="weui-cells weui-cells_orderForm">
-                <div class="weui-cell weui-cell_orderForm">
+                <!--<div class="weui-cell weui-cell_orderForm">
                     <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary"><i class="icon icon-22"></i>增加</a>
-                </div>
+                </div>-->
                 <div class="weui-cell weui-cell_orderForm">
-                    <div class="weui-cell__hd">
-                        <input class="weui-input order-kind" id="petKind" type="text"  placeholder="请输入宝宠品种"/>
+                    <div class="weui-cell__hd"   style="width: 50%;"  >
+                        <a href="javascript:;" class="weui-btn weui-btn_default" id="showPetKindPicker">请输入宝宠品种</a>
+                        <input class="weui-input order-kind" id="petKind" type="hidden"  placeholder="请输入宝宠品种"/>
                         <!--<select class="weui-select" style="width: 165px;" name="select2">
                             <option value="0">请选择宝宠品种</option>
                             <option value="1">汪星人</option>
@@ -97,6 +98,14 @@
                         <input class="weui-input order-weight" id="petWeight"  type="number" pattern="[0-9]*" placeholder="请输入宝宠重量"/>
                     </div>
                     <div class="weui-textarea-counter"><span>Kg</span></div>
+                </div>
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">联系方式</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input order-kind" id="userMobile" type="number" pattern="[0-9]*"  placeholder="请输入联系人手机号"/>
+                    </div>
                 </div>
             </div>
 
@@ -154,21 +163,21 @@
                 </div>
                 <div class="weui-cell weui-cell_orderForm">
                     <div class="weui-cell__hd">
-                        <span style="font-size:16px;">上门时间为乘机当天的</span>
+                        <span style="font-size:16px;">上门时间为</span>
                     </div>
                     <!--<div class="weui-cell__hd">
                         <input type="date" style="width:100%;height:30px;backgroun:#fff;border:1px solid #b7b7b7;color:#4c4c4c;font-size:15px;" name="GetPetDate">
                     </div>-->
                     <div class="weui-cell__bd">
                         <select style="width:100%;height:30px;backgroun:#fff;border:1px solid #b7b7b7;color:#4c4c4c;font-size:15px;" name="DeliveryTimeNotes">
-                            <option value="凌晨0点左右">凌晨0点左右</option>
+                           <!-- <option value="凌晨0点左右">凌晨0点左右</option>
                             <option value="凌晨1点左右">凌晨1点左右</option>
                             <option value="凌晨2点左右">凌晨2点左右</option>
                             <option value="凌晨3点左右">凌晨3点左右</option>
                             <option value="上午4点左右">上午4点左右</option>
                             <option value="上午5点左右">上午5点左右</option>
                             <option value="上午6点左右">上午6点左右</option>
-                            <option value="上午7点左右">上午7点左右</option>
+                            <option value="上午7点左右">上午7点左右</option>-->
                             <option value="上午8点左右">上午8点左右</option>
                             <option value="上午9点左右">上午9点左右</option>
                             <option value="上午10点左右">上午10点左右</option>
@@ -179,21 +188,33 @@
                             <option value="下午15点左右">下午15点左右</option>
                             <option value="下午16点左右">下午16点左右</option>
                             <option value="下午17点左右">下午17点左右</option>
-                            <option value="下午18点左右">下午18点左右</option>
+                            <!--<option value="下午18点左右">下午18点左右</option>
                             <option value="晚上19点左右">晚上19点左右</option>
                             <option value="晚上20点左右">晚上20点左右</option>
                             <option value="晚上21点左右">晚上21点左右</option>
                             <option value="晚上22点左右">晚上22点左右</option>
-                            <option value="晚上23点左右">晚上23点左右</option>
+                            <option value="晚上23点左右">晚上23点左右</option>-->
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="weui-cells__title weui-cells-Addtitle">保险服务</div>
+            <div class="weui-cells weui-cells_checkbox">
+                <label class="weui-cell weui-check__label" for="selBjfw">
+                    <div class="weui-cell__hd">
+                        <input type="checkbox" name="checkbox1" class="weui-check" id="selBjfw" >
+                        <i class="weui-icon-checked"></i>
+                    </div>
+
+                    <div class="weui-cell__bd">
+                        <p>保价服务</p>
+                    </div>
+                </label>
+            </div>
 
 
 
             <div>
+                <input type="hidden" id="orderId">
                 <input type="hidden" id="ticketPrice">
                 <input type="hidden" id="petBoxPrice">
                 <input type="hidden" id="placePrice">
