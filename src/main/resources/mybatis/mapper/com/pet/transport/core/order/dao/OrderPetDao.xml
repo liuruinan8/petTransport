@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.transport.core.order.dao.OrderPetDao">
+    <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
+    <resultMap id="BaseResultMap" type="com.pet.transport.core.order.po.OrderPet">
+        <id column="ID" property="id" jdbcType="VARCHAR" />
+        <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+        <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+        <result column="PET_WEIGHT" property="petWeight" jdbcType="VARCHAR" />
+        <result column="PET_KIND" property="petKind" jdbcType="VARCHAR" />
+        <result column="SINGLE_TICKET_PRICE" property="singleTicketPrice" jdbcType="VARCHAR" />
+        <result column="PET_BOX_TYPE_ID" property="petBoxTypeId" jdbcType="VARCHAR" />
+        <result column="PET_BOX_TYPE_NAME" property="petBoxTypeName" jdbcType="VARCHAR" />
+        <result column="SINGLE_BOX_PRICE" property="singleBoxPrice" jdbcType="VARCHAR" />
+        <result column="SINGLE_DECLARE_PRICE" property="singleDeclarePrice" jdbcType="VARCHAR" />
+
+    </resultMap>
+    <insert id="saveBatchOrderPet" parameterType="java.util.List">
+        insert all  into CORE_ORDER_PET (ID, ORDER_ID, ORDER_NO,PET_WEIGHT,PET_KIND,SINGLE_TICKET_PRICE,PET_BOX_TYPE_ID,PET_BOX_TYPE_NAME,SINGLE_BOX_PRICE,SINGLE_DECLARE_PRICE)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.orderId},#{item.orderNo},#{item.petWeight}, #{item.petKind},
+            #{item.singleTicketPrice},#{item.petBoxTypeId},#{item.petBoxTypeName},
+            #{item.singleBoxPrice},#{item.singleDeclarePrice})
+        </foreach>
+    </insert>
+    <insert id="addOrderPet" parameterType="Map">
+        INSERT INTO CORE_ORDER_PET (ID, ORDER_ID, ORDER_NO,PET_WEIGHT,PET_KIND,SINGLE_TICKET_PRICE,PET_BOX_TYPE_ID,PET_BOX_TYPE_NAME,SINGLE_BOX_PRICE,SINGLE_DECLARE_PRICE)
+        VALUES (#{id}, #{orderId},#{orderNo},#{petWeight}, #{petKind},#{singleTicketPrice},#{petBoxTypeId},#{petBoxTypeName},#{singleBoxPrice},#{singleDeclarePrice});
+    </insert> <!---->
+    <!-- 查询单条记录-->
+    <select id="selectOrderPetByOrderId" parameterType="string" resultMap="BaseResultMap">
+        SELECT * FROM CORE_ORDER_PET WHERE ORDER_ID = #{orderId}
+    </select>
+    <delete id="deletePetsByOrderId" parameterType="Map">
+        delete CORE_ORDER_PET WHERE ORDER_ID = #{orderId}
+    </delete>
+</mapper>

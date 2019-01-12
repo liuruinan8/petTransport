@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单查看</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="/pet/static/pet/transport/common/mescroll/mescroll.min.css" rel="stylesheet">
+    <link href="/pet/static/pet/transport/core/order/css/myOrder.css" rel="stylesheet">
+    <link href="/pet/static/pet/transport/common/weui/css/weui.min.css" rel="stylesheet">
+    <link href="/pet/static/pet/transport/common/weui/css/weui-extend.css" rel="stylesheet">
+    <script type="text/javascript" src="/pet/static/pet/transport/common/weui/js/zepto.min.js" ></script>
+</head>
+<body>
+<div class="weui_tab" style="height:44px;" id="orderTab"><!--tab-fixed添加顶部-->
+</div>
+<div class="container">
+    <div id="noPay">
+        <div id="mescrollWrapper" class="mescroll">
+            <ul id="orderList" class="data-list">
+                <li v-for="order in orderLst">
+                    <img src="/pet/images/pet/transport/core/order/order.png" class="pd-img">
+                    <p class="pd-name"> 订单号：<span style="color: #000;" v-text="order.orderNo" ></span></p>
+                    <p class="pd-price">{{order.totalPrice}} 元</p>
+                    <p class="pd-sold" v-if="order.orderStatus=='sumbit'">待支付   <button @click="pay4Order(order.id)">支付</button></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/pet/static/pet/transport/common/weui/js/weui.min.js"></script>
+<script type="text/javascript" src="/pet/static/pet/transport/common/vue/vue.min.js"></script>
+<script type="text/javascript" src="/pet/static/pet/transport/common/mescroll/mescroll.min.js"></script>
+
+<script>
+    $(function () {
+        $('#orderTab').tab({defaultIndex:0,activeClass:"tab-green",});
+        $("#noPayTab").on('click',function () {
+            $('#noPay').removeClass("hide");
+            $('#pay').removeClass("show");
+            $('#all').removeClass("show");
+
+            $('#noPay').addClass("show");
+            $('#pay').addClass("hide");
+            $('#all').addClass("hide");
+
+
+        });
+
+        var noPayModel =new Vue({
+            el: '#orderList',
+            data: {
+                mescroll: null,
+                orderLst: []
+            },
+            mounted: function() {
+                //创建MeScroll对象,down可以不用配置,因为内部已默认开启下拉刷新,重置列表数据为第一页
+                //解析: 下拉回调默认调用mescroll.resetUpScroll(); 而resetUpScroll会将page.num=1,再执行up.callback,从而实现刷新列表数据为第一页;
+                var self = this;
+                self.mescroll = new MeScroll("mescrollWrapper", { //请至少在vue的mounted生命周期初始化mescroll,以确保您配置的id能够被找到
+                    up: {
+                        callback: self.upCallback, //上拉回调
+                        //以下参数可删除,不配置
+                        isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+                        //page:{size:8}, //可配置每页8条数据,默认10
+                        toTop:{ //配置回到顶部按钮
+                            src : "/pet/images/mescroll/mescroll-totop.png", //默认滚动到1000px显示,可配置offset修改
+                            //html: null, //html标签内容,默认null; 如果同时设置了src,则优先取src
+                            //offset : 1000
+                        },
+                        empty:{ //配置列表无任何数据的提示
+                            warpId:"orderList",
+                            icon : "/pet/images/mescroll/mescroll-empty.png" ,
+                         tip : "亲,暂无相关数据哦~" ,
+                         btntext : "给萌宠定个机票 >" ,
+                         btnClick : function() {
+                             //console.log("点击了去逛逛按钮");
+                             location.href="/pet/index";
+                         }
+                        },
+                        //vue的案例请勿配置clearId和clearEmptyId,否则列表的数据模板会被清空
+                        //vue的案例请勿配置clearId和clearEmptyId,否则列表的数据模板会被清空
+//                      clearId: "dataList",
+//                      clearEmptyId: "dataList"
+                    }
+                });
+
+            },
+            methods: {
+                //上拉回调 page = {num:1, size:10}; num:当前页 ,默认从1开始; size:每页数据条数,默认10
+                upCallback: function(page) {
+                    //联网加载数据
+                    var self = this;
+                    getListDataFromNet(page.num, page.size, 'noPay',function(curPageData) {
+                        //如果是第一页需手动制空列表 (代替clearId和clearEmptyId的配置)
+                        if(page.num == 1) {
+                            self.orderLst = [];
+                        }
+                        //curPageData=[]; //打开本行注释,可演示列表无任何数据empty的配置
+
+                        //更新列表数据
+                        self.orderLst = self.orderLst.concat(curPageData);
+                        //console.log("page.num="+page.num+", page.size="+page.size+", curPageData.length="+curPageData.length+", self.orderLst.length==" + self.orderLst.length);
+
+                        if(curPageData.length>0){
+                            page.num += curPageData.length-1;
+                        }
+                        //比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断
+                        var hasNext = false;
+                        if(curPageData.length>=page.size){
+                            hasNext = true;
+                        }
+                        //联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+                        //mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+
+                        //方法一(推荐): 后台接口有返回列表的总页数 totalPage
+                        //self.mescroll.endByPage(curPageData.length, totalPage); //必传参数(当前页的数据个数, 总页数)
+
+                        //方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+                        //self.mescroll.endBySize(curPageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量)
+
+                        //方法三(推荐): 您有其他方式知道是否有下一页 hasNext
+                        self.mescroll.endSuccess(curPageData.length, hasNext); //必传参数(当前页的数据个数, 是否有下一页true/false)
+
+                        //方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据,如果传了hasNext,则翻到第二页即可显示无更多数据.
+                        //self.mescroll.endSuccess(curPageData.length);
+
+                    }, function() {
+                        //联网失败的回调,隐藏下拉刷新和上拉加载的状态;
+                        self.mescroll.endErr();
+                    });
+                },
+                pay4Order:function(id){
+                    var param = {};
+                    param.orderId=id;
+                    $.ajax({
+                        type : "POST",
+                        contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+                        url : "/pet/ticket/order/pay4OrderByWx",
+                        data : param,
+                        success : function(data) {
+                            // var retData = JSON.parse(data);
+                            /*if(retData.status =="success"){
+                                $('#hkxsysm,#sumbitFail').fadeOut();
+                                $('#sumbitSuccess').fadeIn();
+                            }else{
+                                $('#hkxsysm,#sumbitSuccess').fadeOut();
+                                $('#sumbitFail').fadeIn();
+                            }*/
+                            console.log(data);
+                            var retData = JSON.parse(data);
+                            var payData = JSON.parse(retData.data);
+                            /**
+                             * {
+                                    "appId":"wx2421b1c4370ec43b",     //公众号名称，由商户传入
+                                    "timeStamp":"1395712654",         //时间戳，自1970年以来的秒数
+                                    "nonceStr":"e61463f8efa94090b1f366cccfbbb444", //随机串
+                                    "package":"prepay_id=u802345jgfjsdfgsdg888",
+                                    "signType":"MD5",         //微信签名方式：
+                                    "paySign":"70EA570631E4BB79628FBCA90534C63FF7FADD89" //微信签名
+                                }=
+                             */
+                            var bridgeParam ={};
+                            bridgeParam.appId=payData.appId;
+                            bridgeParam.timeStamp=payData.timeStamp;
+                            bridgeParam.nonceStr=payData.nonceStr;
+                            bridgeParam.package=payData.package;
+                            bridgeParam.signType="MD5";
+                            bridgeParam.paySign=payData.sign;
+                            onBridgeReady(bridgeParam);
+                        },
+                        error : function(){
+                            showErrorTips("出现网络错误");
+                        }
+
+                    });
+                }
+            },
+        });
+    });
+
+    /*联网加载列表数据
+         实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+         * */
+    function getListDataFromNet(pageNum,pageSize,status,successCallback,errorCallback) {
+        $.ajax({
+            type: 'GET',
+            url: '/pet/ticket/order/orderLst/'+status,
+            // data to be added to query string:
+            data: {
+                start: pageNum-1, //页码
+                limit: pageSize //每页长度
+                 },
+            // type of data we are expecting in return:
+            dataType: 'json',
+            timeout: 300,
+            context: $('body'),
+            success: function(data){
+                //console.log(data);
+                //self.orderLst=data;
+                successCallback&&successCallback(data);//成功回调
+                // Supposing this JSON payload was received:
+                //   {"project": {"id": 42, "html": "<div>..." }}
+                // append the HTML to context object.
+                //this.append(data.project.html)
+            },
+            error: function(xhr, type){
+                console.log('Ajax error!');
+                errorCallback();
+            }
+        })
+    }
+
+</script>
+
+</body>
+</html>

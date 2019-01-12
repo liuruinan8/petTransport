@@ -9,6 +9,7 @@ import com.pet.transport.uc.user.util.UserUtil;
 import com.pet.transport.uc.wechat.core.pay.WXPayUtil;
 import com.pet.transport.uc.wechat.core.pay.po.BaseResult;
 import com.pet.transport.uc.wechat.core.util.WeChatUtil;
+import net.sf.json.JSONArray;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,17 @@ public class OrderAction {
         return new ModelAndView("myOrder");
     }
 
+    @RequestMapping("/supplyPerson")
+    @ResponseBody
+    public ModelAndView supplyPerson(HttpServletRequest  request){
+        ModelAndView mv = new ModelAndView("orderPerson");
+        String orderId = (String) request.getParameter("orderId");
+        //TODO 判断状态是否正确 userID是否和当前用户一致
+        Order  order = orderService.selectOrderById(orderId);
+        mv.addObject("order", order);
+        return mv;
+    }
+
     private Map organizeRequest(HttpServletRequest  request){
         String startPlaceCode = (String) request.getParameter("startPlaceCode");
         String startPlaceName = (String) request.getParameter("startPlaceName");
@@ -54,8 +66,13 @@ public class OrderAction {
         String destinationPlaceName = (String) request.getParameter("destinationPlaceName");
 
         String transDate = (String)request.getParameter("transDate");
+
+        String petstr = request.getParameter("pets");
+        JSONArray pets = JSONArray.fromObject(petstr);
+        List<Map> petLst=(List)JSONArray.toCollection(pets,Map.class);
         String petKind = (String)request.getParameter("petKind");
         String petWeight = (String)request.getParameter("petWeight");
+
         String selHkx = (String) request.getParameter("selHkx");
         String selSmjc = (String) request.getParameter("selSmjc");
 
@@ -64,13 +81,43 @@ public class OrderAction {
         String placeAreaName = (String)request.getParameter("placeAreaName");
         String placeDetail = (String)request.getParameter("placeDetail");
         //保价 从前台传递
-        String insuredPrice = (String)request.getParameter("insuredPrice");
+        String selBjfw=(String) request.getParameter("selBjfw");
+        String insuredPrice = "0";// (String)request.getParameter("insuredPrice");
+        if(selBjfw!=null && (selBjfw.equals("true")||selBjfw.equals("on"))){
+            //默认保价为200元
+            insuredPrice = "200";
+        }
+        //获取当前登录人 判空 如果为空 从shrio中获取
+        String userId = (String)request.getParameter("userId");
+        String userMobile = (String)request.getParameter("userMobile");
+        String userType = (String)request.getParameter("userType");
+        if(userId == null || "".equals(userId)){
+            Map userMap =UserUtil.getInstance().getLoginUserMap();
+            if(userMap!=null && !userMap.isEmpty()){
+                if(userMap.containsKey("userId")){
+                    userId = (String) userMap.get("userId");
+                }
+                if(userMobile==null ||"".equals(userMobile)){
+                    if(userMap.containsKey("userMobile")){
+                        userMobile = (String) userMap.get("userMobile");
+                    }
+                }
+                if(userType==null ||"".equals(userType)){
+                    if(userMap.containsKey("userType")){
+                        userType = (String) userMap.get("userType");
+                    }
+                }
+            }
+        }
 
 
 
 
         //不使用前台传过来的信息 重新计算价格信息 防止攻击
         Map costParam = new HashMap();
+
+        costParam.put("userType",userType);
+        costParam.put("petLst",petLst);
         costParam.put("selHkx",selHkx);
         costParam.put("selSmjc",selSmjc);
         costParam.put("transDate",transDate);
@@ -96,25 +143,13 @@ public class OrderAction {
         String totalPrice =(String) map.get("totalPrice");// (String)request.getParameter("totalPrice");
 
 
-        //获取当前登录人 判空 如果为空 从shrio中获取
-        String userId = (String)request.getParameter("userId");
-        String userMobile = (String)request.getParameter("userMobile");
-        if(userId == null || "".equals(userId)){
-            Map userMap =UserUtil.getInstance().getLoginUserMap();
-            if(userMap!=null && !userMap.isEmpty()){
-                if(userMap.containsKey("userId")){
-                    userId = (String) userMap.get("userId");
-                }
-                if(userMap.containsKey("userMobile")){
-                    userMobile = (String) userMap.get("userMobile");
-                }
-            }
-        }
+
 
 
 
 
         Map param = new HashMap();
+        param.put("petLst",petLst);
         param.put("startPlaceCode",startPlaceCode);
         param.put("startPlaceName",startPlaceName);
         param.put("destinationPlaceCode",destinationPlaceCode);
@@ -132,6 +167,7 @@ public class OrderAction {
         param.put("placePrice",placePrice);
         param.put("userId",userId);
         param.put("userMobile",userMobile);
+        param.put("userType",userType);
         param.put("insuredPrice",insuredPrice);
         param.put("totalPrice",totalPrice);
 

@@ -2,7 +2,9 @@ package com.pet.transport.core.ticket.destinationPlace.service.impl;
 
 import com.pet.transport.common.util.DataConvertUtil;
 import com.pet.transport.core.ticket.destinationPlace.dao.IDestinationPlaceDao;
+import com.pet.transport.core.ticket.destinationPlace.dao.IDestinationPlacePriceDao;
 import com.pet.transport.core.ticket.destinationPlace.po.DestinationPlace;
+import com.pet.transport.core.ticket.destinationPlace.po.DestinationPlacePrice;
 import com.pet.transport.core.ticket.destinationPlace.service.IDestinationPlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import java.util.Map;
 public class DestinationPlaceServiceImpl implements IDestinationPlaceService {
     @Autowired
     private IDestinationPlaceDao destinationPlaceDao;
+    @Autowired
+    private IDestinationPlacePriceDao destinationPlacePriceDao;
 
     public void updateDestinationPlace(Map paramMap) {
         destinationPlaceDao.updateDestinationPlace(paramMap);
@@ -51,6 +55,11 @@ public class DestinationPlaceServiceImpl implements IDestinationPlaceService {
     public DestinationPlace selectDestinationPlaceByStartPlaceAndDistPlace(Map paramMap) {
        return destinationPlaceDao.selectDestinationPlaceByStartPlaceAndDistPlace(paramMap);
     }
+
+    public DestinationPlacePrice selectPriceByStartPlaceAndDistPlaceAndUseType(Map paramMap) {
+        return destinationPlacePriceDao.selectPriceByStartPlaceAndDistPlaceAndUseType(paramMap);
+    }
+
     public void addDestinationPlace(Map paramMap) {
         destinationPlaceDao.addDestinationPlace(paramMap);
     }

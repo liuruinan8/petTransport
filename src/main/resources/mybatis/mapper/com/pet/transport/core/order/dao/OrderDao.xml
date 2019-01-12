@@ -10,18 +10,16 @@
         <result column="DESTINATION_PLACE_CODE" property="destinationPlaceCode" jdbcType="VARCHAR" />
         <result column="DESTINATION_PLACE_NAME" property="destinationPlaceName" jdbcType="VARCHAR" />
         <result column="TRANS_DATE" property="transDate" jdbcType="VARCHAR" />
-        <result column="PET_WEIGHT" property="petWeight" jdbcType="VARCHAR" />
-        <result column="PET_KIND" property="petKind" jdbcType="VARCHAR" />
         <result column="TICKET_PRICE" property="ticketPrice" jdbcType="VARCHAR" />
-        <result column="PET_BOX_TYPE_ID" property="petBoxTypeId" jdbcType="VARCHAR" />
-        <result column="PET_BOX_TYPE_NAME" property="petBoxTypeName" jdbcType="VARCHAR" />
         <result column="PET_BOX_PRICE" property="petBoxPrice" jdbcType="VARCHAR" />
         <result column="PLACE_AREA_CODE" property="placeAreaCode" jdbcType="VARCHAR" />
         <result column="PLACE_AREA_NAME" property="placeAreaName" jdbcType="VARCHAR" />
         <result column="PLACE_DETAIL" property="placeDetail" jdbcType="VARCHAR" />
+        <result column="PLACE_DETAIL_LAT" property="placeDetailLat" jdbcType="VARCHAR" />
+        <result column="PLACE_DETAIL_LNG" property="placeDetailLng" jdbcType="VARCHAR" />
         <result column="PLACE_PRICE" property="placePrice" jdbcType="VARCHAR" />
         <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
-        <result column="USER_MOBILE" property="userMobile" jdbcType="VARCHAR" />
+        <result column="DECLARE_PRICE" property="declarePrice" jdbcType="VARCHAR" />
         <result column="INSURED_PRICE" property="insuredPrice" jdbcType="VARCHAR" />
         <result column="TOTAL_PRICE" property="totalPrice" jdbcType="VARCHAR" />
         <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
@@ -30,12 +28,13 @@
         <result column="PAY_ACCOUNT" property="payAccount" jdbcType="VARCHAR" />
     </resultMap>
     <insert id="addOrder" parameterType="Map">
-        INSERT INTO CORE_ORDER (ID, ORDER_NO, START_PLACE_CODE,START_PLACE_NAME,DESTINATION_PLACE_CODE,DESTINATION_PLACE_NAME,
-        TRANS_DATE,PET_WEIGHT,PET_KIND,TICKET_PRICE,PET_BOX_TYPE_ID,PET_BOX_TYPE_NAME,PET_BOX_PRICE,PLACE_AREA_CODE,PLACE_AREA_NAME,
-        PLACE_DETAIL,PLACE_PRICE,USER_ID,USER_MOBILE,INSURED_PRICE,TOTAL_PRICE,ORDER_STATUS,PAY_STATUS,PAY_SERIAL_NO,PAY_ACCOUNT)
-        VALUES (#{id}, #{orderNo},#{startPlaceCode},#{startPlaceName},#{destinationPlaceCode},#{destinationPlaceName},#{transDate},
-        #{petWeight}, #{petKind},#{ticketPrice},#{petBoxTypeId},#{petBoxTypeName},#{petBoxPrice},#{placeAreaCode},#{placeAreaName},
-        #{placeDetail},#{placePrice},#{userId},#{userMobile},#{insuredPrice},#{totalPrice},#{orderStatus}
+        INSERT INTO CORE_ORDER (ID, ORDER_NO, START_PLACE_CODE,START_PLACE_NAME,DESTINATION_PLACE_CODE,
+        DESTINATION_PLACE_NAME,TRANS_DATE,TICKET_PRICE,PET_BOX_PRICE,PLACE_AREA_CODE,PLACE_AREA_NAME,
+        PLACE_DETAIL,PLACE_PRICE,USER_ID,DECLARE_PRICE,INSURED_PRICE,TOTAL_PRICE,ORDER_STATUS,
+        PAY_STATUS,PAY_SERIAL_NO,PAY_ACCOUNT)
+        VALUES (#{id}, #{orderNo},#{startPlaceCode},#{startPlaceName},#{destinationPlaceCode},
+        #{destinationPlaceName},#{transDate},#{ticketPrice},#{petBoxPrice},#{placeAreaCode},#{placeAreaName},
+        #{placeDetail},#{placePrice},#{userId},#{declarePrice},#{insuredPrice},#{totalPrice},#{orderStatus}
         ,#{payStatus},#{paySerialNo},#{payAccount});
     </insert> <!---->
     <!-- 查询单条记录-->
@@ -61,8 +60,17 @@
         SELECT * FROM CORE_ORDER WHERE ORDER_NO = #{orderNo}
     </select>
     <update id="updateOrderStatus" parameterType="Map">
-        UPDATE CORE_ORDER SET ORDER_STATUS=#{orderStatus},PAY_STATUS=#{payStatus}
+        UPDATE CORE_ORDER SET ORDER_STATUS=#{orderStatus}
+        <if test="payStatus !=''">
+        ,PAY_STATUS=#{payStatus}
+        </if>
         WHERE ID=#{id}
     </update>
-
+   <!-- <update id="updateOrderPrice" parameterType="Map">
+        UPDATE CORE_ORDER SET ORDER_STATUS=#{orderStatus}
+        <if test="payStatus !=''">
+            ,PAY_STATUS=#{payStatus}
+        </if>
+        WHERE ID=#{id}
+    </update>-->
 </mapper>

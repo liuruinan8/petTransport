@@ -15,53 +15,67 @@ $('#slide1').swipeSlide({
 
 
 function subMitOrder(){
-    var param = {};
-    //组装前端参数
     var startPlaceCode = $("#startPlaceCode").val();
     if(startPlaceCode==undefined || startPlaceCode==""){
         showErrorTips("请选择出发地");
         return;
     }
-    var startPlaceName = $("#startPlaceName").val();
-
     var destinationPlaceCode = $("#destinationPlaceCode").val();
     if(destinationPlaceCode==undefined || destinationPlaceCode==""){
         showErrorTips("请选择目的地");
         return;
     }
-    var destinationPlaceName = $("#destinationPlaceName").val();
-
     var selectDate = $("#selectDate").val();
     if(selectDate==undefined || selectDate==""){
         showErrorTips("请选择航班时间");
         return;
     }
-
-    var petKind = $("#petKind").val();
-    if(petKind==undefined || petKind==""){
-        showErrorTips("请填写宠物品种");
+    var pets=[];
+    $("#petAddDiv .pet-container").each(function(){
+        var pet={};
+        var petName =$("#petName",this).val();
+        pet.petName=petName;
+        var petKind =$("#petKind",this).val();
+        pet.petKind=petKind;
+        var petWeight =$("#petWeight",this).val();
+        pet.petWeight=petWeight;
+        var petHeight =$("#petHeight",this).val();
+        pet.petHeight=petHeight;
+        var selDWJYHGInput =$("#selDWJYHGInput",this).val();
+        pet.selDWJYHG=selDWJYHGInput;
+        var selHkxInput =$("#selHkxInput",this).val();
+        pet.selHkx=selHkxInput;
+        pets.push(pet);
+    });
+    if(pets.length==0){
+        showErrorTips("请添加宠物信息");
         return;
     }
+    /* var petKind = $("#petKind").val();
+     if(petKind==undefined || petKind==""){
+         showErrorTips("请填写宠物品种");
+         return;
+     }
 
-    var petWeight = $("#petWeight").val();
-    if(petWeight==undefined || petWeight==""){
-        showErrorTips("请填写宠物重量");
-        return;
-    }
-
-    var selHkx = $("#selHkx").val();
-    if(selHkx==undefined || selHkx==""){
-        //showErrorTips("请选择"); 使用提示的方式进行提示没有选择航空箱
-    }
-
-    if($("#selDWJYHG").is(":checked") ==false){
+     var petWeight = $("#petWeight").val();
+     if(petWeight==undefined || petWeight==""){
+         showErrorTips("请填写宠物重量");
+         return;
+     }
+     var userMobile = $("#userMobile").val();
+     if(userMobile==undefined || userMobile==""){
+         showErrorTips("请填写联系人手机号码");
+         return;
+     }*/
+    /*if($("#selDWJYHG").is(":checked") ==false){
         showErrorTips("请确认已经开具出发当日有效的《动物检疫许可证》！"); //
         return;
-    }
+    }*/
+    /*var selHkx = $("#selHkx").val();
+    if(selHkx==undefined || selHkx==""){
+        //showErrorTips("请选择"); 使用提示的方式进行提示没有选择航空箱
+    }*/
     var detailId = $("#detailId").val();
-    var receiptPlace = $("#receiptPlace").val();
-
-    var detailName="";
     if($("#selSmjc").is(":checked") ==true){
         //选择了上门取宠 才进行校验
         if(detailId==undefined || detailId==""){
@@ -69,7 +83,6 @@ function subMitOrder(){
             return;
         }
 
-        detailName=$("#detailId").find("option:selected").text();
         if(receiptPlace==undefined || receiptPlace==""){
             showErrorTips("请填写接宠详细地址");
             return;
@@ -77,24 +90,19 @@ function subMitOrder(){
 
     }
 
-
-    //showErrorTips("请选择"); 使用提示的方式进行提示没有选择航空箱
-    param.placeAreaCode=detailId;
-    param.placeAreaName=detailName;//"历下区";
-    param.placeDetail=receiptPlace;
-
+    var param = {};
+    var petstr = JSON.stringify(pets);
+    param.pets=petstr;
+    //param.userMobile=userMobile;
     param.startPlaceCode=startPlaceCode;
-    param.startPlaceName=startPlaceName;
     param.destinationPlaceCode=destinationPlaceCode;
-    param.destinationPlaceName=destinationPlaceName;
-    param.insuredPrice="0";
-
+    param.placeAreaCode=detailId;
     param.transDate=selectDate;
-    param.petKind=petKind;
-    param.petWeight=petWeight;
-    param.selHkx=$("#selHkx").is(":checked");
+    //param.petKind=petKind;
+    //param.petWeight=petWeight;
+    //param.selHkx=$("#selHkx").is(":checked");
     param.selSmjc=$("#selSmjc").is(":checked");
-
+    param.selBjfw=$("#selBjfw").is(":checked");
     $.ajax({
         type : "POST",
         contentType: "application/x-www-form-urlencoded;charset=UTF-8",
@@ -102,14 +110,16 @@ function subMitOrder(){
         data : param,
         success : function(data) {
             var retData = JSON.parse(data);
-            if(retData.status =="success"){
+            /*if(retData.status =="success"){
                 $('#hkxsysm,#sumbitFail').fadeOut();
                 $('#sumbitSuccess').fadeIn();
                 $('#orderId').val(retData.orderId);
             }else{
                 $('#hkxsysm,#sumbitSuccess').fadeOut();
                 $('#sumbitFail').fadeIn();
-            }
+            }*/
+            //跳转到另外一个页面
+            location.href="/pet/ticket/order/supplyPerson?orderId"+retData.orderId;
             // console.log(data);
         },
         error : function(){
@@ -140,3 +150,72 @@ function onBridgeReady(data){
             }
         });
 }
+
+
+/**
+ * 监听增加宠物点击方法
+ */
+// language=JQuery-CSS
+$('#addPet').on('click', function () {
+    var petKindTemplate = $('#petKindTemplate').val('');
+    var petNameTemplate = $('#petNameTemplate').val('');
+    var petHeightTemplate = $('#petHeightTemplate').val('');
+    var petWeightTemplate = $('#petWeightTemplate').val('');
+    //弹出窗口
+    $('#petInfo').fadeIn();
+});
+
+
+
+
+$('#petAddConfirm').on('click', function () {
+    var petKindTemplate = $('#petKindTemplate').val();
+    if(petKindTemplate==undefined || petKindTemplate==""){
+        showErrorTips("请填写宠物品种");
+        return;
+    }
+    var petNameTemplate = $('#petNameTemplate').val();
+    if(petNameTemplate==undefined || petNameTemplate==""){
+        showErrorTips("请填写宠物名字");
+        return;
+    }
+    var petHeightTemplate = $('#petHeightTemplate').val();
+    if(petHeightTemplate==undefined || petHeightTemplate==""){
+        showErrorTips("请填写宠物身高");
+        return;
+    }
+    var petWeightTemplate = $('#petWeightTemplate').val();
+    if(petWeightTemplate==undefined || petWeightTemplate==""){
+        showErrorTips("请填写宠物重量");
+        return;
+    }
+    if($("#selDWJYHG").is(":checked") ==false){
+        //showErrorTips("请确认已经开具出发当日有效的《动物检疫许可证》！"); //
+       // return;
+    }
+    if(selHkx==undefined || selHkx==""){
+        //showErrorTips("请选择"); 使用提示的方式进行提示没有选择航空箱
+    }
+    var selDWJYHG=$("#selDWJYHG").is(":checked");
+    var selHkx =$("#selHkx").is(":checked");
+    /*var userMobile = $("#userMobile").val();
+    if(userMobile==undefined || userMobile==""){
+        showErrorTips("请填写联系人手机号码");
+        return;
+    }*/
+    var tpl = document.getElementById('petTpl').innerHTML;
+    var html =template(tpl, {
+        pet: {petKind: petKindTemplate,
+            petName: petNameTemplate
+            ,petHeight: petHeightTemplate
+            ,petWeight: petWeightTemplate
+            ,selHkx: selHkx
+            ,selDWJYHG: selDWJYHG
+        }});
+    //console.log(html);
+    $('#petAddDiv').append(html);
+    $('#petInfo').fadeOut(200);
+});
+$('#petAddCancel').on('click', function () {
+    $('#petInfo').fadeOut(200);
+});

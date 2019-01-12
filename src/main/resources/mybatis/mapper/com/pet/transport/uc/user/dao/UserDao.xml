@@ -23,6 +23,7 @@
         <result column="HEAD_IMG_URL" property="headImgUrl" jdbcType="VARCHAR" />
         <result column="IS_CERTIFIED" property="isCertified" jdbcType="VARCHAR" />
         <result column="OPEN_ID" property="openId" jdbcType="VARCHAR" />
+        <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
     </resultMap>
     <!-- 查询单条记录-->
     <select id="selectUserById" parameterType="string" resultMap="BaseResultMap">
@@ -35,9 +36,9 @@
     <!-- -->
     <insert id="addUser" parameterType="Map">
         INSERT INTO t_user (USER_ID, USER_NAME, USER_PASSWORD,USER_MOBILE,APP_ID,ACCESS_TOKEN,EXPIRES_IN,CREATE_TIME,REFRESH_TOKEN,SUBSCRIBE,SUBSCRIBE_TIME,NICK_NAME,
-        SEX,COUNTRY,PROVINCE,CITY,LANGUAGE,HEAD_IMG_URL,IS_CERTIFIED,OPEN_ID)
+        SEX,COUNTRY,PROVINCE,CITY,LANGUAGE,HEAD_IMG_URL,IS_CERTIFIED,OPEN_ID,USER_TYPE)
         VALUES (#{userId}, #{userName}, #{userPassword}, #{userMobile}, #{appId}, #{accessToken}, #{expiresIn}, #{createTime}, #{refreshToken}, #{subscribe}, #{subscribeTime}, #{nickname}
-        , #{sex}, #{country}, #{province}, #{city}, #{language}, #{headImgUrl}, #{isCertified}, #{openId});
+        , #{sex}, #{country}, #{province}, #{city}, #{language}, #{headImgUrl}, #{isCertified}, #{openId}, #{userType});
     </insert>
 
     <update id="updateUser" parameterType="Map">

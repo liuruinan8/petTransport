@@ -45,6 +45,8 @@ public class UserUtil {
                     map.put("userName",userName);
                     String userMobile = user.getUserMobile();
                     map.put("userMobile",userMobile);
+                    String userType = user.getUserType();
+                    map.put("userType",userType);
                 }
             }
             map.put("userId",userId);

@@ -1,0 +1,181 @@
+﻿<html data-dpr="1" style="font-size: 54px;">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>飞狗宠物旅行</title>
+    <link href="static/pet/transport/common/vendor/css/vendor.css" rel="stylesheet">
+    <link href="static/pet/transport/core/order/css/order.css" rel="stylesheet">
+    <!--<link href="static/pet/transport/core/order/css/order-old.css" rel="stylesheet">-->
+    <link href="static/pet/transport/common/weui/css/weui.min.css" rel="stylesheet">
+    <link href="static/pet/transport/common/weui/css/weui-extend.css" rel="stylesheet">
+    <script type="text/javascript" src="static/pet/transport/common/weui/js/zepto.min.js" ></script>
+</head>
+<body style="font-size: 12px;">
+<div id="app">
+    <div class="weui-toptips weui-toptips_warn js_tooltips">信息提示</div>
+    <div class="wrapper">
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">出发地</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input id="startPlaceCode" class="weui-input" type="hidden">
+                        <input id="startPlaceName" class="weui-input" type="text" placeholder="请选择出发地" readonly="readonly">
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">目的地</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input id="destinationPlaceCode" class="weui-input" type="hidden">
+                        <input id="destinationPlaceName" class="weui-input" type="text" placeholder="请选择目的地" readonly="readonly">
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell weui-cell_select" style="width: 100%">
+                        <div class="weui-cell__bd" style="width: 100%">
+                            <a href="javascript:;" class="weui-btn weui-btn_default" id="showDatePicker">请选择航班日期</a>
+                            <input type="hidden" id="selectDate"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-cells weui-cells_orderForm">
+                <!--<div class="weui-cell weui-cell_orderForm">
+                    <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary"><i class="icon icon-22"></i>增加</a>
+                </div>-->
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd"   style="width: 50%;"  >
+                        <a href="javascript:;" class="weui-btn weui-btn_default" id="showPetKindPicker">请输入宝宠品种</a>
+                        <input class="weui-input order-kind" id="petKind" type="hidden"  placeholder="请输入宝宠品种"/>
+                        <!--<select class="weui-select" style="width: 165px;" name="select2">
+                            <option value="0">请选择宝宠品种</option>
+                            <option value="1">汪星人</option>
+                            <option value="2">喵星人</option>
+                            <option value="3">其他品种</option>
+                        </select>-->
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input order-weight" id="peName"  type="text" placeholder="请输入宝宠名字"/>
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__bd">
+                        <input class="weui-input order-kind" id="petHeight" type="number" pattern="[0-9]*"  placeholder="请输入宝宠身高"/>
+                    </div>
+                    <div class="weui-textarea-counter"><span>cm</span></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input order-weight" id="petWeight"  type="number" pattern="[0-9]*" placeholder="请输入宝宠重量"/>
+                    </div>
+                    <div class="weui-textarea-counter"><span>Kg</span></div>
+                </div>
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">联系方式</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input order-kind" id="userMobile" type="number" pattern="[0-9]*"  placeholder="请输入联系人手机号"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weui-cells weui-cells_checkbox">
+                <label class="weui-cell weui-check__label" for="selDWJYHG">
+                    <div class="weui-cell__hd">
+                        <input type="checkbox" class="weui-check" name="checkbox1" id="selDWJYHG">
+                        <i class="weui-icon-checked"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>已开具出发当日有效的《动物检疫合格证明》</p>
+                    </div>
+                </label>
+                <div class="weui-cells__tips"><div id="DWJYHG" style="color:red">如何办理 --->各地开具方式可能略有不同，前往前请电话咨询联系以免浪费时间</div></div>
+            </div>
+            <div class="weui-cells__title weui-cells-Addtitle">增值服务</div>
+            <div class="weui-cells weui-cells_checkbox">
+                <label class="weui-cell weui-check__label" for="selHkx">
+                    <div class="weui-cell__hd">
+                        <input type="checkbox" class="weui-check" name="checkbox1" id="selHkx">
+                        <i class="weui-icon-checked"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>购买航空箱</p>
+                    </div>
+                </label>
+                <div class="weui-cells__tips"><p style="margin-bottom:0;font-size:15px;color:#f09100;">*根据宠物体型、体重，系统已自动匹配<span id="PetAirBox"></span><input type="hidden" name="PetAirBoxID" value="0" id="PetAirBoxID" data-target="#msg_FlightDate"></p></div>
+                <div class="weui-cells__tips"><div id="ckhkxsygz" style="color:red">航空箱适用规则 --->请仔细阅读，以免需要增加相关费用或者影响宝宠运送</div></div>
+                <label class="weui-cell weui-check__label" for="selSmjc">
+                    <div class="weui-cell__hd">
+                        <input type="checkbox" name="checkbox1" class="weui-check" id="selSmjc" >
+                        <i class="weui-icon-checked"></i>
+                    </div>
+
+                    <div class="weui-cell__bd">
+                        <p>上门接宠</p>
+                    </div>
+
+                </label>
+            </div>
+            <div id="jieChongInfo" class="weui-cells hide">
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__bd" style="padding:0 20px;margin-top:10px;">
+                        <select style="width:100%;height:30px;backgroun:#fff;border:1px solid #b7b7b7;color:#4c4c4c;font-size:15px;"
+                                name="detailName" id="detailId"></select>
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <span style="font-size:16px;">详细地址:</span>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input type="text" name="receiptPlace" id="receiptPlace" style="width:100%;height:30px;backgroun:#fff;border:1px solid #b7b7b7;color:#4c4c4c;font-size:15px;" data-msg=" " data-target="#msg_receiptPlace" class="n-valid">
+                    </div>
+                </div>
+            </div>
+            <div class="weui-cells weui-cells_checkbox">
+                <label class="weui-cell weui-check__label" for="selBjfw">
+                    <div class="weui-cell__hd">
+                        <input type="checkbox" name="checkbox1" class="weui-check" id="selBjfw" >
+                        <i class="weui-icon-checked"></i>
+                    </div>
+
+                    <div class="weui-cell__bd">
+                        <p>保价服务</p>
+                    </div>
+                </label>
+            </div>
+
+
+
+            <div>
+                <input type="hidden" id="orderId">
+                <input type="hidden" id="ticketPrice">
+                <input type="hidden" id="petBoxPrice">
+                <input type="hidden" id="placePrice">
+                <input type="hidden" id="insuredPrice">
+                <input type="hidden" id="totalPrice">
+            </div>
+            <!--<div id="insured_item" class="added-content-item">
+                <div class="added-content-title"><label class="item-title">保价</label> <label
+                        id="value_desc">(<span class="font-style">费率2%</span>)</label>
+                    <button id="value_check_button" class="check_botton"></button> &lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt;</div>
+            </div>-->
+        </div>
+    </div>
+    <div class="footer-div">
+        <div id="customservice" class="content-item"><label>联系对方</label>
+            <button id="customservice_call"></button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="static/pet/transport/common/weui/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="static/pet/transport/common/weui/js/swipe.js"></script>
+<script type="text/javascript" src="static/pet/transport/common/vendor/js/vendor.js"></script>
+<script type="text/javascript" src="static/pet/transport/core/order/js/order_detail.js"></script>
+<script type="text/javascript" src="static/pet/transport/common/weui/js/weui.min.js"></script>
+
+</body>
+</html>

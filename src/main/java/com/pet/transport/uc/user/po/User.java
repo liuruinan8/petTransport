@@ -71,6 +71,10 @@ public class User {
      * openId:一个公众号对应一个
      * */
     private String openId;
+    /**
+     * 用户类型 superadmin admin plain jxs
+     */
+    private String userType;
 
     public String getUserId() {
         return userId;
@@ -230,5 +234,13 @@ public class User {
 
     public void setOpenId(String openId) {
         this.openId = openId;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }

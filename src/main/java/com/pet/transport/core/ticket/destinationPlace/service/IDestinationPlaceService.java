@@ -1,6 +1,7 @@
 package com.pet.transport.core.ticket.destinationPlace.service;
 
 import com.pet.transport.core.ticket.destinationPlace.po.DestinationPlace;
+import com.pet.transport.core.ticket.destinationPlace.po.DestinationPlacePrice;
 
 import java.util.List;
 import java.util.Map;
@@ -15,4 +16,6 @@ public interface IDestinationPlaceService {
     public String selectDestinationPlaceByStartPlaceJson(Map paramMap);
 
     public DestinationPlace selectDestinationPlaceByStartPlaceAndDistPlace(Map param);
+
+    public DestinationPlacePrice selectPriceByStartPlaceAndDistPlaceAndUseType(Map param);
 }

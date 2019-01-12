@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>距离计算</title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+        body, button, input, select, textarea {
+            font: 12px/16px Verdana, Helvetica, Arial, sans-serif;
+        }
+        li {
+            margin-left: 30px;
+        }
+        #container{
+            min-width:600px;
+            min-height:767px;
+        }
+    </style>
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&libraries=place"></script>
+    <script>
+        var map = null;
+        var drivingService = null;
+        var isFirst = 0;
+        var init = function () {
+            var center = new qq.maps.LatLng(39.916527, 116.397128);
+            map = new qq.maps.Map(document.getElementById('container'), {
+                center:center,
+                zoom:10
+            });
+            //自动补全地址
+            var ap = new qq.maps.place.Autocomplete(document.getElementById('start'));
+            var aq = new qq.maps.place.Autocomplete(document.getElementById('end'));
+            //设置驾车路线规划
+            drivingService = new qq.maps.DrivingService({
+                location : "重庆",
+                map : map
+            });
+            getResult();
+        }
+        function getResult() {
+
+            //设置searchRequest
+            var start = document.getElementById("start").value;
+            var end = document.getElementById("end").value;
+
+            drivingService.search(start, end);
+
+            //获取距离
+            drivingService.setComplete(function(result) {
+                if (result.type == qq.maps.ServiceResultType.MULTI_DESTINATION) {
+                    //起终点不唯一
+                    var startLatLng = result.detail.start[0].latLng;
+                    var endLatLng = result.detail.end[0].latLng;
+                    drivingService.search(new qq.maps.LatLng(startLatLng.lat, startLatLng.lng), new qq.maps.LatLng(endLatLng.lat, endLatLng.lng));
+                }else {
+                    infoDiv.innerHTML="两点之间的道路距离为："+result.detail.distance+"米";
+                    infoDiv1.innerHTML="两点之间的行驶时间为："+result.detail.duration+"分";
+                }
+
+            });
+        }
+
+    </script>
+</head>
+<body onload="init()">
+<div>起点 <input type='text' value="" id="start"/>
+    终点 <input type='text' value="" id="end"/>
+    <input type="button" value="计算距离" onclick="getResult()"/>
+
+    <div id="pageIndexLabel" style="width: 100px;"></div>
+</div>
+<div style='width: 500px; height: 30px' id="infoDiv">两点之间的道路距离为：</div>
+<div style='width: 500px; height: 30px' id="infoDiv1">两点之间的行驶时间为：</div>
+<div id="container"></div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.transport.core.order.dao.OrderEvaluateDao">
+    <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
+    <resultMap id="BaseResultMap" type="com.pet.transport.core.order.po.OrderEvaluate">
+        <id column="ID" property="id" jdbcType="VARCHAR" />
+        <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+        <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+        <result column="EVALUATE_STAR" property="evaluateStar" jdbcType="VARCHAR" />
+        <result column="EVALUATE_CONTENT" property="evaluateContent" jdbcType="VARCHAR" />
+        <result column="EVALUATE_TIME" property="evaluateTime" jdbcType="VARCHAR" />
+    </resultMap>
+    <insert id="addOrderEvaluate" parameterType="Map">
+        INSERT INTO CORE_ORDER_EVALUATE (ID, ORDER_ID,ORDER_NO, EVALUATE_STAR,EVALUATE_CONTENT,EVALUATE_TIME)
+        VALUES (#{id}, #{orderId},#{orderNo},#{evaluateStar},#{evaluateContent},#{evaluateTime});
+    </insert> <!---->
+    <!-- 查询单条记录-->
+    <select id="selectOrderEvaluateByOrderId" parameterType="string" resultMap="BaseResultMap">
+        SELECT * FROM CORE_ORDER_EVALUATE WHERE ORDER_ID = #{orderId}
+    </select>
+
+</mapper>

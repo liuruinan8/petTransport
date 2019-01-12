@@ -3,12 +3,12 @@
 <mapper namespace="com.pet.transport.core.ticket.destinationPlace.dao.IDestinationPlaceDao">
     <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
     <resultMap id="BaseResultMap" type="com.pet.transport.core.ticket.destinationPlace.po.DestinationPlace">
+        <id column="ID" property="id" jdbcType="VARCHAR" />
         <id column="DESTINATION_PLACE_CODE" property="destinationPlaceCode" jdbcType="VARCHAR" />
         <id column="START_PLACE_CODE" property="startPlaceCode" jdbcType="VARCHAR" />
         <result column="DESTINATION_PLACE_NAME" property="destinationPlaceName" jdbcType="VARCHAR" />
         <result column="DESTINATION_PLACE_SIMPLE" property="destinationPlaceSimple" jdbcType="VARCHAR" />
         <result column="START_PLACE_NAME" property="startPlaceName" jdbcType="VARCHAR" />
-
         <result column="PRICE" property="price" jdbcType="VARCHAR" />
     </resultMap>
     <!-- 查询单条记录-->
@@ -32,8 +32,8 @@
     </select>
 
     <insert id="addDestinationPlace" parameterType="Map">
-        INSERT INTO ticket_destination_place (DESTINATION_PLACE_CODE, DESTINATION_PLACE_NAME, Destination_PLACE_SIMPLE,START_PLACE_NAME, START_PLACE_CODE, PRICE)
-        VALUES (#{destinationPlaceCode}, #{destinationPlaceName}, #{destinationPlaceSimple},#{startPlaceName}, #{startPlaceCode}, #{price});
+        INSERT INTO ticket_destination_place (ID,DESTINATION_PLACE_CODE, DESTINATION_PLACE_NAME, Destination_PLACE_SIMPLE,START_PLACE_NAME, START_PLACE_CODE, PRICE)
+        VALUES (#{id}, #{destinationPlaceCode}, #{destinationPlaceName}, #{destinationPlaceSimple},#{startPlaceName}, #{startPlaceCode}, #{price});
     </insert> <!---->
     <update id="updateDestinationPlace" parameterType="map">
         update ticket_destination_place set DESTINATION_PLACE_CODE=#{destinationPlaceCode}

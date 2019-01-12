@@ -303,3 +303,31 @@ button, input, select, textarea {
 .weui_icon_warn:before {
     content: "\EA0B";
 }
+
+
+
+.pet-container{
+     margin: 10px 10px 10px 10px;
+     /*width:60px;*/
+     height:60px;
+     border: 1px dotted red;
+     position:relative;
+ }
+
+
+
+.pet-content{
+    position:relative;
+     top:20px;
+}
+
+
+
+.pet-delete{
+    width:20px;
+    height:20px;
+    border-radius:60%;
+    position:absolute;
+    top:-10px;
+    right:-10px;
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>飞狗宠物旅行</title>
+    <link href="static/pet/transport/common/vendor/css/vendor.css" rel="stylesheet">
+    <link href="static/pet/transport/core/order/css/order.css" rel="stylesheet">
+    <!--<link href="static/pet/transport/core/order/css/order-old.css" rel="stylesheet">-->
+    <link href="static/pet/transport/common/weui/css/weui.min.css" rel="stylesheet">
+    <link href="static/pet/transport/common/weui/css/weui-extend.css" rel="stylesheet">
+    <script type="text/javascript" src="static/pet/transport/common/weui/js/zepto.min.js" ></script>
+</head>
+<body style="font-size: 12px;">
+<div id="app">
+    <div class="weui-toptips weui-toptips_warn js_tooltips">信息提示</div>
+
+    <div class="wrapper">
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell weui-cell_orderForm">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">寄件人姓名</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input id="deliverName" class="weui-input" type="text" placeholder="请填写寄件人姓名">
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_orderForm">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">寄件人手机号</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input id="deliverMobile" class="weui-input" type="text" placeholder="请填写寄件人姓名">
+                </div>
+            </div>
+            <!--
+            TODO:验证码相关 待添加
+            -->
+            <div class="weui-cell weui-cell_orderForm">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">收件人姓名</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input id="receiverName" class="weui-input" type="text" placeholder="请填写寄件人姓名">
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_orderForm">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">收件人手机号</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input id="receiverMobile" class="weui-input" type="text" placeholder="请填写寄件人姓名">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var orderId = '${order.orderId}'${};
+</script>
+</html>

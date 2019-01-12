@@ -16,14 +16,18 @@ public class Order {
     //寄送日期
     private String transDate;
     //宠物类型
+    @Deprecated
     private String petKind;
     //宠物体重
+    @Deprecated
     private String petWeight;
-    //价格
+    //宠物机票总价格
     private String ticketPrice;
     //航空箱
+    @Deprecated
     private String petBoxTypeId;
     //航空箱名称
+    @Deprecated
     private String petBoxTypeName;
     //航空箱价格
     private String petBoxPrice;
@@ -33,17 +37,24 @@ public class Order {
     private String placeAreaName;
     //上门地址
     private String placeDetail;
+    //详细地址经度
+    private String placeDetailLat;
+    //详细地址纬度
+    private String placeDetailLng;
     //上门价格
     private String placePrice;
     //用户ID
     private String userId;
     //用户联系方式
+    @Deprecated
     private String userMobile;
+    //声明价值
+    private String declarePrice;
     //保价
     private String insuredPrice;
     //总价
     private String totalPrice;
-    //订单状态
+    //订单状态 save arrival pay trans complate
     private String orderStatus;
     //支付状态
     private String payStatus;
@@ -248,5 +259,29 @@ public class Order {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public String getPlaceDetailLat() {
+        return placeDetailLat;
+    }
+
+    public void setPlaceDetailLat(String placeDetailLat) {
+        this.placeDetailLat = placeDetailLat;
+    }
+
+    public String getPlaceDetailLng() {
+        return placeDetailLng;
+    }
+
+    public void setPlaceDetailLng(String placeDetailLng) {
+        this.placeDetailLng = placeDetailLng;
+    }
+
+    public String getDeclarePrice() {
+        return declarePrice;
+    }
+
+    public void setDeclarePrice(String declarePrice) {
+        this.declarePrice = declarePrice;
     }
 }

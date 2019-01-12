@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.transport.core.order.dao.OrderPersonDao">
+    <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
+    <resultMap id="BaseResultMap" type="com.pet.transport.core.order.po.OrderPerson">
+        <id column="ID" property="id" jdbcType="VARCHAR" />
+        <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+        <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+        <result column="DELIVER_NAME" property="deliverName" jdbcType="VARCHAR" />
+        <result column="DELIVER_MOBILE" property="deliverMobile" jdbcType="VARCHAR" />
+        <result column="RECEIVER_NAME" property="receiverName" jdbcType="VARCHAR" />
+        <result column="RECEIVER_MOBILE" property="receiverMobile" jdbcType="VARCHAR" />
+    </resultMap>
+    <insert id="addOrderPerson" parameterType="Map">
+        INSERT INTO CORE_ORDER_PERSON (ID, ORDER_ID, ORDER_NO,DELIVER_NAME,DELIVER_MOBILE,RECEIVER_NAME,
+        RECEIVER_MOBILE)
+        VALUES (#{id}, #{orderId},#{orderNo},#{deliverName},#{deliverMobile},#{receiverMobile},#{receiverMobile});
+    </insert> <!---->
+
+    <update id="updateOrderTicket" parameterType="Map">
+        update CORE_ORDER_PERSON set
+        <if test="deliverName !=null">
+            DELIVER_NAME=#{deliverName},
+        </if>
+        <if test="deliverMobile !=null">
+            DELIVER_MOBILE=#{deliverMobile},
+        </if>
+        <if test="receiverName !=null">
+            RECEIVER_NAME=#{receiverName},
+        </if>
+        <if test="receiverMobile !=null">
+            RECEIVER_MOBILE=#{receiverMobile},
+        </if>
+        1=1
+        where  ID = #{Id}
+    </update>
+    <!-- 查询单条记录-->
+    <select id="selectOrderPersonByOrderId" parameterType="string" resultMap="BaseResultMap">
+        SELECT * FROM CORE_ORDER_PERSON WHERE ORDER_ID = #{id}
+    </select>
+</mapper>

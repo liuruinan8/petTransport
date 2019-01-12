@@ -179,7 +179,7 @@ public class CoreServlet extends HttpServlet {
                 String eventType = (String) requestMap.get("Event");
                 // 关注
                 if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
-                    respContent = "谢谢您的关注！";
+                    respContent = "谢谢您的关注！点击下单就能给宠物购买机票开始旅行了。";
                 }
                 // 取消关注
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {
@@ -199,14 +199,16 @@ public class CoreServlet extends HttpServlet {
                     }else{
                         //获取scansrt
                         //在二维码表中查询 相关具体的推荐人
+                        //int ceateTime = (Integer) requestMap.get("CreateTime");
                         //发送给当前人办理记录
-                        respContent = "您正在进行二维码扫描 eventKey："+eventKey+"";
+                        respContent = "您正在进行二维码扫描 eventKey："+eventKey+" fromUserName： "+fromUserName
+                                +" toUserName： "+toUserName;//+" ceateTime： "+ceateTime;
                         //url如何判断失效？
 
                         //记录表中 每次请求判断以下？
 
                         //使用以下模板进行 信息发送 pSbva3OD_BSjbOKIMh_d5UQwXuTn9Xy-PdygRGGiaVA
-
+                        //改为跳转URL 跳转到
                     }
 
 

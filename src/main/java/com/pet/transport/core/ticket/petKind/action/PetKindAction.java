@@ -25,9 +25,9 @@ public class PetKindAction {
     @ResponseBody
     public String getPetKindJsonData(HttpServletRequest request, HttpServletResponse response){
         Map paramMap = new HashMap();
-        paramMap.put("groupfield","KIND_NAME_SIMPLE");
-        //paramMap.put("orderfield","START_PLACE_SIMPLE");
-        //paramMap.put("orderdir","DESC");
+        ////paramMap.put("groupfield","KIND_NAME_SIMPLE");
+        paramMap.put("orderfield","KIND_NAME_SIMPLE");
+        paramMap.put("orderdir","ASC");
         String json = petKindService.selectAllPetKindToJson(paramMap);
         return json;
     }

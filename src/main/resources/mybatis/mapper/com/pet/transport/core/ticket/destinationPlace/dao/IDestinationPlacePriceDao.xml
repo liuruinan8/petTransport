@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.transport.core.ticket.destinationPlace.dao.IDestinationPlacePriceDao">
+    <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
+    <resultMap id="BaseResultMap" type="com.pet.transport.core.ticket.destinationPlace.po.DestinationPlacePrice">
+        <id column="DESTINATION_PLACE_CODE" property="destinationPlaceCode" jdbcType="VARCHAR" />
+        <id column="START_PLACE_CODE" property="startPlaceCode" jdbcType="VARCHAR" />
+        <id column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
+        <result column="LOW_PRICE" property="lowPrice" jdbcType="VARCHAR" />
+        <result column="PRICE_PER_ONE" property="pricePerOne" jdbcType="VARCHAR" />
+        <result column="RATE_INTERVAL_A" property="rateIntervalA" jdbcType="VARCHAR" />
+        <result column="RATE_INTERVAL_B" property="rateIntervalB" jdbcType="VARCHAR" />
+        <result column="RATE_INTERVAL_C" property="rateIntervalC" jdbcType="VARCHAR" />
+        <result column="RATE_INTERVAL_D" property="rateIntervalD" jdbcType="VARCHAR" />
+        <result column="RATE_INTERVAL_E" property="rateIntervalE" jdbcType="VARCHAR" />
+        <result column="RATE_INTERVAL_F" property="rateIntervalF" jdbcType="VARCHAR" />
+        <result column="SINGLE_OVER_WEIGHT_RATE" property="singleOverWeightRate" jdbcType="VARCHAR" />
+        <result column="QUARANTINE_CERT_COST" property="QuarantineCertCost" jdbcType="VARCHAR" />
+    </resultMap>
+    <!-- 查询单条记录-->
+    <select id="selectPriceByStartPlaceAndDistPlaceAndUseType" parameterType="string" resultMap="BaseResultMap">
+        SELECT * FROM ticket_destination_place_Price WHERE DESTINATION_PLACE_CODE = #{destinationPlaceCode}
+        and START_PLACE_CODE =#{startPlaceCode} and USER_TYPE =#{userType}
+    </select>
+</mapper>

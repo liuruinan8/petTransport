@@ -184,7 +184,7 @@ $.ajax({
         /**
          * 监听宠物品种点击方法
          */
-        $('#showPetKindPicker').on('click', function () {
+        $('#showPetKindPickerTemplate').on('click', function () {
             /*var dateStr="";
             if(new Date().getMonth()<9){
                 dateStr =new Date(new Date()
@@ -202,15 +202,15 @@ $.ajax({
                     //console.log(result)
                     var value = result[1].split(";")[0];
                     var disRes = result[1].split(";")[1];
-                    document.getElementById("showPetKindPicker").innerText=""+disRes;
-                    document.getElementById("petKind").value=value;
+                    document.getElementById("showPetKindPickerTemplate").innerText=disRes;
+                    document.getElementById("petKindTemplate").value=disRes+"("+value+")";
                 },
                 onConfirm: function (result) {
                     // console.log(result)
                     var value = result[1].split(";")[0];
                     var disRes = result[1].split(";")[1];
-                    document.getElementById("showPetKindPicker").innerText=""+disRes;
-                    document.getElementById("petKind").value=value;
+                    document.getElementById("showPetKindPickerTemplate").innerText=""+disRes;
+                    document.getElementById("petKindTemplate").value=disRes+"("+value+")";
                 },
                 id: 'showDatePicker'
             });
@@ -334,8 +334,28 @@ $(function(){
             showErrorTips("请选择航班时间");
             return;
         }
-
-        var petKind = $("#petKind").val();
+        var pets=[];
+        $("#petAddDiv .pet-container").each(function(){
+            var pet={};
+            var petName =$("#petName",this).val();
+            pet.petName=petName;
+            var petKind =$("#petKind",this).val();
+            pet.petKind=petKind;
+            var petWeight =$("#petWeight",this).val();
+            pet.petWeight=petWeight;
+            var petHeight =$("#petHeight",this).val();
+            pet.petHeight=petHeight;
+            var selDWJYHGInput =$("#selDWJYHGInput",this).val();
+            pet.selDWJYHG=selDWJYHGInput;
+            var selHkxInput =$("#selHkxInput",this).val();
+            pet.selHkx=selHkxInput;
+            pets.push(pet);
+        });
+        if(pets.length==0){
+            showErrorTips("请添加宠物信息");
+            return;
+        }
+       /* var petKind = $("#petKind").val();
         if(petKind==undefined || petKind==""){
             showErrorTips("请填写宠物品种");
             return;
@@ -346,14 +366,19 @@ $(function(){
             showErrorTips("请填写宠物重量");
             return;
         }
-        if($("#selDWJYHG").is(":checked") ==false){
+        var userMobile = $("#userMobile").val();
+        if(userMobile==undefined || userMobile==""){
+            showErrorTips("请填写联系人手机号码");
+            return;
+        }*/
+        /*if($("#selDWJYHG").is(":checked") ==false){
             showErrorTips("请确认已经开具出发当日有效的《动物检疫许可证》！"); //
             return;
-        }
-        var selHkx = $("#selHkx").val();
+        }*/
+        /*var selHkx = $("#selHkx").val();
         if(selHkx==undefined || selHkx==""){
             //showErrorTips("请选择"); 使用提示的方式进行提示没有选择航空箱
-        }
+        }*/
         var detailId = $("#detailId").val();
         if($("#selSmjc").is(":checked") ==true){
             //选择了上门取宠 才进行校验
@@ -370,15 +395,18 @@ $(function(){
         }
 
         var param = {};
+        var petstr = JSON.stringify(pets);
+        param.pets=petstr;
+        //param.userMobile=userMobile;
         param.startPlaceCode=startPlaceCode;
         param.destinationPlaceCode=destinationPlaceCode;
         param.placeAreaCode=detailId;
-        param.insuredPrice="0";
         param.transDate=selectDate;
-        param.petKind=petKind;
-        param.petWeight=petWeight;
-        param.selHkx=$("#selHkx").is(":checked");
+        //param.petKind=petKind;
+        //param.petWeight=petWeight;
+        //param.selHkx=$("#selHkx").is(":checked");
         param.selSmjc=$("#selSmjc").is(":checked");
+        param.selBjfw=$("#selBjfw").is(":checked");
         $.ajax({
             type : "POST",
             contentType: "application/x-www-form-urlencoded;charset=UTF-8",
@@ -493,7 +521,6 @@ $(function(){
     $('#toPay').on('click', function () {
         //$('#hkxsysm,#sumbitFail').fadeOut();
         //$('#sumbitSuccess').fadeOut();
-        //TODO 调用支付功能
         var param = {};
         param.orderId=$('#orderId').val();
         $.ajax({

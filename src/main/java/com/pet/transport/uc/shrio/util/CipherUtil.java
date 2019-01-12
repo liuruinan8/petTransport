@@ -20,7 +20,7 @@ public class CipherUtil{
     /**
      *
      * 方法名: generatePassword
-     * 方法作用: TODO 对字符串进行加密
+     * 方法作用: 对字符串进行加密
      * 创建人：Jxufe HeHaiYang
      * 创建时间：2015-1-20 下午09:58:05
      * @param @param inputString
@@ -35,7 +35,7 @@ public class CipherUtil{
     /**
      *
      * 方法名: validatePassword
-     * 方法作用: TODO 验证输入的密码是否正确
+     * 方法作用: 验证输入的密码是否正确
      * 创建人：Jxufe HeHaiYang
      * 创建时间：2015-1-20 下午09:57:52
      * @param @param password
@@ -54,7 +54,7 @@ public class CipherUtil{
     /**
      *
      * 方法名: encodeByMD5
-     * 方法作用: TODO 对字符串进行MD5加密
+     * 方法作用: 对字符串进行MD5加密
      * 创建人：Jxufe HeHaiYang
      * 创建时间：2015-1-20 下午09:57:38
      * @param @param originString
@@ -82,7 +82,7 @@ public class CipherUtil{
     /**
      *
      * 方法名: byteArrayToHexString
-     * 方法作用: TODO 转换字节数组为十六进制字符串
+     * 方法作用: 转换字节数组为十六进制字符串
      * 创建人：Jxufe HeHaiYang
      * 创建时间：2015-1-20 下午09:57:29
      * @param @param b
@@ -101,7 +101,7 @@ public class CipherUtil{
     /**
      *
      * 方法名: byteToHexString
-     * 方法作用: TODO 将一个字节转化成十六进制形式的字符串
+     * 方法作用: 将一个字节转化成十六进制形式的字符串
      * 创建人：Jxufe HeHaiYang
      * 创建时间：2015-1-20 下午09:57:17
      * @param @param b
