@@ -2,6 +2,7 @@ package com.pet.transport.core.ticket.price.action;
 
 import com.pet.transport.common.util.DataConvertUtil;
 import com.pet.transport.core.ticket.price.service.ITicketPriceService;
+import com.pet.transport.uc.user.util.UserUtil;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -45,7 +46,31 @@ public class TicektPriceAction {
             //默认保价为200元
             insuredPrice = "200";
         }
+        //获取当前登录人 判空 如果为空 从shrio中获取
+        String userId = (String)request.getParameter("userId");
+        String userMobile = (String)request.getParameter("userMobile");
+        String userType = (String)request.getParameter("userType");
+        if(userId == null || "".equals(userId)){
+            Map userMap =UserUtil.getInstance().getLoginUserMap();
+            if(userMap!=null && !userMap.isEmpty()){
+                if(userMap.containsKey("userId")){
+                    userId = (String) userMap.get("userId");
+                }
+                if(userMobile==null ||"".equals(userMobile)){
+                    if(userMap.containsKey("userMobile")){
+                        userMobile = (String) userMap.get("userMobile");
+                    }
+                }
+                if(userType==null ||"".equals(userType)){
+                    if(userMap.containsKey("userType")){
+                        userType = (String) userMap.get("userType");
+                    }
+                }
+            }
+        }
+
         Map costParam = new HashMap();
+        costParam.put("userType",userType);
         costParam.put("petLst",petLst);
         costParam.put("selHkx",selHkx);
         costParam.put("selSmjc",selSmjc);
