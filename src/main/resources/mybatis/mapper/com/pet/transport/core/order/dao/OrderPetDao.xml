@@ -6,6 +6,8 @@
         <id column="ID" property="id" jdbcType="VARCHAR" />
         <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
         <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+        <result column="PET_NAME" property="petWeight" jdbcType="VARCHAR" />
+        <result column="PET_HEIGHT" property="petWeight" jdbcType="VARCHAR" />
         <result column="PET_WEIGHT" property="petWeight" jdbcType="VARCHAR" />
         <result column="PET_KIND" property="petKind" jdbcType="VARCHAR" />
         <result column="SINGLE_TICKET_PRICE" property="singleTicketPrice" jdbcType="VARCHAR" />
@@ -15,18 +17,18 @@
         <result column="SINGLE_DECLARE_PRICE" property="singleDeclarePrice" jdbcType="VARCHAR" />
 
     </resultMap>
-    <insert id="saveBatchOrderPet" parameterType="java.util.List">
-        insert all  into CORE_ORDER_PET (ID, ORDER_ID, ORDER_NO,PET_WEIGHT,PET_KIND,SINGLE_TICKET_PRICE,PET_BOX_TYPE_ID,PET_BOX_TYPE_NAME,SINGLE_BOX_PRICE,SINGLE_DECLARE_PRICE)
+    <insert id="saveBatchOrderPet" parameterType="java.util.Map">
+        insert into CORE_ORDER_PET (ID, ORDER_ID, ORDER_NO,PET_NAME,PET_WEIGHT,PET_HEIGHT,PET_KIND,SINGLE_TICKET_PRICE,PET_BOX_TYPE_ID,PET_BOX_TYPE_NAME,SINGLE_BOX_PRICE,SINGLE_DECLARE_PRICE)
         values
-        <foreach collection="list" item="item" separator=",">
-            (#{item.id}, #{item.orderId},#{item.orderNo},#{item.petWeight}, #{item.petKind},
+        <foreach collection="petLst" item="item" separator=",">
+            (#{item.id}, #{item.orderId},#{item.orderNo},#{item.petName},#{item.petWeight},#{item.petHeight}, #{item.petKind},
             #{item.singleTicketPrice},#{item.petBoxTypeId},#{item.petBoxTypeName},
             #{item.singleBoxPrice},#{item.singleDeclarePrice})
         </foreach>
     </insert>
     <insert id="addOrderPet" parameterType="Map">
-        INSERT INTO CORE_ORDER_PET (ID, ORDER_ID, ORDER_NO,PET_WEIGHT,PET_KIND,SINGLE_TICKET_PRICE,PET_BOX_TYPE_ID,PET_BOX_TYPE_NAME,SINGLE_BOX_PRICE,SINGLE_DECLARE_PRICE)
-        VALUES (#{id}, #{orderId},#{orderNo},#{petWeight}, #{petKind},#{singleTicketPrice},#{petBoxTypeId},#{petBoxTypeName},#{singleBoxPrice},#{singleDeclarePrice});
+        INSERT INTO CORE_ORDER_PET (ID, ORDER_ID, ORDER_NO,PET_NAME,PET_WEIGHT,PET_HEIGHT,PET_KIND,SINGLE_TICKET_PRICE,PET_BOX_TYPE_ID,PET_BOX_TYPE_NAME,SINGLE_BOX_PRICE,SINGLE_DECLARE_PRICE)
+        VALUES (#{id}, #{orderId},#{orderNo},#{petName},#{petWeight},#{petHeight}, #{petKind},#{singleTicketPrice},#{petBoxTypeId},#{petBoxTypeName},#{singleBoxPrice},#{singleDeclarePrice});
     </insert> <!---->
     <!-- 查询单条记录-->
     <select id="selectOrderPetByOrderId" parameterType="string" resultMap="BaseResultMap">

@@ -5,12 +5,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>飞狗宠物旅行</title>
-    <link href="static/pet/transport/common/vendor/css/vendor.css" rel="stylesheet">
-    <link href="static/pet/transport/core/order/css/order.css" rel="stylesheet">
+    <link href="/pet/static/pet/transport/common/vendor/css/vendor.css" rel="stylesheet">
+    <link href="/pet/static/pet/transport/core/order/css/order.css" rel="stylesheet">
     <!--<link href="static/pet/transport/core/order/css/order-old.css" rel="stylesheet">-->
-    <link href="static/pet/transport/common/weui/css/weui.min.css" rel="stylesheet">
-    <link href="static/pet/transport/common/weui/css/weui-extend.css" rel="stylesheet">
-    <script type="text/javascript" src="static/pet/transport/common/weui/js/zepto.min.js" ></script>
+    <link href="/pet/static/pet/transport/common/weui/css/weui.min.css" rel="stylesheet">
+    <link href="/pet/static/pet/transport/common/weui/css/weui-extend.css" rel="stylesheet">
+    <script type="text/javascript" src="/pet/static/pet/transport/common/weui/js/zepto.min.js" ></script>
+    <script type="text/javascript" src="/pet/static/pet/transport/core/common/pet_common.js" ></script>
 </head>
 <body style="font-size: 12px;">
 <div id="app">
@@ -54,10 +55,106 @@
                 </div>
             </div>
         </div>
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" id="gaveUpOrder" class="weui-dialog__btn weui-dialog__btn_default">残忍放弃</a>
+            <a href="javascript:;" id="submitOrder" class="weui-dialog__btn weui-dialog__btn_primary">提交订单</a>
+        </div>
+    </div>
+    <div class="weui_msg hide" id="sumbitSuccess" style="opacity: 0; display: none;">
+        <div class="weui_icon_area"><i class="weui_icon_success weui_icon_msg"></i></div>
+        <div class="weui_text_area">
+            <h2 class="weui_msg_title">操作成功</h2>
+            <p class="weui_msg_desc">提交成功</p>
+        </div>
+        <div class="weui_opr_area">
+            <p class="weui_btn_area">
+                 <a id="noticeU" href="javascript:;" class="weui_btn weui_btn_primary">我已知晓</a>
+                <!-- <a id="offlinePay" href="javascript:;" class="weui_btn weui_btn_default">稍后支付</a>-->
+            </p>
+        </div>
+        <div class="weui_extra_area">
+
+        </div>
+    </div>
+    <div class="weui_msg hide" id="sumbitFail" style="opacity: 0; display: none;">
+        <div class="weui_icon_area"><i class="weui_icon_warn weui_icon_msg"></i></div>
+        <div class="weui_text_area">
+            <h2 class="weui_msg_title">操作失败</h2>
+            <p class="weui_msg_desc">内容详情，可根据实际需要安排，如果换行则不超过规定长度</p>
+        </div>
+        <div class="weui_opr_area">
+            <p class="weui_btn_area">
+                <a id="reCommit" href="javascript:;" class="weui_btn weui_btn_primary">重新提交</a>
+                <a id="commitGiveUp" href="javascript:;" class="weui_btn weui_btn_default">残忍放弃</a>
+            </p>
+        </div>
+        <div class="weui_extra_area">
+
+        </div>
     </div>
 </div>
 </body>
 <script>
-    var orderId = '${order.orderId}'${};
+    var orderId = '${order.orderId}';
+    var orderNo = '${order.orderNo}';
+    /**
+     * 监听提交按钮
+     */
+    $('#submitOrder').on('click', function (e) {
+        e.preventDefault();
+        var deliverName = $("#deliverName").val();
+        if(deliverName==undefined || deliverName==""){
+            showErrorTips("请填写寄件人姓名");
+            return;
+        }
+
+        var deliverMobile = $("#deliverMobile").val();
+        if(deliverMobile==undefined || deliverMobile==""){
+            showErrorTips("请填写寄件人手机号");
+            return;
+        }
+
+        var receiverName = $("#receiverName").val();
+        if(receiverName==undefined || receiverName==""){
+            showErrorTips("请填写收件人姓名");
+            return;
+        }
+
+        var receiverMobile = $("#receiverMobile").val();
+        if(receiverMobile==undefined || receiverMobile==""){
+            showErrorTips("请填写收件人手机号");
+            return;
+        }
+
+        var param = {};
+        param.orderId=orderId;
+        param.orderNo=orderNo;
+        param.deliverName=deliverName;
+        param.deliverMobile=deliverMobile;
+        param.receiverName=receiverName;
+        param.receiverMobile=receiverMobile;
+
+        $.ajax({
+            type : "POST",
+            contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+            url : "/pet/ticket/order/sumbitPerson",
+            data : param,
+            success : function(data) {
+                var retData = JSON.parse(data);
+                if(retData.status =="success"){
+                    $('#sumbitSuccess').fadeIn();
+                }else{
+                    $('#sumbitFail').fadeIn();
+                }/**/
+                // console.log(data);
+            },
+            error : function(){
+                showErrorTips("出现网络错误");
+            }
+
+        });
+    });
+
+
 </script>
 </html>

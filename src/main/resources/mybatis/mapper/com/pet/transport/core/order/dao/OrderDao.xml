@@ -73,4 +73,65 @@
         </if>
         WHERE ID=#{id}
     </update>-->
+    <insert id="updateOrderById" parameterType="Map">
+        UPDATE CORE_ORDER SET 1=1
+        <if test="startPlaceCode !=''">
+            ,START_PLACE_CODE=#{startPlaceCode}
+        </if>
+        <if test="startPlaceName !=''">
+            ,START_PLACE_NAME=#{startPlaceName}
+        </if>
+        <if test="destinationPlaceCode !=''">
+            ,DESTINATION_PLACE_CODE=#{destinationPlaceCode}
+        </if>
+        <if test="destinationPlaceName !=''">
+            ,DESTINATION_PLACE_NAME=#{destinationPlaceName}
+        </if>
+        <if test="transDate !=''">
+            ,TRANS_DATE=#{transDate}
+        </if>
+        <if test="ticketPrice !=''">
+            ,TICKET_PRICE=#{ticketPrice}
+        </if>
+        <if test="petBoxPrice !=''">
+            ,PET_BOX_PRICE=#{petBoxPrice}
+        </if>
+        <if test="placeAreaCode !=''">
+            ,PLACE_AREA_CODE=#{placeAreaCode}
+        </if>
+        <if test="placeAreaName !=''">
+            ,PLACE_AREA_NAME=#{placeAreaName}
+        </if>
+        <if test="placeDetail !=''">
+            ,PLACE_DETAIL=#{placeDetail}
+        </if>
+        <if test="placePrice !=''">
+            ,PLACE_PRICE=#{placePrice}
+        </if>
+        <if test="userId !=''">
+            ,USER_ID=#{userId}
+        </if>
+        <if test="declarePrice !=''">
+            ,DECLARE_PRICE=#{declarePrice}
+        </if>
+        <if test="insuredPrice !=''">
+            ,INSURED_PRICE=#{insuredPrice}
+        </if>
+        <if test="totalPrice !=''">
+            ,TOTAL_PRICE=#{totalPrice}
+        </if>
+        <if test="orderStatus !=''">
+            ,ORDER_STATUS=#{orderStatus}
+        </if>
+        <if test="payStatus !=''">
+            ,PAY_STATUS=#{payStatus}
+        </if>
+        <if test="paySerialNo !=''">
+            ,PAY_SERIAL_NO=#{paySerialNo}
+        </if>
+        <if test="payAccount !=''">
+            ,PAY_ACCOUNT=#{payAccount}
+        </if>
+        WHERE ID=#{id}
+    </insert>
 </mapper>

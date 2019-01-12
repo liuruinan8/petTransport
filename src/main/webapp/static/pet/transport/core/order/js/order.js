@@ -89,9 +89,10 @@ function subMitOrder(){
         }
 
     }
-
+    var id = $('#orderId').val()
     var param = {};
     var petstr = JSON.stringify(pets);
+    param.id=id;
     param.pets=petstr;
     //param.userMobile=userMobile;
     param.startPlaceCode=startPlaceCode;
@@ -110,16 +111,15 @@ function subMitOrder(){
         data : param,
         success : function(data) {
             var retData = JSON.parse(data);
-            /*if(retData.status =="success"){
-                $('#hkxsysm,#sumbitFail').fadeOut();
-                $('#sumbitSuccess').fadeIn();
-                $('#orderId').val(retData.orderId);
+            if(retData.status =="success"){
+               $('#orderId').val(retData.orderId);
+                //跳转到另外一个页面
+                location.href="/pet/ticket/order/supplyPerson?orderId="+retData.orderId;
             }else{
                 $('#hkxsysm,#sumbitSuccess').fadeOut();
                 $('#sumbitFail').fadeIn();
-            }*/
-            //跳转到另外一个页面
-            location.href="/pet/ticket/order/supplyPerson?orderId"+retData.orderId;
+            }/**/
+
             // console.log(data);
         },
         error : function(){

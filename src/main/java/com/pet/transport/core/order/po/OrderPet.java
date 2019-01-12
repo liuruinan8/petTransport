@@ -16,6 +16,10 @@ public class OrderPet {
     private String orderNo;
     //宠物类型
     private String petKind;
+    //宠物高度
+    private String petHeight;
+    //宠物名称
+    private String petName;
     //宠物体重
     private String petWeight;
     //价格
@@ -61,6 +65,22 @@ public class OrderPet {
 
     public void setPetKind(String petKind) {
         this.petKind = petKind;
+    }
+
+    public String getPetHeight() {
+        return petHeight;
+    }
+
+    public void setPetHeight(String petHeight) {
+        this.petHeight = petHeight;
+    }
+
+    public String getPetName() {
+        return petName;
+    }
+
+    public void setPetName(String petName) {
+        this.petName = petName;
     }
 
     public String getPetWeight() {

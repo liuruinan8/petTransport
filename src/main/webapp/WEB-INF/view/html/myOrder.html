@@ -35,6 +35,7 @@
                     <p class="pd-price">{{order.totalPrice}} 元</p>
                     <p class="pd-sold" v-if="order.orderStatus=='sumbit'">待支付   <button @click="pay4Order(order.id)">支付</button></p>
                     <p class="pd-sold" v-if="order.orderStatus=='draft'">待提交</p>
+                    <p class="pd-sold" v-if="order.orderStatus=='saved'">待提交</p><button @click="continueOrder(order.id)">支付</button></p>
                 </li>
             </ul>
         </div>
@@ -470,7 +471,9 @@
     }else{
         onBridgeReady();
     }*/
-
+    function continueOrder(orderId){
+        location.href="/pet/ticket/order/supplyPerson?orderId="+orderId;
+    }
 </script>
 
 </body>

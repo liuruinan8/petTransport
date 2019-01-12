@@ -47,7 +47,7 @@ public class OrderAction {
         return new ModelAndView("myOrder");
     }
 
-    @RequestMapping("/supplyPerson")
+    @RequestMapping(value = "/supplyPerson", produces = {"text/html;charset=UTF-8;"})
     @ResponseBody
     public ModelAndView supplyPerson(HttpServletRequest  request){
         ModelAndView mv = new ModelAndView("orderPerson");
@@ -59,6 +59,7 @@ public class OrderAction {
     }
 
     private Map organizeRequest(HttpServletRequest  request){
+        String id = (String) request.getParameter("id");
         String startPlaceCode = (String) request.getParameter("startPlaceCode");
         String startPlaceName = (String) request.getParameter("startPlaceName");
 
@@ -142,13 +143,16 @@ public class OrderAction {
         //总价 需要传递
         String totalPrice =(String) map.get("totalPrice");// (String)request.getParameter("totalPrice");
 
-
+        petLst=(List<Map>) map.get("petLst");
 
 
 
 
 
         Map param = new HashMap();
+        if(id != null && !"".equals(userId)){
+            param.put("id",id);
+        }
         param.put("petLst",petLst);
         param.put("startPlaceCode",startPlaceCode);
         param.put("startPlaceName",startPlaceName);
@@ -218,8 +222,8 @@ public class OrderAction {
         Map map = new HashMap();
         Map param =organizeRequest(request);
 
-        //orderStatus 三种 草稿draft 已提交sumbit 已支付pay 已完成complate
-        String orderStatus = "sumbit";//(String)request.getParameter("orderStatus");
+        //orderStatus 三种 草稿draft saved  已提交sumbit  arrival 已支付pay  trans 已完成complate
+        String orderStatus = "saved";//(String)request.getParameter("orderStatus");
         String payStatus = "0";//(String)request.getParameter("payStatus");
         String paySerialNo = "-1";//(String)request.getParameter("paySerialNo");
         String payAccount = "-1";//(String)request.getParameter("payAccount");
@@ -235,7 +239,7 @@ public class OrderAction {
             if(logger.isDebugEnabled()){
                 logger.debug("------开始发送消息--------");
             }
-            orderMessageUtil.sendOrderSaveSuccessMessage(param);
+            //orderMessageUtil.sendOrderSaveSuccessMessage(param);
             map.put("status","success");
             map.put("orderId",param.get("id"));
         }else{
@@ -248,7 +252,44 @@ public class OrderAction {
         }
         return ret;
     }
+    @RequestMapping("/sumbitPerson")
+    @ResponseBody
+    public String sumbitPerson(HttpServletRequest request, HttpServletResponse response){
+        String ret = "";
+        Map map = new HashMap();
+        //获取提交的参数
+        String orderId = (String) request.getParameter("orderId");
+        String orderNo = (String) request.getParameter("orderNo");
 
+        String deliverName = (String) request.getParameter("deliverName");
+        String deliverMobile = (String) request.getParameter("deliverMobile");
+        String receiverName = (String) request.getParameter("receiverName");
+        String receiverMobile = (String) request.getParameter("receiverMobile");
+        //todo 验证码校验
+        Map param = new HashMap();
+        param.put("orderId",orderId);
+        param.put("orderNo",orderNo);
+        param.put("deliverName",deliverName);
+        param.put("deliverMobile",deliverMobile);
+        param.put("receiverName",receiverName);
+        param.put("receiverMobile",receiverMobile);
+        param = orderService.sumbitPerson(param);
+        int i= (Integer) param.get("resultStatus");
+        if(i==1){
+            if(logger.isDebugEnabled()){
+                logger.debug("------开始发送消息--------");
+            }
+            orderMessageUtil.sendOrderSaveSuccessMessage(param);
+            map.put("status","success");
+            map.put("orderId",orderId);
+        }else{
+            map.put("status","fail");
+        }
+        if(map!=null){
+            ret =  DataConvertUtil.convertMapToJson(map);
+        }
+        return ret;
+    }
 
     public String updateStatus(HttpServletRequest request, HttpServletResponse response,@PathVariable("orderStatus") String orderStatus,@PathVariable("payStatus") String payStatus){
         String ret = "";
@@ -280,15 +321,20 @@ public class OrderAction {
         List<String> statusLst = new ArrayList<String>();
         if("noPay".equals(status)){
             statusLst.add("draft");
+            statusLst.add("saved");
             statusLst.add("sumbit");
+            statusLst.add("arrival");
         }else if("pay".equals(status)){
             statusLst.add("pay");
             statusLst.add("offlinePay");
         }else if("all".equals(status)){
             statusLst.add("draft");
+            statusLst.add("saved");
             statusLst.add("sumbit");
+            statusLst.add("arrival");
             statusLst.add("pay");
             statusLst.add("offlinePay");
+            statusLst.add("trans");
             statusLst.add("complate");
         }else{
             return "";

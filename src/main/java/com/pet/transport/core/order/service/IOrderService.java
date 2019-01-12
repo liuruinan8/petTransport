@@ -15,7 +15,9 @@ public interface IOrderService {
 
    public Map updateOrderStatus(Map param);
 
-   public List<Map> selectOrderByParm( Map param );
+   List<Map> selectOrderByParm( Map param );
 
-   public List<Map> selectOrderByStatus(String uid, List<String> statusLst,int start,int limit);
+   List<Map> selectOrderByStatus(String uid, List<String> statusLst,int start,int limit);
+
+   Map sumbitPerson(Map param);
 }
