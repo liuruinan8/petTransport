@@ -33,6 +33,6 @@
         SELECT * FROM CORE_ORDER_PET WHERE ORDER_ID = #{orderId}
     </select>
     <delete id="deletePetsByOrderId" parameterType="Map">
-        delete CORE_ORDER_PET WHERE ORDER_ID = #{orderId}
+        delete FROM CORE_ORDER_PET WHERE ORDER_ID = #{orderId}
     </delete>
 </mapper>

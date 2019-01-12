@@ -15,7 +15,7 @@
         <result column="RATE_INTERVAL_E" property="rateIntervalE" jdbcType="VARCHAR" />
         <result column="RATE_INTERVAL_F" property="rateIntervalF" jdbcType="VARCHAR" />
         <result column="SINGLE_OVER_WEIGHT_RATE" property="singleOverWeightRate" jdbcType="VARCHAR" />
-        <result column="QUARANTINE_CERT_COST" property="QuarantineCertCost" jdbcType="VARCHAR" />
+        <result column="QUARANTINE_CERT_COST" property="quarantineCertCost" jdbcType="VARCHAR" />
     </resultMap>
     <!-- 查询单条记录-->
     <select id="selectPriceByStartPlaceAndDistPlaceAndUseType" parameterType="string" resultMap="BaseResultMap">
