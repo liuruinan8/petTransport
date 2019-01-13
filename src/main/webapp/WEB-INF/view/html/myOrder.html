@@ -33,9 +33,10 @@
                     <img src="/pet/images/pet/transport/core/order/order.png" class="pd-img">
                     <p class="pd-name"> 订单号：<span style="color: #000;" v-text="order.orderNo" ></span></p>
                     <p class="pd-price">{{order.totalPrice}} 元</p>
-                    <p class="pd-sold" v-if="order.orderStatus=='sumbit'">待支付   <button @click="pay4Order(order.id)">支付</button></p>
+                    <p class="pd-sold" v-if="order.orderStatus=='sumbit'">待收货</p>
+                    <p class="pd-sold" v-if="order.orderStatus=='arrival'">待支付<button @click="pay4Order(order.id)">支付</button></p>
                     <p class="pd-sold" v-if="order.orderStatus=='draft'">待提交</p>
-                    <p class="pd-sold" v-if="order.orderStatus=='saved'">待提交</p><button @click="continueOrder(order.id)">支付</button></p>
+                    <p class="pd-sold" v-if="order.orderStatus=='saved'">待提交<button @click="continueOrder(order.id)">继续填写</button></p>
                 </li>
             </ul>
         </div>

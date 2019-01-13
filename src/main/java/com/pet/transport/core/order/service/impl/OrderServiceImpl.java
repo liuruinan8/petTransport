@@ -115,6 +115,10 @@ public class OrderServiceImpl implements IOrderService {
         return param;
     }
 
+    public List<Map> selectOrderPetByOrderId(String orderId) {
+        return orderPetDao.selectOrderPetByOrderId(orderId);
+    }
+
     public List<Map> selectOrderByParm( Map param ) {
         return orderDao.selectOrderByStatus(param);
     }

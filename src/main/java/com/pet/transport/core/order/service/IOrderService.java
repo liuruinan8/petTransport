@@ -20,4 +20,6 @@ public interface IOrderService {
    List<Map> selectOrderByStatus(String uid, List<String> statusLst,int start,int limit);
 
    Map sumbitPerson(Map param);
+
+   List<Map> selectOrderPetByOrderId( String orderId );
 }

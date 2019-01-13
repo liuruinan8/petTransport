@@ -36,9 +36,8 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
         //String transDate = (String) param.get("transDate");
         String userType = (String) param.get("userType");
         //String petWeight = (String) param.get("petWeight");
-        String selHkx = (String) param.get("selHkx");
+        //String selHkx = (String) param.get("selHkx");
         String selSmjc = (String) param.get("selSmjc");
-        String selDWJYHG = (String) param.get("selDWJYHG");
         String placeAreaCode = (String) param.get("placeAreaCode");
         String insuredPrice = (String) param.get("insuredPrice");
         List<Map> petLst = (List<Map>) param.get("petLst");
@@ -82,6 +81,7 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
         int petBoxPriceAll = 0;
         int overWeightCount = 0;
         int totalWeight = 0;
+        int quarantineCertPrice=0;
         for (Map pet:petLst) {
             String petWeight = (String) pet.get("petWeight");
             int petWeightInt =  Integer.valueOf(petWeight);
@@ -89,6 +89,8 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
                 overWeightCount++;
             }
             totalWeight+=petWeightInt;
+            String selHkx =(String)pet.get("selHkx");
+            String selDWJYHG = (String) pet.get("selDWJYHG");
 
             String boxTypeId = "";
             String boxTypeName ="";
@@ -111,6 +113,10 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
                 }
 
             }
+            if(selDWJYHG!=null && (selDWJYHG.equals("true")||selDWJYHG.equals("on"))){
+                quarantineCertPrice +=  Integer.valueOf(quarantineCertCost);
+            }
+
         }
         int rateA = Integer.valueOf(rateIntervalA);
         int rateB = Integer.valueOf(rateIntervalB);
@@ -128,10 +134,8 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
             weightPrice = (totalWeight-40)*rateC + (40-20) *rateB + (20-8) * rateA;
         }
         int overWeightPrice = overWeightCount* Integer.valueOf(singleOverWeightRate);
-        int quarantineCertPrice=0;
-        if(selDWJYHG!=null && (selDWJYHG.equals("true")||selDWJYHG.equals("on"))){
-            quarantineCertPrice +=  Integer.valueOf(quarantineCertCost);
-        }
+
+
         ticketPrice = String.valueOf(weightPrice+overWeightPrice+basePrice+quarantineCertPrice);
         //int weightPrice = (totalWeight-40>0?totalWeight-40:0)*rateC +
          //       *rateB +
