@@ -24,6 +24,7 @@
         <result column="IS_CERTIFIED" property="isCertified" jdbcType="VARCHAR" />
         <result column="OPEN_ID" property="openId" jdbcType="VARCHAR" />
         <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
+        <result column="IS_ADMIN" property="isAdmin" jdbcType="VARCHAR" />
     </resultMap>
     <!-- 查询单条记录-->
     <select id="selectUserById" parameterType="string" resultMap="BaseResultMap">

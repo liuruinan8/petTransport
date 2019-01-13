@@ -20,11 +20,15 @@ function subMitOrder(){
         showErrorTips("请选择出发地");
         return;
     }
+    var startPlaceName = $("#startPlaceName").val();
+
     var destinationPlaceCode = $("#destinationPlaceCode").val();
     if(destinationPlaceCode==undefined || destinationPlaceCode==""){
         showErrorTips("请选择目的地");
         return;
     }
+    var destinationPlaceName = $("#destinationPlaceName").val();
+
     var selectDate = $("#selectDate").val();
     if(selectDate==undefined || selectDate==""){
         showErrorTips("请选择航班时间");
@@ -76,18 +80,29 @@ function subMitOrder(){
         //showErrorTips("请选择"); 使用提示的方式进行提示没有选择航空箱
     }*/
     var detailId = $("#detailId").val();
+    var receiptPlace = $("#receiptPlace").val();
+
+    var detailName="";
     if($("#selSmjc").is(":checked") ==true){
         //选择了上门取宠 才进行校验
         if(detailId==undefined || detailId==""){
             showErrorTips("请选择接宠地点");
             return;
         }
-
+        detailName=$("#detailId").find("option:selected").text();
         if(receiptPlace==undefined || receiptPlace==""){
             showErrorTips("请填写接宠详细地址");
             return;
         }
 
+    }
+    var declarePrice = $("#declarePrice").val();
+    if($("#selBjfw").is(":checked") ==true){
+        //选择了保价服务 才进行校验
+        if(declarePrice==undefined || declarePrice==""){
+            showErrorTips("请填写声明价值");
+            return;
+        }
     }
     var id = $('#orderId').val()
     var param = {};
@@ -96,14 +111,23 @@ function subMitOrder(){
     param.pets=petstr;
     //param.userMobile=userMobile;
     param.startPlaceCode=startPlaceCode;
+    param.startPlaceName=startPlaceName;
     param.destinationPlaceCode=destinationPlaceCode;
+    param.destinationPlaceName=destinationPlaceName;
+
+
     param.placeAreaCode=detailId;
+    param.placeAreaName=detailName;//"历下区";
+    param.placeDetail=receiptPlace;
+
     param.transDate=selectDate;
     //param.petKind=petKind;
     //param.petWeight=petWeight;
     //param.selHkx=$("#selHkx").is(":checked");
     param.selSmjc=$("#selSmjc").is(":checked");
     param.selBjfw=$("#selBjfw").is(":checked");
+    param.declarePrice=declarePrice;
+    param.insuredPrice=declarePrice*2/100;
     $.ajax({
         type : "POST",
         contentType: "application/x-www-form-urlencoded;charset=UTF-8",
@@ -166,8 +190,18 @@ $('#addPet').on('click', function () {
 });
 
 
+function editPetInfo(ele){
+    $('#petKindTemplate').val($('#petKind',ele).val());
+    $('#petNameTemplate').val($('#petName',ele).val());
+    $('#petHeightTemplate').val($('#petHeight',ele).val());
+    $('#petWeightTemplate').val($('#petWeight',ele).val());
+    //弹出窗口
+    $('#petInfo').fadeIn();
+}
 
-
+function removePetDiv(ele){
+    $(ele).parent().remove()
+}
 $('#petAddConfirm').on('click', function () {
     var petKindTemplate = $('#petKindTemplate').val();
     if(petKindTemplate==undefined || petKindTemplate==""){

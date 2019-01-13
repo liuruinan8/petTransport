@@ -40,12 +40,13 @@ public class TicektPriceAction {
         String placeAreaCode = (String)request.getParameter("placeAreaCode");
         //保价 从前台传递
         //保价 从前台传递
-        String selBjfw=(String) request.getParameter("selBjfw");
-        String insuredPrice = "0";// (String)request.getParameter("insuredPrice");
-        if(selBjfw!=null && (selBjfw.equals("true")||selBjfw.equals("on"))){
+        //String selBjfw=(String) request.getParameter("selBjfw");
+        String declarePrice = (String)request.getParameter("declarePrice");
+        String insuredPrice = (String)request.getParameter("insuredPrice");
+        /*if(selBjfw!=null && (selBjfw.equals("true")||selBjfw.equals("on"))){
             //默认保价为200元
-            insuredPrice = "200";
-        }
+            //insuredPrice = "200";
+        }*/
         //获取当前登录人 判空 如果为空 从shrio中获取
         String userId = (String)request.getParameter("userId");
         String userMobile = (String)request.getParameter("userMobile");
@@ -70,6 +71,7 @@ public class TicektPriceAction {
         }
 
         Map costParam = new HashMap();
+
         costParam.put("userType",userType);
         costParam.put("petLst",petLst);
         costParam.put("selHkx",selHkx);
@@ -80,6 +82,7 @@ public class TicektPriceAction {
         costParam.put("petWeight",petWeight);
         costParam.put("startPlaceCode",startPlaceCode);
         costParam.put("destinationPlaceCode",destinationPlaceCode);
+        costParam.put("declarePrice",declarePrice);
         costParam.put("insuredPrice",insuredPrice);
 
         Map map = ticketPriceServiceImpl.getAllCost(costParam);

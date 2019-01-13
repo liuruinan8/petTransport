@@ -393,7 +393,14 @@ $(function(){
             }
 
         }
-
+        var declarePrice = $("#declarePrice").val();
+        if($("#selBjfw").is(":checked") ==true){
+            //选择了保价服务 才进行校验
+            if(declarePrice==undefined || declarePrice==""){
+                showErrorTips("请填写声明价值");
+                return;
+            }
+        }
         var param = {};
         var petstr = JSON.stringify(pets);
         param.pets=petstr;
@@ -407,6 +414,8 @@ $(function(){
         //param.selHkx=$("#selHkx").is(":checked");
         param.selSmjc=$("#selSmjc").is(":checked");
         param.selBjfw=$("#selBjfw").is(":checked");
+        param.declarePrice=declarePrice;
+        param.insuredPrice=declarePrice*2/100;
         $.ajax({
             type : "POST",
             contentType: "application/x-www-form-urlencoded;charset=UTF-8",

@@ -1,5 +1,6 @@
 package com.pet.transport.uc.wechat.core.token;
 
+import com.pet.transport.uc.user.util.UserUtil;
 import com.pet.transport.uc.wechat.core.util.WeChatUtil;
 import com.pet.transport.uc.wechat.message.po.TextMessage;
 import com.pet.transport.uc.wechat.message.util.MessageUtil;
@@ -151,27 +152,41 @@ public class CoreServlet extends HttpServlet {
             textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
             // 文本消息
             if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {
-                respContent = "您发送的是文本消息！";
+                respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！";
+                //判断是否是管理员
+                // 文本消息内容
+                String content =(String)  requestMap.get("Content");
+                if(content != null &&"admin".equals(content.trim())){
+                    Map map = UserUtil.getInstance().getUserMapByOpenId(fromUserName);
+                    if(map.containsKey("isAdmin")){
+                        String isAdmin =(String) map.get("isAdmin");
+                        if(isAdmin != null &&("1".equals(isAdmin)||"2".equals(isAdmin))){
+                            respContent = "管理员，你好！<br> 收货管理：http://www.airgopet.com/pet/ticket/orderaAdmin/adminOrderSumbit<br> 承运信息管理：";
+                        }
+                    }
+                }
+
+
             }
             // 图片消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)) {
-                respContent = "您发送的是图片消息！";
+                respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！！";
             }
             // 语音消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_VOICE)) {
-                respContent = "您发送的是语音消息！";
+                respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！";
             }
             // 视频消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_VIDEO)) {
-                respContent = "您发送的是视频消息！";
+                respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！";
             }
             // 地理位置消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_LOCATION)) {
-                respContent = "您发送的是地理位置消息！";
+                respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！";
             }
             // 链接消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_LINK)) {
-                respContent = "您发送的是链接消息！";
+                respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！";
             }
             // 事件推送
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {
@@ -179,7 +194,7 @@ public class CoreServlet extends HttpServlet {
                 String eventType = (String) requestMap.get("Event");
                 // 关注
                 if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
-                    respContent = "谢谢您的关注！点击下单就能给宠物购买机票开始旅行了。";
+                    respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！";
                 }
                 // 取消关注
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {
@@ -195,7 +210,7 @@ public class CoreServlet extends HttpServlet {
                     //
                     if(eventKey.indexOf("qrscene_")>-1){
                         //关注后会进行提示 此处不再处理
-                        respContent = "谢谢您的关注！";
+                        respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！！";
                     }else{
                         //获取scansrt
                         //在二维码表中查询 相关具体的推荐人

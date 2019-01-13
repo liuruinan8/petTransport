@@ -87,6 +87,8 @@ public class UserUtil {
                     map.put("userMobile",userMobile);
                     String password = user.getUserPassword();
                     map.put("userPassword",password);
+                    String isAdmin = user.getIsAdmin();
+                    map.put("isAdmin",isAdmin);
                 }
             }
             map.put("openId",openId);

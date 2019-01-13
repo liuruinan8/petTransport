@@ -82,11 +82,12 @@ public class OrderAction {
         String placeAreaName = (String)request.getParameter("placeAreaName");
         String placeDetail = (String)request.getParameter("placeDetail");
         //保价 从前台传递
+        String declarePrice = (String)request.getParameter("declarePrice");
+        String insuredPrice = (String)request.getParameter("insuredPrice");
         String selBjfw=(String) request.getParameter("selBjfw");
-        String insuredPrice = "0";// (String)request.getParameter("insuredPrice");
         if(selBjfw!=null && (selBjfw.equals("true")||selBjfw.equals("on"))){
             //默认保价为200元
-            insuredPrice = "200";
+            insuredPrice = String.valueOf(Integer.valueOf(declarePrice) *2/100) ;
         }
         //获取当前登录人 判空 如果为空 从shrio中获取
         String userId = (String)request.getParameter("userId");
@@ -128,7 +129,7 @@ public class OrderAction {
         costParam.put("startPlaceCode",startPlaceCode);
         costParam.put("destinationPlaceCode",destinationPlaceCode);
         costParam.put("insuredPrice",insuredPrice);
-
+        costParam.put("declarePrice",declarePrice);
         Map map = ticketPriceServiceImpl.getAllCost(costParam);
 
         //票价需要从后台生成 不能依赖前台传递的值
@@ -173,8 +174,8 @@ public class OrderAction {
         param.put("userMobile",userMobile);
         param.put("userType",userType);
         param.put("insuredPrice",insuredPrice);
+        param.put("declarePrice",declarePrice);
         param.put("totalPrice",totalPrice);
-
         return param;
     }
 

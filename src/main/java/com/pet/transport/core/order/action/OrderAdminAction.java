@@ -44,7 +44,7 @@ public class OrderAdminAction {
         mv.addObject("orderLst", ret);
         return mv;
     }
-    @RequestMapping(value = "/orderLstAdmin", produces = {"text/html;charset=UTF-8;"})
+    @RequestMapping(value = "/orderLstAdmin")
     @ResponseBody
     public String orderLstAdmin(HttpServletRequest request){
         //String orderId = (String) request.getParameter("orderId");
@@ -56,8 +56,16 @@ public class OrderAdminAction {
 
         Map param = new HashMap();
         //param.put("userId",userId);
-        int start = Integer.parseInt(request.getParameter("start"));
-        int limit = Integer.parseInt(request.getParameter("limit"));
+        String startStr=request.getParameter("start");
+        int start =0;
+        if(startStr != null && !"".equals(startStr)){
+            start = Integer.parseInt(startStr);
+        }
+        String limitStr=request.getParameter("limit");
+        int limit =10;
+        if(limitStr != null && !"".equals(limitStr)){
+            limit = Integer.parseInt(limitStr);
+        }
         String keyword = request.getParameter("keyword");
         param.put("orderStatusLst",statusLst);
         param.put("start",start);
@@ -76,7 +84,7 @@ public class OrderAdminAction {
     @RequestMapping(value = "/adminOrderDetailArrival", produces = {"text/html;charset=UTF-8;"})
     @ResponseBody
     public ModelAndView adminOrderDetailArrival(HttpServletRequest request){
-        ModelAndView mv = new ModelAndView("orderPerson");
+        ModelAndView mv = new ModelAndView("adminOrderArrival");
         String orderId = (String) request.getParameter("orderId");
         //TODO 判断状态是否正确 userID是否是管理员
         Order order = orderService.selectOrderById(orderId);

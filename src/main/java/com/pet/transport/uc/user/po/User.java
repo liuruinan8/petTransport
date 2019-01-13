@@ -72,9 +72,13 @@ public class User {
      * */
     private String openId;
     /**
-     * 用户类型 superadmin admin plain jxs
+     * 用户类型  plain jxs
      */
     private String userType;
+    /**
+     * 用户是否是管理员
+     */
+    private  String isAdmin;
 
     public String getUserId() {
         return userId;
@@ -242,5 +246,13 @@ public class User {
 
     public void setUserType(String userType) {
         this.userType = userType;
+    }
+
+    public String getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(String isAdmin) {
+        this.isAdmin = isAdmin;
     }
 }
