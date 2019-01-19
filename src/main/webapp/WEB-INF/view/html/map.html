@@ -20,13 +20,15 @@
             min-height:767px;
         }
     </style>
-    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&libraries=place"></script>
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=Y5RBZ-CBO3J-CAYFQ-KWCSY-SIJV6-2XBVG&libraries=place"></script>
     <script>
         var map = null;
         var drivingService = null;
         var isFirst = 0;
         var init = function () {
-            var center = new qq.maps.LatLng(39.916527, 116.397128);
+            document.getElementById("end").value="";
+            document.getElementById("distance").value="";
+            var center = new qq.maps.LatLng(29.715380,106.637870);
             map = new qq.maps.Map(document.getElementById('container'), {
                 center:center,
                 zoom:10
@@ -58,23 +60,38 @@
                     drivingService.search(new qq.maps.LatLng(startLatLng.lat, startLatLng.lng), new qq.maps.LatLng(endLatLng.lat, endLatLng.lng));
                 }else {
                     infoDiv.innerHTML="两点之间的道路距离为："+result.detail.distance+"米";
+                    document.getElementById("distance").value =result.detail.distance;
                     infoDiv1.innerHTML="两点之间的行驶时间为："+result.detail.duration+"分";
                 }
 
             });
         }
+        function confirm() {
 
+           var distance = document.getElementById("distance").value;
+           if(distance == ""){
+                    return;
+           }
+           var end = document.getElementById("end").value;
+            window.parent.document.getElementById("receiptPlace").value =end;
+            var num = new Number(distance/1000);
+            window.parent.document.getElementById("placeDistance").value =toFixed(num);
+            parent.window.mapFadeOut();
+        }
     </script>
 </head>
-<body onload="init()">
-<div>起点 <input type='text' value="" id="start"/>
+<body onload="init()" style="background-color: wheat;">
+<div>起点 <input type='hidden' value="重庆江北国际机场T2航站楼" id="start" />
     终点 <input type='text' value="" id="end"/>
     <input type="button" value="计算距离" onclick="getResult()"/>
-
+    <input type="button" value="确定" onclick="confirm()"/>
+    <br />
+    <span>请先点击计算距离，再点击确定</span>
     <div id="pageIndexLabel" style="width: 100px;"></div>
+    <input type='hidden'  id="distance" />
 </div>
-<div style='width: 500px; height: 30px' id="infoDiv">两点之间的道路距离为：</div>
-<div style='width: 500px; height: 30px' id="infoDiv1">两点之间的行驶时间为：</div>
+<div style='width: 500px; height: 30px' id="infoDiv">距离机场的道路距离为：</div>
+<div style='width: 500px; height: 30px' id="infoDiv1">机场的行驶时间为：</div>
 <div id="container"></div>
 </body>
 </html>

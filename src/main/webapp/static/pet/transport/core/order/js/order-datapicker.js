@@ -83,6 +83,16 @@ $.ajax({
     }
 
 });
+$("#startPlaceCode").val("5028_CKG");
+$("#startPlaceName").val("重庆江北");
+var startPlaceCode = $("#startPlaceCode").val();
+if(startPlaceCode !=""){
+    getDist(startPlaceCode);
+    if($("#selSmjc").is(":checked") ==true){
+        //点击上门取宠后 加载相关信息
+        getPlaceDetail(startPlaceCode);
+    }
+}
 /**
  * 显示当前日期之后的一个月数据
  * @type {Array}
@@ -185,16 +195,6 @@ $.ajax({
          * 监听宠物品种点击方法
          */
         $('#showPetKindPickerTemplate').on('click', function () {
-            /*var dateStr="";
-            if(new Date().getMonth()<9){
-                dateStr =new Date(new Date()
-                    .setDate(new Date().getDate()))
-                    .toLocaleString().substring(0,9);
-            }else{
-                dateStr =new Date(new Date()
-                    .setDate(new Date().getDate()))
-                    .toLocaleString().substring(0,10);
-            }*/
             weui.picker(dataArray, {
                 className: 'custom-classname',
                 //defaultValue: [dateStr, dateStr],
@@ -212,7 +212,31 @@ $.ajax({
                     document.getElementById("showPetKindPickerTemplate").innerText=""+disRes;
                     document.getElementById("petKindTemplate").value=disRes+"("+value+")";
                 },
-                id: 'showDatePicker'
+                id: 'showPetKindPickerTemplate'
+            });
+        });
+        /**
+         * 监听宠物品种点击方法
+         */
+        $('#showPetKindPicker').on('click', function () {
+            weui.picker(dataArray, {
+                className: 'custom-classname',
+                //defaultValue: [dateStr, dateStr],
+                onChange: function (result) {
+                    //console.log(result)
+                    var value = result[1].split(";")[0];
+                    var disRes = result[1].split(";")[1];
+                    document.getElementById("showPetKindPicker").innerText=disRes;
+                    document.getElementById("petKind").value=disRes+"("+value+")";
+                },
+                onConfirm: function (result) {
+                    // console.log(result)
+                    var value = result[1].split(";")[0];
+                    var disRes = result[1].split(";")[1];
+                    document.getElementById("showPetKindPicker").innerText=""+disRes;
+                    document.getElementById("petKind").value=disRes+"("+value+")";
+                },
+                id: 'showPetKindPicker'
             });
         });
     },
@@ -335,6 +359,26 @@ $(function(){
             return;
         }
         var pets=[];
+
+        var pet={};
+        var petName = $("#petName").val();
+        pet.petName=petName;
+        var petKind = $("#petKind").val();
+        pet.petKind=petKind;
+        var petWeight = $("#petWeight").val();
+        if(petWeight==undefined || petWeight==""){
+            showErrorTips("请填写宠物重量");
+            return;
+        }
+        pet.petWeight=petWeight;
+        var petHeight = $("#petHeight").val();
+        pet.petHeight=petHeight;
+        var selDWJYHGInput = $("#selDWJYHGInput").is(':checked')+"";
+        pet.selDWJYHG=selDWJYHGInput;
+        var selHkxInput = $("#selHkx").is(':checked')+"";
+        pet.selHkx=selHkxInput;
+        pets.push(pet);
+
         $("#petAddDiv .pet-container").each(function(){
             var pet={};
             var petName =$("#petName",this).val();
@@ -345,9 +389,9 @@ $(function(){
             pet.petWeight=petWeight;
             var petHeight =$("#petHeight",this).val();
             pet.petHeight=petHeight;
-            var selDWJYHGInput =$("#selDWJYHGInput",this).val();
+            var selDWJYHGInput =$("#selDWJYHGInput",this).is(':checked')+"";
             pet.selDWJYHG=selDWJYHGInput;
-            var selHkxInput =$("#selHkxInput",this).val();
+            var selHkxInput =$("#selHkxInput",this).is(':checked')+"";
             pet.selHkx=selHkxInput;
             pets.push(pet);
         });
@@ -379,16 +423,20 @@ $(function(){
         if(selHkx==undefined || selHkx==""){
             //showErrorTips("请选择"); 使用提示的方式进行提示没有选择航空箱
         }*/
-        var detailId = $("#detailId").val();
+        var placeDistance = $("#placeDistance").val();
         if($("#selSmjc").is(":checked") ==true){
             //选择了上门取宠 才进行校验
-            if(detailId==undefined || detailId==""){
+           var  receiptPlace = $("#receiptPlace").val();
+            if(receiptPlace==undefined || receiptPlace==""){
                 showErrorTips("请选择接宠地点");
                 return;
             }
-
-            if(receiptPlace==undefined || receiptPlace==""){
-                showErrorTips("请填写接宠详细地址");
+            if(placeDistance==undefined || placeDistance==""){
+                showErrorTips("请选择接宠地点");
+                return;
+            }
+            if(placeDistance>50){
+                showErrorTips("由于接送地点距离机场超过50公里，本司无法提供上门取宠服务");
                 return;
             }
 
@@ -407,7 +455,7 @@ $(function(){
         //param.userMobile=userMobile;
         param.startPlaceCode=startPlaceCode;
         param.destinationPlaceCode=destinationPlaceCode;
-        param.placeAreaCode=detailId;
+        param.placeDistance=placeDistance;
         param.transDate=selectDate;
         //param.petKind=petKind;
         //param.petWeight=petWeight;
@@ -487,42 +535,18 @@ $(function(){
         }
         if($("#selSmjc").is(":checked") ==true){
             //点击上门取宠后 加载相关信息
-            var param = {};
-            param.startPlaceCode=startPlaceCode;
-            $.ajax({
-                type : "POST",
-                contentType: "application/x-www-form-urlencoded;charset=UTF-8",
-                url : "/pet/ticket/startPlaceDetail/getAllDetail",
-                data : param,
-                success : function(data) {
-                    console.log(data);
-                    if(data == "[]"){
-                        showErrorTips("当前城市未开通上门接宠服务，敬请期待");
-                        $('#selSmjc').prop("checked","");
-                        $('#jieChongInfo').hide();
-                        return;
-                    }
-                    //
-                    var obj = $("#detailId");
-                    var placeData = JSON.parse(data);
-                    for (var i = 0; i < placeData.length; i++) {
-                        var detail =  placeData[i];
-                        //obj.options.add(new Option(detail.get("name"),detail.get("code"))); //这个兼容IE与firefox
-                        $("#detailId").append("<option value='"+detail.code+"'>"+detail.name+"</option>");
-                    }
-                },
-                error : function(){
-                    showErrorTips("出现网络错误");
-                }
-
-            });
+            getPlaceDetail(startPlaceCode);
         }
         //如果选择了上门接宠 显示相关信息
         $('#jieChongInfo').toggle();
-
-
-
-
+    });
+    $('#selBjfw').on('click', function () {
+        if($("#selBjfw").is(":checked") ==true){
+            $('#bjfwInfo').show();
+        }else{
+            $('#declarePrice').val("");
+            $('#bjfwInfo').hide();
+        }
     });
     /**
      * 线上支付监听
@@ -604,3 +628,34 @@ $(function(){
     });
 });
 
+function getPlaceDetail(startPlaceCode){
+    var param = {};
+    param.startPlaceCode=startPlaceCode;
+    $.ajax({
+        type : "POST",
+        contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+        url : "/pet/ticket/startPlaceDetail/getAllDetail",
+        data : param,
+        success : function(data) {
+            console.log(data);
+            if(data == "[]"){
+                showErrorTips("当前城市未开通上门接宠服务，敬请期待");
+                $('#selSmjc').prop("checked","");
+                $('#jieChongInfo').hide();
+                return;
+            }
+            //
+            var obj = $("#detailId");
+            var placeData = JSON.parse(data);
+            for (var i = 0; i < placeData.length; i++) {
+                var detail =  placeData[i];
+                //obj.options.add(new Option(detail.get("name"),detail.get("code"))); //这个兼容IE与firefox
+                $("#detailId").append("<option value='"+detail.code+"'>"+detail.name+"</option>");
+            }
+        },
+        error : function(){
+            showErrorTips("出现网络错误");
+        }
+
+    });
+}

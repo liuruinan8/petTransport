@@ -35,6 +35,25 @@ function subMitOrder(){
         return;
     }
     var pets=[];
+    var pet={};
+    var petName = $("#petName").val();
+    pet.petName=petName;
+    var petKind = $("#petKind").val();
+    pet.petKind=petKind;
+    var petWeight = $("#petWeight").val();
+    if(petWeight==undefined || petWeight==""){
+        showErrorTips("请填写宠物重量");
+        return;
+    }
+
+    pet.petWeight=petWeight;
+    var petHeight = $("#petHeight").val();
+    pet.petHeight=petHeight;
+    var selDWJYHGInput = $("#selDWJYHGInput").is(':checked')+"";
+    pet.selDWJYHG=selDWJYHGInput;
+    var selHkxInput = $("#selHkx").is(':checked')+"";
+    pet.selHkx=selHkxInput;
+    pets.push(pet);
     $("#petAddDiv .pet-container").each(function(){
         var pet={};
         var petName =$("#petName",this).val();
@@ -45,9 +64,9 @@ function subMitOrder(){
         pet.petWeight=petWeight;
         var petHeight =$("#petHeight",this).val();
         pet.petHeight=petHeight;
-        var selDWJYHGInput =$("#selDWJYHGInput",this).val();
+        var selDWJYHGInput =$("#selDWJYHGInput",this).is(':checked')+"";
         pet.selDWJYHG=selDWJYHGInput;
-        var selHkxInput =$("#selHkxInput",this).val();
+        var selHkxInput =$("#selHkxInput",this).is(':checked') +"";
         pet.selHkx=selHkxInput;
         pets.push(pet);
     });
@@ -82,19 +101,24 @@ function subMitOrder(){
     var detailId = $("#detailId").val();
     var receiptPlace = $("#receiptPlace").val();
 
-    var detailName="";
+    //var detailName="";
+    var placeDistance = $("#placeDistance").val();
+    //detailName=$("#detailId").find("option:selected").text();
     if($("#selSmjc").is(":checked") ==true){
         //选择了上门取宠 才进行校验
-        if(detailId==undefined || detailId==""){
+        var  receiptPlace = $("#receiptPlace").val();
+        if(receiptPlace==undefined || receiptPlace==""){
             showErrorTips("请选择接宠地点");
             return;
         }
-        detailName=$("#detailId").find("option:selected").text();
-        if(receiptPlace==undefined || receiptPlace==""){
-            showErrorTips("请填写接宠详细地址");
+        if(placeDistance==undefined || placeDistance==""){
+            showErrorTips("请选择接宠地点");
             return;
         }
-
+        if(placeDistance>50){
+            showErrorTips("由于接送地点距离机场超过50公里，本司无法提供上门取宠服务");
+            return;
+        }
     }
     var declarePrice = $("#declarePrice").val();
     if($("#selBjfw").is(":checked") ==true){
@@ -116,10 +140,10 @@ function subMitOrder(){
     param.destinationPlaceName=destinationPlaceName;
 
 
-    param.placeAreaCode=detailId;
-    param.placeAreaName=detailName;//"历下区";
+    //param.placeAreaCode=detailId;
+    //param.placeAreaName=detailName;//"历下区";
     param.placeDetail=receiptPlace;
-
+    param.placeDistance=placeDistance;
     param.transDate=selectDate;
     //param.petKind=petKind;
     //param.petWeight=petWeight;
@@ -181,6 +205,8 @@ function onBridgeReady(data){
  */
 // language=JQuery-CSS
 $('#addPet').on('click', function () {
+    $('#petIdTemplate').val('')
+    $('#showPetKindPickerTemplate').text('请输入宝宠品种');
     var petKindTemplate = $('#petKindTemplate').val('');
     var petNameTemplate = $('#petNameTemplate').val('');
     var petHeightTemplate = $('#petHeightTemplate').val('');
@@ -191,10 +217,23 @@ $('#addPet').on('click', function () {
 
 
 function editPetInfo(ele){
-    $('#petKindTemplate').val($('#petKind',ele).val());
-    $('#petNameTemplate').val($('#petName',ele).val());
-    $('#petHeightTemplate').val($('#petHeight',ele).val());
-    $('#petWeightTemplate').val($('#petWeight',ele).val());
+    var petKind =  $('#petKind',$(ele).parent().parent()).val();
+    if(petKind!=""){
+        var petKindName = petKind.split("(")[0];
+        $('#showPetKindPickerTemplate').text(petKindName);
+    }else{
+        $('#showPetKindPickerTemplate').text("请填写宠物品种");
+    }
+
+    //var petKindId = petKind.split("(")[1].split(")")[0];
+
+    $('#petKindTemplate').val(petKind);
+
+    $('#petNameTemplate').val($('#petName',$(ele).parent().parent()).val());
+    $('#petHeightTemplate').val($('#petHeight',$(ele).parent().parent()).val());
+    $('#petWeightTemplate').val($('#petWeight',$(ele).parent().parent()).val());
+    $('#petIdTemplate').val($('#petId',$(ele).parent().parent()).val());
+    $(ele).parent().parent().attr("isthischange","true");
     //弹出窗口
     $('#petInfo').fadeIn();
 }
@@ -204,20 +243,20 @@ function removePetDiv(ele){
 }
 $('#petAddConfirm').on('click', function () {
     var petKindTemplate = $('#petKindTemplate').val();
-    if(petKindTemplate==undefined || petKindTemplate==""){
+    /*if(petKindTemplate==undefined || petKindTemplate==""){
         showErrorTips("请填写宠物品种");
         return;
-    }
+    }*/
     var petNameTemplate = $('#petNameTemplate').val();
-    if(petNameTemplate==undefined || petNameTemplate==""){
+    /*if(petNameTemplate==undefined || petNameTemplate==""){
         showErrorTips("请填写宠物名字");
         return;
-    }
+    }*/
     var petHeightTemplate = $('#petHeightTemplate').val();
-    if(petHeightTemplate==undefined || petHeightTemplate==""){
+    /*if(petHeightTemplate==undefined || petHeightTemplate==""){
         showErrorTips("请填写宠物身高");
         return;
-    }
+    }*/
     var petWeightTemplate = $('#petWeightTemplate').val();
     if(petWeightTemplate==undefined || petWeightTemplate==""){
         showErrorTips("请填写宠物重量");
@@ -225,31 +264,65 @@ $('#petAddConfirm').on('click', function () {
     }
     if($("#selDWJYHG").is(":checked") ==false){
         //showErrorTips("请确认已经开具出发当日有效的《动物检疫许可证》！"); //
-       // return;
+        // return;
     }
-    if(selHkx==undefined || selHkx==""){
+
+    var selDWJYHG=$("#selDWJYHG").is(":checked")+"";
+    var selHkx =$("#selHkxTemplate").is(":checked")+"";
+    var petId = $('#petIdTemplate').val();
+    var  singleBoxPrice ='0';
+    if(selHkx!=undefined && (selHkx=="on" ||selHkx=="true"  ||selHkx==true)){
         //showErrorTips("请选择"); 使用提示的方式进行提示没有选择航空箱
+        if(petWeightTemplate>10){
+            singleBoxPrice ='200'
+        }else if(petWeightTemplate>5){
+            singleBoxPrice ='150'
+        }else{
+            singleBoxPrice ='50'
+        }
     }
-    var selDWJYHG=$("#selDWJYHG").is(":checked");
-    var selHkx =$("#selHkx").is(":checked");
+    if($(".pet-container[isThisChange=true]").length>0){
+        $('#petKind',$(".pet-container[isThisChange=true]")).val(petKindTemplate);
+        $('#petName',$(".pet-container[isThisChange=true]")).val(petNameTemplate);
+        $('#petHeight',$(".pet-container[isThisChange=true]")).val(petHeightTemplate);
+        $('#petWeight',$(".pet-container[isThisChange=true]")).val(petWeightTemplate);
+        $('#selHkxInput',$(".pet-container[isThisChange=true]")).val(selHkx);
+        $('#selDWJYHG',$(".pet-container[isThisChange=true]")).val(selDWJYHG);
+
+        $('#petSpan',$(".pet-container[isThisChange=true]")).html(" 重量："+petWeightTemplate+" 航空箱价格："+singleBoxPrice+"<a href=\"javascript:;\" onclick=\"editPetInfo(this)\" class=\"weui-btn weui-btn_mini weui-btn_warn\">编辑</a>" )
+
+        $(".pet-container[isThisChange=true]").attr("isThisChange","false");
+    }else{
+        var tpl = document.getElementById('petTpl').innerHTML;
+        var html =template(tpl, {
+            pet: {petId:petId,petKind: petKindTemplate,
+                petName: petNameTemplate
+                ,petHeight: petHeightTemplate
+                ,petWeight: petWeightTemplate
+                ,selHkx: selHkx
+                ,selDWJYHG: selDWJYHG,singleBoxPrice:singleBoxPrice
+            }});
+        //console.log(html);
+        $('#petAddDiv').append(html);
+    }
+
     /*var userMobile = $("#userMobile").val();
     if(userMobile==undefined || userMobile==""){
         showErrorTips("请填写联系人手机号码");
         return;
     }*/
-    var tpl = document.getElementById('petTpl').innerHTML;
-    var html =template(tpl, {
-        pet: {petKind: petKindTemplate,
-            petName: petNameTemplate
-            ,petHeight: petHeightTemplate
-            ,petWeight: petWeightTemplate
-            ,selHkx: selHkx
-            ,selDWJYHG: selDWJYHG
-        }});
-    //console.log(html);
-    $('#petAddDiv').append(html);
+
     $('#petInfo').fadeOut(200);
 });
 $('#petAddCancel').on('click', function () {
+    $(".pet-container[isThisChange=true]").attr("isThisChange","false");
     $('#petInfo').fadeOut(200);
 });
+
+$('#markMap').on('click', function () {
+    $('#mapInfo').fadeIn();
+});
+function mapFadeOut(){
+    $('#mapInfo').fadeOut(200);
+}
+

@@ -41,6 +41,8 @@ public class Order {
     private String placeDetailLat;
     //详细地址纬度
     private String placeDetailLng;
+    //详细地址距离
+    private String placeDistance;
     //上门价格
     private String placePrice;
     //用户ID
@@ -283,5 +285,13 @@ public class Order {
 
     public void setDeclarePrice(String declarePrice) {
         this.declarePrice = declarePrice;
+    }
+
+    public String getPlaceDistance() {
+        return placeDistance;
+    }
+
+    public void setPlaceDistance(String placeDistance) {
+        this.placeDistance = placeDistance;
     }
 }

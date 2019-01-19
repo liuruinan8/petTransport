@@ -71,16 +71,17 @@ public class OrderAction {
         String petstr = request.getParameter("pets");
         JSONArray pets = JSONArray.fromObject(petstr);
         List<Map> petLst=(List)JSONArray.toCollection(pets,Map.class);
-        String petKind = (String)request.getParameter("petKind");
-        String petWeight = (String)request.getParameter("petWeight");
+        //String petKind = (String)request.getParameter("petKind");
+        //String petWeight = (String)request.getParameter("petWeight");
 
-        String selHkx = (String) request.getParameter("selHkx");
+        //String selHkx = (String) request.getParameter("selHkx");
         String selSmjc = (String) request.getParameter("selSmjc");
 
         //地址
-        String placeAreaCode = (String)request.getParameter("placeAreaCode");
-        String placeAreaName = (String)request.getParameter("placeAreaName");
+        //String placeAreaCode = (String)request.getParameter("placeAreaCode");
+        //String placeAreaName = (String)request.getParameter("placeAreaName");
         String placeDetail = (String)request.getParameter("placeDetail");
+        String placeDistance = (String)request.getParameter("placeDistance");
         //保价 从前台传递
         String declarePrice = (String)request.getParameter("declarePrice");
         String insuredPrice = (String)request.getParameter("insuredPrice");
@@ -120,12 +121,14 @@ public class OrderAction {
 
         costParam.put("userType",userType);
         costParam.put("petLst",petLst);
-        costParam.put("selHkx",selHkx);
+        //costParam.put("selHkx",selHkx);
         costParam.put("selSmjc",selSmjc);
         costParam.put("transDate",transDate);
-        costParam.put("placeAreaCode",placeAreaCode);
-        costParam.put("petKind",petKind);
-        costParam.put("petWeight",petWeight);
+        //costParam.put("placeAreaCode",placeAreaCode);
+       // costParam.put("petKind",petKind);
+        //costParam.put("petWeight",petWeight);
+        costParam.put("placeDistance",placeDistance);
+
         costParam.put("startPlaceCode",startPlaceCode);
         costParam.put("destinationPlaceCode",destinationPlaceCode);
         costParam.put("insuredPrice",insuredPrice);
@@ -160,14 +163,15 @@ public class OrderAction {
         param.put("destinationPlaceCode",destinationPlaceCode);
         param.put("destinationPlaceName",destinationPlaceName);
         param.put("transDate",transDate);
-        param.put("petWeight",petWeight);
-        param.put("petKind",petKind);
+        //param.put("petWeight",petWeight);
+        //param.put("petKind",petKind);
         param.put("ticketPrice",ticketPrice);
         param.put("petBoxTypeId",petBoxTypeId);
         param.put("petBoxTypeName",petBoxTypeName);
         param.put("petBoxPrice",petBoxPrice);
-        param.put("placeAreaCode",placeAreaCode);
-        param.put("placeAreaName",placeAreaName);
+        //param.put("placeAreaCode",placeAreaCode);
+        //param.put("placeAreaName",placeAreaName);
+        param.put("placeDistance",placeDistance);
         param.put("placeDetail",placeDetail);
         param.put("placePrice",placePrice);
         param.put("userId",userId);
@@ -536,4 +540,11 @@ public class OrderAction {
         out.flush();
         out.close();
     }
+
+    @RequestMapping("/map")
+    @ResponseBody
+    public ModelAndView map(){
+        return new ModelAndView("map");
+    }
+
 }

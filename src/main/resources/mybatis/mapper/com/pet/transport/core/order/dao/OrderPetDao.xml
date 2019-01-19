@@ -6,8 +6,8 @@
         <id column="ID" property="id" jdbcType="VARCHAR" />
         <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
         <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
-        <result column="PET_NAME" property="petWeight" jdbcType="VARCHAR" />
-        <result column="PET_HEIGHT" property="petWeight" jdbcType="VARCHAR" />
+        <result column="PET_NAME" property="petName" jdbcType="VARCHAR" />
+        <result column="PET_HEIGHT" property="petHeight" jdbcType="VARCHAR" />
         <result column="PET_WEIGHT" property="petWeight" jdbcType="VARCHAR" />
         <result column="PET_KIND" property="petKind" jdbcType="VARCHAR" />
         <result column="SINGLE_TICKET_PRICE" property="singleTicketPrice" jdbcType="VARCHAR" />

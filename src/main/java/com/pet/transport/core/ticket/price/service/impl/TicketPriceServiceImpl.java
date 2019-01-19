@@ -6,7 +6,6 @@ import com.pet.transport.core.ticket.airBox.service.IAirBoxService;
 import com.pet.transport.core.ticket.destinationPlace.po.DestinationPlacePrice;
 import com.pet.transport.core.ticket.destinationPlace.service.IDestinationPlaceService;
 import com.pet.transport.core.ticket.price.service.ITicketPriceService;
-import com.pet.transport.core.ticket.startPlaceDetail.po.StartPlaceDetail;
 import com.pet.transport.core.ticket.startPlaceDetail.service.IStartPlaceDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,7 +37,7 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
         //String petWeight = (String) param.get("petWeight");
         //String selHkx = (String) param.get("selHkx");
         String selSmjc = (String) param.get("selSmjc");
-        String placeAreaCode = (String) param.get("placeAreaCode");
+        String placeDistance = (String) param.get("placeDistance");
         String insuredPrice = (String) param.get("insuredPrice");
         List<Map> petLst = (List<Map>) param.get("petLst");
         if(insuredPrice == null || "".equals(insuredPrice)){
@@ -143,13 +142,41 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
         String petBoxPrice = String.valueOf(petBoxPriceAll);
 
         String placePrice = "0";
+        int placePriceInt = 0;
         if(selSmjc!=null && (selSmjc.equals("true")||selSmjc.equals("on"))){
-            Map placeMap = new HashMap();
+            /*Map placeMap = new HashMap();
             placeMap.put("detailCode",placeAreaCode);
             StartPlaceDetail dt = startPlaceDetailService.selectDetailByDetailCode(placeMap);
             if(dt != null){
                 placePrice = dt.getPrice();
+            }*/
+            int distance = Integer.valueOf(placeDistance);
+            //  0-10km	免费	免费
+            if(distance>10 && distance<=20){
+                // 10-20km	40元/件	20元/件
+                placePriceInt= 40 + 20 * (petNum - 1);
+            }else if(distance>20 && distance<=25){
+                // 20-25km	50元/件	20元/件
+                placePriceInt= 50 + 20 * (petNum - 1);
+            }else if(distance>25 && distance<=30){
+                // 25-30km	60元/件	20元/件
+                placePriceInt= 60 + 20 * (petNum - 1);
+            }else if(distance>30 && distance<=35){
+                // 30-35km	70元/件	20元/件
+                placePriceInt= 70 + 20 * (petNum - 1);
+            }else if(distance>35 && distance<=40){
+                // 35-40km	80元/件	20元/件
+                placePriceInt= 80 + 20 * (petNum - 1);
+            }else if(distance>40 && distance<=45){
+                // 40-45km	90元/件	20元/件
+                placePriceInt= 90 + 20 * (petNum - 1);
+            }else if(distance>45 && distance<=50){
+                // 45-50km	100元/件	20元/件
+                placePriceInt= 100 + 20 * (petNum - 1);
+            }else{
+                placePriceInt=1000000000;
             }
+            placePrice = String .valueOf(placePriceInt);
         }
 
         Double totalPrice = Double.parseDouble(ticketPrice) +

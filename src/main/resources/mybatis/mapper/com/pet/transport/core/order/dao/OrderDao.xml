@@ -15,6 +15,7 @@
         <result column="PLACE_AREA_CODE" property="placeAreaCode" jdbcType="VARCHAR" />
         <result column="PLACE_AREA_NAME" property="placeAreaName" jdbcType="VARCHAR" />
         <result column="PLACE_DETAIL" property="placeDetail" jdbcType="VARCHAR" />
+        <result column="PLACE_DISTANCE" property="placeDistance" jdbcType="VARCHAR" />
         <result column="PLACE_DETAIL_LAT" property="placeDetailLat" jdbcType="VARCHAR" />
         <result column="PLACE_DETAIL_LNG" property="placeDetailLng" jdbcType="VARCHAR" />
         <result column="PLACE_PRICE" property="placePrice" jdbcType="VARCHAR" />
@@ -30,11 +31,11 @@
     <insert id="addOrder" parameterType="Map">
         INSERT INTO CORE_ORDER (ID, ORDER_NO, START_PLACE_CODE,START_PLACE_NAME,DESTINATION_PLACE_CODE,
         DESTINATION_PLACE_NAME,TRANS_DATE,TICKET_PRICE,PET_BOX_PRICE,PLACE_AREA_CODE,PLACE_AREA_NAME,
-        PLACE_DETAIL,PLACE_PRICE,USER_ID,DECLARE_PRICE,INSURED_PRICE,TOTAL_PRICE,ORDER_STATUS,
+        PLACE_DETAIL,PLACE_DISTANCE,PLACE_PRICE,USER_ID,DECLARE_PRICE,INSURED_PRICE,TOTAL_PRICE,ORDER_STATUS,
         PAY_STATUS,PAY_SERIAL_NO,PAY_ACCOUNT)
         VALUES (#{id}, #{orderNo},#{startPlaceCode},#{startPlaceName},#{destinationPlaceCode},
         #{destinationPlaceName},#{transDate},#{ticketPrice},#{petBoxPrice},#{placeAreaCode},#{placeAreaName},
-        #{placeDetail},#{placePrice},#{userId},#{declarePrice},#{insuredPrice},#{totalPrice},#{orderStatus}
+        #{placeDetail}, #{placeDistance},#{placePrice},#{userId},#{declarePrice},#{insuredPrice},#{totalPrice},#{orderStatus}
         ,#{payStatus},#{paySerialNo},#{payAccount});
     </insert> <!---->
     <!-- 查询单条记录-->
@@ -108,6 +109,9 @@
         </if>
         <if test="placeDetail !=''">
             ,PLACE_DETAIL=#{placeDetail}
+        </if>
+        <if test="placeDistance !=''">
+            ,PLACE_DISTANCE=#{placeDistance}
         </if>
         <if test="placePrice !=''">
             ,PLACE_PRICE=#{placePrice}

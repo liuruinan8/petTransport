@@ -37,7 +37,7 @@ public class TicektPriceAction {
         String petWeight = (String)request.getParameter("petWeight");
         String selHkx = (String) request.getParameter("selHkx");
         String selSmjc = (String) request.getParameter("selSmjc");
-        String placeAreaCode = (String)request.getParameter("placeAreaCode");
+        String placeDistance = (String)request.getParameter("placeDistance");
         //保价 从前台传递
         //保价 从前台传递
         //String selBjfw=(String) request.getParameter("selBjfw");
@@ -77,7 +77,7 @@ public class TicektPriceAction {
         costParam.put("selHkx",selHkx);
         costParam.put("selSmjc",selSmjc);
         costParam.put("transDate",transDate);
-        costParam.put("placeAreaCode",placeAreaCode);
+        costParam.put("placeDistance",placeDistance);
         costParam.put("petKind",petKind);
         costParam.put("petWeight",petWeight);
         costParam.put("startPlaceCode",startPlaceCode);
