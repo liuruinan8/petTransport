@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -113,7 +114,9 @@ public class OrderAction {
             }
         }
 
-
+        if(StringUtils.isEmpty(userType)){
+            userType = "plain";
+        }
 
 
         //不使用前台传过来的信息 重新计算价格信息 防止攻击
@@ -192,7 +195,7 @@ public class OrderAction {
 
         //orderStatus 三种 草稿draft 已提交sumbit 已支付pay 已完成complate 线下支付 offlinePay
         String orderStatus = "draft";//(String)request.getParameter("orderStatus");
-        String payStatus = "0";//(String)request.getParameter("payStatus");
+        String payStatus = "-1";//(String)request.getParameter("payStatus");
         String paySerialNo = "-1";//(String)request.getParameter("paySerialNo");
         String payAccount = "-1";//(String)request.getParameter("payAccount");
 
@@ -207,7 +210,6 @@ public class OrderAction {
             if(logger.isDebugEnabled()){
                 logger.debug("------开始发送消息--------");
             }
-            orderMessageUtil.sendOrderSaveSuccessMessage(param);
             map.put("status","success");
             map.put("orderId",param.get("id"));
         }else{
@@ -229,6 +231,44 @@ public class OrderAction {
 
         //orderStatus 三种 草稿draft saved  已提交sumbit  arrival 已支付pay  trans 已完成complate
         String orderStatus = "saved";//(String)request.getParameter("orderStatus");
+        String payStatus = "-1";//(String)request.getParameter("payStatus");
+        String paySerialNo = "-1";//(String)request.getParameter("paySerialNo");
+        String payAccount = "-1";//(String)request.getParameter("payAccount");
+
+        param.put("orderStatus",orderStatus);
+        param.put("payStatus",payStatus);
+        param.put("paySerialNo",paySerialNo);
+        param.put("payAccount",payAccount);
+
+        param = orderService.sumbitOrder(param);
+        int i= (Integer) param.get("resultStatus");
+        if(i==1){
+            if(logger.isDebugEnabled()){
+                logger.debug("------开始发送消息--------");
+            }
+
+            map.put("status","success");
+            map.put("orderId",param.get("id"));
+        }else{
+            map.put("status","fail");
+        }
+        map.put("status","success");
+
+        if(map!=null){
+            ret =  DataConvertUtil.convertMapToJson(map);
+        }
+        return ret;
+    }
+
+    @RequestMapping("/saveAndShouHuo")
+    @ResponseBody
+    public String saveAndShouHuo(HttpServletRequest request, HttpServletResponse response){
+        String ret = "";
+        Map map = new HashMap();
+        Map param =organizeRequest(request);
+
+        //orderStatus 三种 草稿draft saved  已提交sumbit  arrival 已支付pay  trans 已完成complate
+        String orderStatus = "sumbit";//(String)request.getParameter("orderStatus");
         String payStatus = "0";//(String)request.getParameter("payStatus");
         String paySerialNo = "-1";//(String)request.getParameter("paySerialNo");
         String payAccount = "-1";//(String)request.getParameter("payAccount");
@@ -244,7 +284,7 @@ public class OrderAction {
             if(logger.isDebugEnabled()){
                 logger.debug("------开始发送消息--------");
             }
-            //orderMessageUtil.sendOrderSaveSuccessMessage(param);
+            orderMessageUtil.sendOrderSaveSuccessMessage(param);
             map.put("status","success");
             map.put("orderId",param.get("id"));
         }else{
@@ -257,6 +297,10 @@ public class OrderAction {
         }
         return ret;
     }
+
+
+
+
     @RequestMapping("/sumbitPerson")
     @ResponseBody
     public String sumbitPerson(HttpServletRequest request, HttpServletResponse response){
@@ -284,7 +328,7 @@ public class OrderAction {
             if(logger.isDebugEnabled()){
                 logger.debug("------开始发送消息--------");
             }
-            orderMessageUtil.sendOrderSaveSuccessMessage(param);
+            orderMessageUtil.sendOrderSaveSuccessToAdminMessage(param);
             map.put("status","success");
             map.put("orderId",orderId);
         }else{

@@ -10,6 +10,7 @@ import com.pet.transport.core.ticket.startPlaceDetail.service.IStartPlaceDetailS
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +35,9 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
         //String destinationPlaceCode = (String) param.get("destinationPlaceCode");
         //String transDate = (String) param.get("transDate");
         String userType = (String) param.get("userType");
+        if(StringUtils.isEmpty(userType)){
+            userType = "plain";
+        }
         //String petWeight = (String) param.get("petWeight");
         //String selHkx = (String) param.get("selHkx");
         String selSmjc = (String) param.get("selSmjc");

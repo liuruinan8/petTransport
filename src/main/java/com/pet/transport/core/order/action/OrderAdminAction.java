@@ -3,7 +3,11 @@ package com.pet.transport.core.order.action;
 import com.pet.transport.common.util.DataConvertUtil;
 import com.pet.transport.core.order.po.Order;
 import com.pet.transport.core.order.service.IOrderService;
+import com.pet.transport.core.order.util.OrderMessageUtil;
 import com.pet.transport.core.ticket.price.service.ITicketPriceService;
+import com.pet.transport.uc.user.util.UserUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -35,10 +39,25 @@ public class OrderAdminAction {
     @Qualifier("ticketPriceServiceImpl")
     ITicketPriceService ticketPriceServiceImpl;
 
+    private OrderMessageUtil orderMessageUtil = OrderMessageUtil.getInstance();
+    private Log logger = LogFactory.getLog(OrderAction.class);
 
     @RequestMapping(value = "/adminOrderSumbit", produces = {"text/html;charset=UTF-8;"})
     @ResponseBody
     public ModelAndView adminOrderSumbit(HttpServletRequest request){
+        Map userMap =UserUtil.getInstance().getLoginUserMap();
+        String isAdmin = "0";
+        if(userMap!=null && !userMap.isEmpty()){
+            if(userMap.containsKey("isAdmin")){
+                isAdmin = (String) userMap.get("isAdmin");
+            }
+        }
+
+        if(isAdmin.equals("0")){
+            return null;
+        }
+
+
         ModelAndView mv = new ModelAndView("adminOrderSumbit");
         String ret = orderLstAdmin(request);
         mv.addObject("orderLst", ret);
@@ -50,6 +69,17 @@ public class OrderAdminAction {
         //String orderId = (String) request.getParameter("orderId");
 
         //TODO 判断当前用户是否是管理员
+        Map userMap =UserUtil.getInstance().getLoginUserMap();
+        String isAdmin = "0";
+        if(userMap!=null && !userMap.isEmpty()){
+            if(userMap.containsKey("isAdmin")){
+               isAdmin = (String) userMap.get("isAdmin");
+            }
+        }
+
+        if(isAdmin.equals("0")){
+            return "";
+        }
 
         List<String> statusLst = new ArrayList<String>();
         statusLst.add("sumbit");
@@ -94,6 +124,5 @@ public class OrderAdminAction {
         mv.addObject("orderPets", orderPets);
         return mv;
     }
-
 
 }

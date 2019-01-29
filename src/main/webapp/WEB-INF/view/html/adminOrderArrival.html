@@ -49,7 +49,8 @@
                 </div>
                 <#list orderPets as pet>
                     <div class="pet-container" isThisChange="false">
-                        <span id="petSpan">名字：${pet.petName} 重量：${pet.petWeight} 航空箱价格：${pet.singleBoxPrice} <button onclick="editPetInfo(this)">编辑</button></span>
+                        <span id="petSpan">名字：${pet.petName} 重量：${pet.petWeight} 航空箱价格：${pet.singleBoxPrice}
+                            <a href="javascript:;" onclick="editPetInfo(this)" class="weui-btn weui-btn_mini weui-btn_warn">编辑</a></span>
                         <input id="petId" type="hidden" value="${pet.id}">
                         <input id="petName" type="hidden" value="${pet.petName}">
                         <input id="petKind" type="hidden" value="${pet.petKind}">
@@ -128,26 +129,33 @@
                         </div>
                     </div>
             </div>
-            <div class="weui-cells weui-cells_checkbox">
+            <div class="weui-cells weui-cells_checkbox" style="margin-top: 0px">
                 <label class="weui-cell weui-check__label" for="selBjfw">
                     <div class="weui-cell__hd">
                         <#if order.declarePrice==''>
-                            <input type="checkbox" name="checkbox1" class="weui-check" id="selBjfw" >
+                        <input type="checkbox" name="checkbox1" class="weui-check" id="selBjfw" >
                         <#else>
-                            <input type="checkbox" name="checkbox1" class="weui-check" id="selBjfw" checked>
+                        <input type="checkbox" name="checkbox1" class="weui-check" id="selBjfw" checked>
                         </#if>
                         <i class="weui-icon-checked"></i>
                     </div>
                     <div class="weui-cell__bd">
                         <p>保价服务
-                            <input id="declarePrice" value="${order.declarePrice}" placeholder="3000～20000" type="number" pattern="[0-9]*">
-                            <label id="value_money_label">元</label></p>
-                        <p><div id="insuredPrice" class="order-money font-style">费率2%</div></p>
                     </div>
                 </label>
-
             </div>
-
+            <div id="bjfwInfo" class="weui-cells hide" style="margin-top: 0px">
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <span style="font-size:16px;">声明价值:</span>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input id="declarePrice" placeholder="3000～20000" value="${order.declarePrice}"  style="width: 40%" onkeyup="value=value.replace(/[^\d]/g,'')" type="number" pattern="[0-9]*">
+                        <label id="value_money_label">元</label>
+                        <span id="insuredPrice" class="order-money font-style"  style="width: 50%">费率2%</span>
+                    </div>
+                </div>
+            </div>
 
 
             <div>
@@ -163,15 +171,18 @@
                         id="value_desc">(<span class="font-style">费率2%</span>)</label>
                     <button id="value_check_button" class="check_botton"></button> &lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt;</div>
             </div>-->
+            <div>
+                <a  id="priceAdminSumbit" href="javascript:;" class="weui-btn weui-btn_primary">预估费用</a>
+            </div>
         </div>
-        <div class="footer-div">
-            <!---->
+        <!--<div class="footer-div">
+            &lt;!&ndash;&ndash;&gt;
             <div id="price_count_div" style="padding-right: 10px;">
                 <button id="price_count_sumbit">
                     费用预估
                 </button>
             </div>
-        </div>
+        </div>-->
     </div>
     <div id="dialogs">
         <div class="js_dialog" id="showServiceTel" style="opacity: 0; display: none;">
@@ -191,8 +202,7 @@
 
                 </div>
                 <div class="weui-dialog__ft">
-                    <a href="javascript:;" id="gaveUpOrder" class="weui-dialog__btn weui-dialog__btn_default">残忍放弃</a>
-                    <a href="javascript:;" id="submitOrder" class="weui-dialog__btn weui-dialog__btn_primary">下一步</a>
+                    <a href="javascript:;" id="adminSubmitOrder" class="weui-dialog__btn weui-dialog__btn_primary">下一步</a>
                 </div>
             </div>
         </div>
@@ -257,7 +267,7 @@
             </div>
             <div class="weui-textarea-counter"><span>Kg</span></div>
         </div>
-        <div class="weui-cells weui-cells_checkbox">
+        <!--<div class="weui-cells weui-cells_checkbox">
             <label class="weui-cell weui-check__label" for="selDWJYHG">
                 <div class="weui-cell__hd">
                     <input type="checkbox" class="weui-check" name="checkbox1"  checked="checked" id="selDWJYHG">
@@ -268,7 +278,7 @@
                 </div>
             </label>
             <div class="weui-cells__tips"><div id="" style="color:red">本公司将收取40元手续费。</div></div>
-        </div>
+        </div>-->
         <div class="weui-cells weui-cells_checkbox">
             <label class="weui-cell weui-check__label" for="selHkx">
                 <div class="weui-cell__hd">
@@ -286,13 +296,15 @@
         <a id="petAddCancel" href="javascript:;" class="weui_btn weui_btn_default">取消</a>
     </div>
     <div class="weui_msg_img hide" id="mapInfo" style="opacity: 0; display: none;">
-        <iframe src="map.html"></iframe>
+        <iframe style="width: 100%;height: 100%;" src="http://www.airgopet.com/pet/ticket/order/map/"></iframe>
     </div>
 
 </div>
 <script id="petTpl" type="text/html">
     <div class="pet-container" isThisChange="false">
-        <span id="petSpan">名字：<%:=pet.petName%> 重量：<%:=pet.petWeight%> 航空箱价格：<%:=pet.singleBoxPrice%><button onclick="editPetInfo(this)">编辑</button></span>
+        <span id="petSpan">重量：<%:=pet.petWeight%> 航空箱价格：<%:=pet.singleBoxPrice%>
+            <a href="javascript:;" onclick="editPetInfo(this)" class="weui-btn weui-btn_mini weui-btn_warn">编辑</a>
+        </span>
         <input id="petId" type="hidden" value="<%:=pet.petId%>">
         <input id="petName" type="hidden" value="<%:=pet.petName%>">
         <input id="petKind" type="hidden" value="<%:=pet.petKind%>">

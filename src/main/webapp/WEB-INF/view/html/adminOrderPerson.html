@@ -97,10 +97,6 @@
 <script>
     var orderId = '${order.id}';
     var orderNo = '${order.orderNo}';
-
-    $('#noticeU').on('click', function (e) {
-        location.href="/pet/ticket/order/mine/";
-    });
     /**
      * 监听提交按钮
      */
@@ -141,7 +137,7 @@
         $.ajax({
             type : "POST",
             contentType: "application/x-www-form-urlencoded;charset=UTF-8",
-            url : "/pet/ticket/order/sumbitPerson",
+            url : "/pet/ticket/order/sumbitAdminPerson",
             data : param,
             success : function(data) {
                 var retData = JSON.parse(data);

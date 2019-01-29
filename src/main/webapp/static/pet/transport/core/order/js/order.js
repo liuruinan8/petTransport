@@ -15,6 +15,36 @@ $('#slide1').swipeSlide({
 
 
 function subMitOrder(){
+
+    var param = orgParam();
+
+    $.ajax({
+        type : "POST",
+        contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+        url : "/pet/ticket/order/sumbitOrder",
+        data : param,
+        success : function(data) {
+            var retData = JSON.parse(data);
+            if(retData.status =="success"){
+               $('#orderId').val(retData.orderId);
+                //跳转到另外一个页面
+                location.href="/pet/ticket/order/supplyPerson?orderId="+retData.orderId;
+            }else{
+                $('#hkxsysm,#sumbitSuccess').fadeOut();
+                $('#sumbitFail').fadeIn();
+            }/**/
+
+            // console.log(data);
+        },
+        error : function(){
+            showErrorTips("出现网络错误");
+        }
+
+    });
+
+}
+function orgParam(){
+    var param = {};
     var startPlaceCode = $("#startPlaceCode").val();
     if(startPlaceCode==undefined || startPlaceCode==""){
         showErrorTips("请选择出发地");
@@ -129,7 +159,7 @@ function subMitOrder(){
         }
     }
     var id = $('#orderId').val()
-    var param = {};
+
     var petstr = JSON.stringify(pets);
     param.id=id;
     param.pets=petstr;
@@ -152,32 +182,8 @@ function subMitOrder(){
     param.selBjfw=$("#selBjfw").is(":checked");
     param.declarePrice=declarePrice;
     param.insuredPrice=declarePrice*2/100;
-    $.ajax({
-        type : "POST",
-        contentType: "application/x-www-form-urlencoded;charset=UTF-8",
-        url : "/pet/ticket/order/sumbitOrder",
-        data : param,
-        success : function(data) {
-            var retData = JSON.parse(data);
-            if(retData.status =="success"){
-               $('#orderId').val(retData.orderId);
-                //跳转到另外一个页面
-                location.href="/pet/ticket/order/supplyPerson?orderId="+retData.orderId;
-            }else{
-                $('#hkxsysm,#sumbitSuccess').fadeOut();
-                $('#sumbitFail').fadeIn();
-            }/**/
-
-            // console.log(data);
-        },
-        error : function(){
-            showErrorTips("出现网络错误");
-        }
-
-    });
-
+    return param;
 }
-
 /**
  * {
                 "appId":"wx2421b1c4370ec43b",     //公众号名称，由商户传入

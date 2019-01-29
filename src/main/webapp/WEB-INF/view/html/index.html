@@ -75,22 +75,22 @@
             <div class="weui-cells weui-cells_form" id="petOneInfo">
                 <div class="weui-cell weui-cell_orderForm">
                     <div class="weui-cell__bd" style="color: red">
-                        <input class="weui-input order-weight" id="petWeight" onkeyup="value=value.replace(/[^\d]/g,'')" pattern="(^[1-4][0-9]$)|(^[5][0]$)|(^[1-9]$)"  type="number"  placeholder="请输入宠物重量 <50"/>
+                        <input class="weui-input" id="petWeight" onkeyup="value=value.replace(/[^\d]/g,'')" pattern="(^[1-4][0-9]$)|(^[5][0]$)|(^[1-9]$)"  type="number"  placeholder="请输入宠物重量 <50"/>
                     </div>
                     <div class="weui-textarea-counter" style="color: red"><span>Kg *</span></div>
+                </div>
+                <div class="weui-cell weui-cell_orderForm" style="">
+                    <!--<div class="weui-cell__bd">
+                        <input class="weui-input order-kind" id="petHeight" type="number" pattern="[0-9]*"  placeholder="请输入宠物身高"/>
+                    </div>
+                     <div class="weui-textarea-counter"><span>cm</span></div>-->
                     <div class="weui-cell__hd"   style="width: 50%;"  >
                         <a href="javascript:;" class="weui-btn weui-btn_default" id="showPetKindPicker">请输入宠物品种</a>
                         <input class="weui-input order-kind" id="petKind" type="hidden"  placeholder="请输入宠物品种"/>
                     </div>
 
-                </div>
-                <div class="weui-cell weui-cell_orderForm" style="display: none">
                     <div class="weui-cell__bd">
-                        <input class="weui-input order-kind" id="petHeight" type="number" pattern="[0-9]*"  placeholder="请输入宠物身高"/>
-                    </div>
-                    <div class="weui-textarea-counter"><span>cm</span></div>
-                    <div class="weui-cell__bd">
-                        <input class="weui-input order-weight" id="petName"  type="text" placeholder="请输入宠物名字"/>
+                        <input class="weui-input" id="petName"  type="text" placeholder="请输入宠物名字"/>
                     </div>
                 </div>
 
@@ -105,12 +105,12 @@
                         </div>
                     </label>
                     <div class="weui-cells__tips"><p style="margin-bottom:0;font-size:15px;color:#f09100;">*根据宠物体型、体重，系统已自动匹配<span id="PetAirBox"></span><input type="hidden" name="PetAirBoxID" value="0" id="PetAirBoxID" data-target="#msg_FlightDate"></p></div>
-                    <div class="weui-cells__tips"><div id="ckhkxsygz" style="color:red">航空箱适用规则 --->请点击阅读</div></div>
+                    <div class="weui-cells__tips"><div id="ckhkxsygz" style="color:red">自备航空箱，请点击阅读航空箱适用规则</div></div>
                 </div>
             </div>
             <div class="weui-cells weui-cells_orderForm" id="petAddDiv" style="margin-top: 0px">
                 <div class="weui-cell weui-cell_orderForm">
-                    <a href="javascript:;" id="addPet"  class="weui-btn weui-btn_mini weui-btn_primary"><i class="icon icon-22"></i>增加</a>
+                    <a href="javascript:;" id="addPet"  class="weui-btn weui-btn_mini weui-btn_primary"><i class="icon icon-22"></i>增加一只同行宠物</a>
                 </div>
             </div>
 
@@ -256,22 +256,24 @@
         </div>
     </div>
     <div class="weui_msg hide" id="petInfo" style="opacity: 0; display: none;">
-        <div class="weui-cell weui-cell_orderForm">
-            <div class="weui-cell__bd" style="color: red">
-                <input class="weui-input order-weight" id="petWeightTemplate"  type="number" pattern="(^[1-4][0-9]$)|(^[5][0]$)|(^[1-9]$)" placeholder="请输入宠物重量 <50"/>
+        <div class="weui-cell weui-cell_orderForm" style="height: 50px;">
+            <div class="weui-cell__bd" style="color: red;">
+                <input class="weui-input" id="petWeightTemplate"  type="number" pattern="(^[1-4][0-9]$)|(^[5][0]$)|(^[1-9]$)" placeholder="请输入宠物重量 <50"/>
             </div>
             <div class="weui-textarea-counter"  style="color: red"><span>Kg *</span></div>
 
+
+        </div>
+        <div class="weui-cell weui-cell_orderForm" style="height: 50px;">
+            <!--<div class="weui-cell__bd">
+                <input class="weui-input order-kind" id="petHeightTemplate" type="number" pattern="[0-9]*"  placeholder="请输入宠物身高"/>
+            </div>
+             <div class="weui-textarea-counter"><span>cm</span></div>-->
             <div class="weui-cell__hd"   style="width: 50%;"  >
                 <a href="javascript:;" class="weui-btn weui-btn_default" id="showPetKindPickerTemplate">请输入宠物品种</a>
                 <input class="weui-input order-kind" id="petKindTemplate" type="hidden"  placeholder="请输入宠物品种"/>
             </div>
-        </div>
-        <div class="weui-cell weui-cell_orderForm" style="display: none">
-            <div class="weui-cell__bd">
-                <input class="weui-input order-kind" id="petHeightTemplate" type="number" pattern="[0-9]*"  placeholder="请输入宠物身高"/>
-            </div>
-            <div class="weui-textarea-counter"><span>cm</span></div>
+
             <div class="weui-cell__bd">
                 <input class="weui-input order-weight" id="petNameTemplate"  type="text" placeholder="请输入宠物名字"/>
             </div>
@@ -299,7 +301,8 @@
                     <p>购买航空箱</p>
                 </div>
             </label>
-            <div class="weui-cells__tips"><p style="margin-bottom:0;font-size:15px;color:#f09100;">*根据宠物体型、体重，系统已自动匹配<span id="PetAirBox"></span><input type="hidden" name="PetAirBoxID" value="0" id="PetAirBoxID" data-target="#msg_FlightDate"></p></div>
+            <div class="weui-cells__tips"><p style="margin-bottom:0;font-size:15px;color:#f09100;">*根据宠物体型、体重，系统已自动匹配<span id="PetAirBox"></span>
+                <input type="hidden" name="PetAirBoxID" value="0" id="PetAirBoxID" data-target="#msg_FlightDate"></p></div>
         </div>
         <a id="petAddConfirm" href="javascript:;" class="weui_btn weui_btn_primary">确定</a>
         <a id="petAddCancel" href="javascript:;" class="weui_btn weui_btn_default">取消</a>

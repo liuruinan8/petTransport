@@ -75,7 +75,7 @@
            var end = document.getElementById("end").value;
             window.parent.document.getElementById("receiptPlace").value =end;
             var num = new Number(distance/1000);
-            window.parent.document.getElementById("placeDistance").value =toFixed(num);
+            window.parent.document.getElementById("placeDistance").value =num.toFixed(0);
             parent.window.mapFadeOut();
         }
     </script>

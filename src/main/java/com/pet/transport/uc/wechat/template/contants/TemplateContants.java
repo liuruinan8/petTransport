@@ -3,6 +3,9 @@ package com.pet.transport.uc.wechat.template.contants;
 public final class TemplateContants {
     //订单提交成功
     public static final String TEM_ORDER_SUBMIT_SUCCESS = "VJcwd1seaTsFdCend73e1Pd9hq0MLyh3BuGKa9zoSuI";
+
+    //订单收货通知
+    public static final String TEM_ORDER_DAISHOUHUO = "K6sYorDV8fyQMHh2AnpaVgsw0hNiFxjCPtgj8z5mIKQ";
     //订单包裹跟踪通知
     public static final String TEM_ORDER_PACKAGE_TRACK = "UqrfbDSKJNfTO-TlmAQqTvGP5oYeBTcnTDZSPsV36CE";
 

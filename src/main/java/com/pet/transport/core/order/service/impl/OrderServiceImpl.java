@@ -109,7 +109,7 @@ public class OrderServiceImpl implements IOrderService {
         Map newMap = new HashMap();
         newMap.put("id",param.get("orderId"));
         newMap.put("orderStatus","sumbit");
-        newMap.put("payStatus","noPay");
+        newMap.put("payStatus","0");
         updateOrderStatus(newMap);
         param.put("resultStatus",i);
         return param;
