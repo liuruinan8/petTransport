@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -90,5 +91,12 @@ public class TicektPriceAction {
             ret = DataConvertUtil.convertMapToJson(map);
         }
         return ret;
+    }
+
+
+    @RequestMapping("/cwysxy")
+    @ResponseBody
+    public ModelAndView map(){
+        return new ModelAndView("cwysxy");
     }
 }

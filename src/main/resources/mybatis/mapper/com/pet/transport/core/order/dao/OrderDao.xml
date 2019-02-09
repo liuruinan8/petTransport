@@ -79,7 +79,7 @@
         WHERE ID=#{id}
     </update>-->
     <insert id="updateOrderById" parameterType="Map">
-        UPDATE CORE_ORDER SET 1=1
+        UPDATE CORE_ORDER SET ID=#{id}
         <if test="startPlaceCode !=''">
             ,START_PLACE_CODE=#{startPlaceCode}
         </if>

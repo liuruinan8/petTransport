@@ -74,25 +74,48 @@
             <div class="weui-cells__title ">宠物信息</div>
             <div class="weui-cells weui-cells_form" id="petOneInfo">
                 <div class="weui-cell weui-cell_orderForm">
-                    <div class="weui-cell__bd" style="color: red">
-                        <input class="weui-input" id="petWeight" onkeyup="value=value.replace(/[^\d]/g,'')" pattern="(^[1-4][0-9]$)|(^[5][0]$)|(^[1-9]$)"  type="number"  placeholder="请输入宠物重量 <50"/>
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">宠物昵称</label>
                     </div>
-                    <div class="weui-textarea-counter" style="color: red"><span>Kg *</span></div>
+                    <div class="weui-cell__bd">
+                        <input style="width: 80%" class="weui-input order-weight" id="petName"  type="text" placeholder="请输入宠物昵称"/>
+                    </div>
                 </div>
-                <div class="weui-cell weui-cell_orderForm" style="">
-                    <!--<div class="weui-cell__bd">
-                        <input class="weui-input order-kind" id="petHeight" type="number" pattern="[0-9]*"  placeholder="请输入宠物身高"/>
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">宠物品种</label>
                     </div>
-                     <div class="weui-textarea-counter"><span>cm</span></div>-->
-                    <div class="weui-cell__hd"   style="width: 50%;"  >
-                        <a href="javascript:;" class="weui-btn weui-btn_default" id="showPetKindPicker">请输入宠物品种</a>
+                    <div class="weui-cell__bd">
+                        <input    style="width: 80%"   id="showPetKindPicker" class="weui-input order-weight" type="text" placeholder="请输入宠物品种" readonly="readonly">
+                        <!--<a href="javascript:;" class="weui-btn weui-btn_default" id="showPetKindPicker">请输入宠物品种</a>-->
                         <input class="weui-input order-kind" id="petKind" type="hidden"  placeholder="请输入宠物品种"/>
                     </div>
+                </div>
 
+                <div class="weui-cell weui-cell_orderForm">
+                    <div class="weui-cell__hd">
+                        <span style="color: red;">*</span>
+                        <label style="padding-left: 0px;" class="weui-label">宠物重量</label>
+                    </div>
                     <div class="weui-cell__bd">
-                        <input class="weui-input" id="petName"  type="text" placeholder="请输入宠物名字"/>
+                        <input style="width: 80%;text-align: right;"  class="weui-input order-weight" id="petWeight" onkeyup="value=value.replace(/[^\d]/g,'')" pattern="(^[1-4][0-9]$)|(^[5][0]$)|(^[1-9]$)"  type="number"  placeholder="<50"/>
+                        <span style="color: #b2b2b2;text-align: right;">Kg</span>
                     </div>
                 </div>
+                <!-- <div class="weui-cell weui-cell_orderForm">
+
+                 </div>
+                 <div class="weui-cell weui-cell_orderForm" style="">
+                     &lt;!&ndash;<div class="weui-cell__bd">
+                         <input class="weui-input order-kind" id="petHeight" type="number" pattern="[0-9]*"  placeholder="请输入宠物身高"/>
+                     </div>
+                      <div class="weui-textarea-counter"><span>cm</span></div>&ndash;&gt;
+
+
+                     <div class="weui-cell__bd">
+                         <input class="weui-input" id="petName"  type="text" placeholder="请输入宠物昵称"/>
+                     </div>
+                 </div>-->
 
                 <div class="weui-cells weui-cells_checkbox" style="margin-top: 0px">
                     <label class="weui-cell weui-check__label" for="selHkx">
@@ -109,13 +132,14 @@
                 </div>
             </div>
             <div class="weui-cells weui-cells_orderForm" id="petAddDiv" style="margin-top: 0px">
-                <div class="weui-cell weui-cell_orderForm">
-                    <a href="javascript:;" id="addPet"  class="weui-btn weui-btn_mini weui-btn_primary"><i class="icon icon-22"></i>增加一只同行宠物</a>
-                </div>
+
+            </div>
+            <div class="weui-cell weui-cell_orderForm">
+                <a href="javascript:;" id="addPet"  class="weui-btn weui-btn_mini weui-btn_primary">
+                    增加一只同行宠物</a>
             </div>
 
-
-            <div class="weui-cells__title ">增值服务</div>
+            <div class="weui-cells__title ">特色服务</div>
             <div class="weui-cells weui-cells_checkbox" style="margin-top: 0px">
                 <label class="weui-cell weui-check__label" for="selSmjc">
                     <div class="weui-cell__hd">
@@ -165,6 +189,14 @@
                 </div>
             </div>
 
+            <div>
+                <label for="weuiAgree" class="weui-agree">
+                    <input id="weuiAgree" class="weui-agree__checkbox" type="checkbox">
+                    <span class="weui-agree__text">
+                        阅读并同意<a href="http://www.airgopet.com/pet/ticket/price/cwysxy">《宠物运输协议》</a>
+                    </span>
+                </label>
+            </div>
 
             <div>
                 <input type="hidden" id="orderId">
@@ -180,8 +212,9 @@
                     <but
                     ton id="value_check_button" class="check_botton"></button> &lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt;</div>
             </div>-->
-            <div>
-                <a  id="price_count_sumbit" href="javascript:;" class="weui-btn weui-btn_primary">预估费用</a>
+            <div style="width: 100%;white-space: nowrap;overflow: auto;padding-left: 10px;padding-right: 10px;">
+                <a style="display: inline-block;width: 30%;" href="tel:17623498881" class="weui-btn bg-blue">联系客服</a>
+                <a style="display: inline-block;width: 70%;" id="price_count_sumbit" href="javascript:;" class="weui-btn bg-orange">预估费用</a>
             </div>
         </div>
 
@@ -202,9 +235,9 @@
         <div class="js_dialog" id="showServiceTel" style="opacity: 0; display: none;">
             <div class="weui-mask"></div>
             <div class="weui-dialog">
-                <div class="weui-dialog__bd">客服联系电话:<a>17899999999</a></div>
+                <div class="weui-dialog__bd">客服联系电话:<a href="tel:17623498881">17623498881</a></div>
                 <div class="weui-dialog__ft">
-                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+                    <a href="javascript:void(0);" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
                 </div>
             </div>
         </div>
@@ -255,30 +288,37 @@
 
         </div>
     </div>
-    <div class="weui_msg hide" id="petInfo" style="opacity: 0; display: none;">
-        <div class="weui-cell weui-cell_orderForm" style="height: 50px;">
-            <div class="weui-cell__bd" style="color: red;">
-                <input class="weui-input" id="petWeightTemplate"  type="number" pattern="(^[1-4][0-9]$)|(^[5][0]$)|(^[1-9]$)" placeholder="请输入宠物重量 <50"/>
+    <div class="weui_msg hide" id="petInfo" style="opacity: 0; display: none;font-size: 17px">
+
+        <div class="weui-cell weui-cell_orderForm">
+            <div class="weui-cell__hd">
+                <label class="weui-label">宠物昵称</label>
             </div>
-            <div class="weui-textarea-counter"  style="color: red"><span>Kg *</span></div>
-
-
+            <div class="weui-cell__bd">
+                <input class="weui-input order-weight" id="petNameTemplate"  type="text" placeholder="请输入宠物昵称"/>
+            </div>
         </div>
-        <div class="weui-cell weui-cell_orderForm" style="height: 50px;">
-            <!--<div class="weui-cell__bd">
-                <input class="weui-input order-kind" id="petHeightTemplate" type="number" pattern="[0-9]*"  placeholder="请输入宠物身高"/>
+        <div class="weui-cell weui-cell_orderForm">
+            <div class="weui-cell__hd">
+                <label class="weui-label">宠物品种</label>
             </div>
-             <div class="weui-textarea-counter"><span>cm</span></div>-->
-            <div class="weui-cell__hd"   style="width: 50%;"  >
-                <a href="javascript:;" class="weui-btn weui-btn_default" id="showPetKindPickerTemplate">请输入宠物品种</a>
+            <div class="weui-cell__bd">
+                <input id="showPetKindPickerTemplate" class="weui-input order-weight" type="text" placeholder="请输入宠物品种" readonly="readonly">
+                <!--<a href="javascript:;" class="weui-btn weui-btn_default" id="showPetKindPickerTemplate">请输入宠物品种</a>-->
                 <input class="weui-input order-kind" id="petKindTemplate" type="hidden"  placeholder="请输入宠物品种"/>
             </div>
-
-            <div class="weui-cell__bd">
-                <input class="weui-input order-weight" id="petNameTemplate"  type="text" placeholder="请输入宠物名字"/>
-            </div>
         </div>
 
+        <div class="weui-cell weui-cell_orderForm">
+            <div class="weui-cell__hd">
+                <span style="color: red;">*</span>
+                <label style="padding-left: 0px" class="weui-label">宠物重量</label>
+            </div>
+            <div class="weui-cell__bd">
+                <input style="width: 50%;text-align: right;"  class="weui-input order-weight" id="petWeightTemplate"  type="number" pattern="(^[1-4][0-9]$)|(^[5][0]$)|(^[1-9]$)" placeholder="<50"/>
+                <span style="color: #b2b2b2;text-align: right;">Kg</span>
+            </div>
+        </div>
        <!-- <div class="weui-cells weui-cells_checkbox">
             <label class="weui-cell weui-check__label" for="selDWJYHG">
                 <div class="weui-cell__hd">
@@ -310,7 +350,10 @@
     <div class="weui_msg_img hide" id="mapInfo" style="opacity: 0; display: none;">
         <iframe style="width: 100%;height: 100%;" src="http://www.airgopet.com/pet/ticket/order/map/"></iframe>
     </div>
-
+    <div class="weui_msg_img hide" id="xyInfo" style="opacity: 0; display: none;background-color: white;">
+        <div  style="z-index: 7" onclick="$('#xyInfo').fadeOut();" class="weui_msg_close"><i class="icon icon-95"></i></div>
+        <iframe style="width: 100%;height: 100%;" src="http://www.airgopet.com/pet/ticket/price/cwysxy"></iframe>
+    </div>
     <div class="weui_msg_img hide" id="hkxsysm" style="opacity: 4; display: none;">
         <div class="weui_msg_com">
             <div  style="z-index: 7" onclick="$('#hkxsysm').fadeOut();" class="weui_msg_close"><i class="icon icon-95"></i></div>
@@ -327,18 +370,14 @@
                        <!-- <img src="/pet/images/hkx/hkx.png"
                              class="weixin">-->
                         <div class="weui-weixin-content" style="text-align: left">
-                        航空箱  重量范围(KGS)：大于等于0~~小于6;<br/>
-                        铁丝笼  重量范围(KGS)：大于等于6~~小于10;<br/>
-                        螺纹钢制笼 重量范围(KGS)：大于等于10~~小于50;<br/>
+                            小号航空箱(小于5KG)<br/>
+                            大号航空箱 大于5KG，小于10KG<br/>
+                            小号铁丝笼 大于10KG，小于15KG;<br/>
+                            大号铁丝笼 大于15KG，小于20KG<br/>
+                            小号螺纹钢质笼 大于20KG，小于25KG<br/>
+                            大号螺纹钢质笼 大于25KG<br/>
                         </div>
-                    </div><!--图片结束-->
-                    <!--
-                                        <div class="weui-weixin-content">
-                                            <p>0号航空箱规格：长50、宽34、高32，（小型犬/1只猫）</p>
-                                            <p>1号航空箱规格：长61、宽41、高40，（中型犬/2只猫）</p>
-                                            <p>2号航空箱规格：长69、宽51、高48，（中型犬/4只猫）</p>
-                                            <p>3号航空箱规格：长80、宽56、高59，（大型犬/6只猫）</p>
-                                        </div>内容结束-->
+                    </div>
                 </div>
             </div>
             <p class="weui_msg_comment">请仔细阅读</p></div>
@@ -367,9 +406,51 @@
 </div>
 <script id="petTpl" type="text/html">
     <div class="pet-container" isThisChange="false">
-        <span id="petSpan">重量：<%:=pet.petWeight%> 航空箱价格：<%:=pet.singleBoxPrice%>
-            <a href="javascript:;" onclick="editPetInfo(this)" class="weui-btn weui-btn_mini weui-btn_warn">编辑</a>
-        </span>
+        <div>
+            <div style="padding:2px 2px;line-height: 25px" class="weui-cell weui-cell_orderForm">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">宠物昵称</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <span id="petNameSpan"><%:=pet.petName%></span>
+
+                </div>
+            </div>
+            <div style="padding:2px 2px;line-height: 25px" class="weui-cell weui-cell_orderForm">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">宠物品种</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <span id="petKindSpan"><%:=pet.petKindShow%></span>
+
+                </div>
+            </div>
+
+            <div style="padding:2px 2px;line-height: 25px" class="weui-cell weui-cell_orderForm">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">宠物重量</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <span id="petWeightSpan"><%:=pet.petWeight%></span>
+                </div>
+            </div>
+            <div style="padding:2px 2px;line-height: 25px" class="weui-cell weui-cell_orderForm">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">航空箱价格</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <span id="singleBoxPriceSpan"><%:=pet.singleBoxPrice%></span>
+                </div>
+            </div>
+
+        </div>
+        <div style="text-align: center;margin: 5;">
+            <a href="javascript:;" onclick="editPetInfo(this)" class="weui-btn weui-btn_mini weui-btn_default">编辑</a>
+            <a href="javascript:;" onclick="removePetDiv(this)" class="weui-btn weui-btn_mini weui-btn_warn">删除</a>
+        </div>
+        <!--<span id="petSpan">重量：<%:=pet.petWeight%> 航空箱价格：<%:=pet.singleBoxPrice%>
+
+        </span>-->
         <input id="petId" type="hidden" value="<%:=pet.petId%>">
         <input id="petName" type="hidden" value="<%:=pet.petName%>">
         <input id="petKind" type="hidden" value="<%:=pet.petKind%>">
@@ -377,7 +458,7 @@
         <input id="petWeight" type="hidden" value="<%:=pet.petWeight%>">
         <input id="selDWJYHGInput" type="hidden" value="<%:=pet.selDWJYHG%>">
         <input id="selHkxInput" type="hidden" value="<%:=pet.selHkx%>">
-                <img src="http://www.iconpng.com/download/png/61252" class="pet-delete" onclick="removePetDiv(this)"/>
+        <!--<img src="http://www.iconpng.com/download/png/61252" class="pet-delete" onclick="removePetDiv(this)"/>-->
     </div>
 </script>
 <script type="text/javascript" src="static/pet/transport/common/weui/js/jweixin-1.0.0.js"></script>

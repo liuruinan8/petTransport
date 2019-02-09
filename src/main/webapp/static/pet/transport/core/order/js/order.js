@@ -94,9 +94,9 @@ function orgParam(){
         pet.petWeight=petWeight;
         var petHeight =$("#petHeight",this).val();
         pet.petHeight=petHeight;
-        var selDWJYHGInput =$("#selDWJYHGInput",this).is(':checked')+"";
+        var selDWJYHGInput =$("#selDWJYHGInput",this).val()+"";
         pet.selDWJYHG=selDWJYHGInput;
-        var selHkxInput =$("#selHkxInput",this).is(':checked') +"";
+        var selHkxInput =$("#selHkxInput",this).val() +"";
         pet.selHkx=selHkxInput;
         pets.push(pet);
     });
@@ -212,7 +212,7 @@ function onBridgeReady(data){
 // language=JQuery-CSS
 $('#addPet').on('click', function () {
     $('#petIdTemplate').val('')
-    $('#showPetKindPickerTemplate').text('请输入宝宠品种');
+    $('#showPetKindPickerTemplate').val('');
     var petKindTemplate = $('#petKindTemplate').val('');
     var petNameTemplate = $('#petNameTemplate').val('');
     var petHeightTemplate = $('#petHeightTemplate').val('');
@@ -245,7 +245,7 @@ function editPetInfo(ele){
 }
 
 function removePetDiv(ele){
-    $(ele).parent().remove()
+    $(ele).parent().parent().remove()
 }
 $('#petAddConfirm').on('click', function () {
     var petKindTemplate = $('#petKindTemplate').val();
@@ -253,6 +253,10 @@ $('#petAddConfirm').on('click', function () {
         showErrorTips("请填写宠物品种");
         return;
     }*/
+    var petKindTemplateShow ="";
+    if(petKindTemplate!=""){
+        petKindTemplateShow = petKindTemplate.split("(")[0];
+    }
     var petNameTemplate = $('#petNameTemplate').val();
     /*if(petNameTemplate==undefined || petNameTemplate==""){
         showErrorTips("请填写宠物名字");
@@ -279,34 +283,53 @@ $('#petAddConfirm').on('click', function () {
     var  singleBoxPrice ='0';
     if(selHkx!=undefined && (selHkx=="on" ||selHkx=="true"  ||selHkx==true)){
         //showErrorTips("请选择"); 使用提示的方式进行提示没有选择航空箱
-        if(petWeightTemplate>10){
-            singleBoxPrice ='200'
-        }else if(petWeightTemplate>5){
+        if(petWeightTemplate>25){
+            singleBoxPrice ='280'
+        }else  if(petWeightTemplate>20){
+            singleBoxPrice ='260'
+        }else  if(petWeightTemplate>15){
+            singleBoxPrice ='180'
+        }else  if(petWeightTemplate>10){
             singleBoxPrice ='150'
+        }else if(petWeightTemplate>5){
+            singleBoxPrice ='90'
         }else{
-            singleBoxPrice ='50'
+            singleBoxPrice ='60'
         }
     }
     if($(".pet-container[isThisChange=true]").length>0){
         $('#petKind',$(".pet-container[isThisChange=true]")).val(petKindTemplate);
+        $('#petKindSpan',$(".pet-container[isThisChange=true]")).text(petKindTemplateShow);
+
         $('#petName',$(".pet-container[isThisChange=true]")).val(petNameTemplate);
+        $('#petNameSpan',$(".pet-container[isThisChange=true]")).text(petNameTemplate);
+
         $('#petHeight',$(".pet-container[isThisChange=true]")).val(petHeightTemplate);
+
         $('#petWeight',$(".pet-container[isThisChange=true]")).val(petWeightTemplate);
+        $('#petWeightSpan',$(".pet-container[isThisChange=true]")).text(petWeightTemplate);
+
         $('#selHkxInput',$(".pet-container[isThisChange=true]")).val(selHkx);
         $('#selDWJYHG',$(".pet-container[isThisChange=true]")).val(selDWJYHG);
 
-        $('#petSpan',$(".pet-container[isThisChange=true]")).html(" 重量："+petWeightTemplate+" 航空箱价格："+singleBoxPrice+"<a href=\"javascript:;\" onclick=\"editPetInfo(this)\" class=\"weui-btn weui-btn_mini weui-btn_warn\">编辑</a>" )
+        $('#singleBoxPriceSpan',$(".pet-container[isThisChange=true]")).text(singleBoxPrice);
+
+        //$('#petSpan',$(".pet-container[isThisChange=true]")).html(" 重量："+petWeightTemplate+" 航空箱价格："+singleBoxPrice+"<a href=\"javascript:;\" onclick=\"editPetInfo(this)\" class=\"weui-btn weui-btn_mini weui-btn_warn\">编辑</a>" )
 
         $(".pet-container[isThisChange=true]").attr("isThisChange","false");
     }else{
         var tpl = document.getElementById('petTpl').innerHTML;
         var html =template(tpl, {
-            pet: {petId:petId,petKind: petKindTemplate,
+            pet: {
+                petId:petId,
+                petKind: petKindTemplate,
+                petKindShow: petKindTemplateShow,
                 petName: petNameTemplate
                 ,petHeight: petHeightTemplate
                 ,petWeight: petWeightTemplate
                 ,selHkx: selHkx
-                ,selDWJYHG: selDWJYHG,singleBoxPrice:singleBoxPrice
+                ,selDWJYHG: selDWJYHG
+                ,singleBoxPrice:singleBoxPrice
             }});
         //console.log(html);
         $('#petAddDiv').append(html);

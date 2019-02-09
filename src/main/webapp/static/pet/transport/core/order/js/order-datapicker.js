@@ -111,8 +111,25 @@ for(var i = 29;i>=0;i--){
             .setDate(new Date().getDate()+i))
             .toLocaleString().substring(0,10);
     }
-
-    obj.label=dateStr;
+    var str = "";
+    var week = new Date(new Date()
+        .setDate(new Date().getDate()+i)).getDay();
+    if (week == 0) {
+        str = "星期日";
+    } else if (week == 1) {
+        str = "星期一";
+    } else if (week == 2) {
+        str = "星期二";
+    } else if (week == 3) {
+        str = "星期三";
+    } else if (week == 4) {
+        str = "星期四";
+    } else if (week == 5) {
+        str = "星期五";
+    } else if (week == 6) {
+        str = "星期六";
+    }
+    obj.label=dateStr+" "+str;
     obj.value=dateStr;
     lastMonth.unshift(obj);
 }
@@ -202,14 +219,14 @@ $.ajax({
                     //console.log(result)
                     var value = result[1].split(";")[0];
                     var disRes = result[1].split(";")[1];
-                    document.getElementById("showPetKindPickerTemplate").innerText=disRes;
+                    document.getElementById("showPetKindPickerTemplate").value=disRes;
                     document.getElementById("petKindTemplate").value=disRes+"("+value+")";
                 },
                 onConfirm: function (result) {
                     // console.log(result)
                     var value = result[1].split(";")[0];
                     var disRes = result[1].split(";")[1];
-                    document.getElementById("showPetKindPickerTemplate").innerText=""+disRes;
+                    document.getElementById("showPetKindPickerTemplate").value=""+disRes;
                     document.getElementById("petKindTemplate").value=disRes+"("+value+")";
                 },
                 id: 'showPetKindPickerTemplate'
@@ -226,14 +243,14 @@ $.ajax({
                     //console.log(result)
                     var value = result[1].split(";")[0];
                     var disRes = result[1].split(";")[1];
-                    document.getElementById("showPetKindPicker").innerText=disRes;
+                    document.getElementById("showPetKindPicker").value=disRes;
                     document.getElementById("petKind").value=disRes+"("+value+")";
                 },
                 onConfirm: function (result) {
                     // console.log(result)
                     var value = result[1].split(";")[0];
                     var disRes = result[1].split(";")[1];
-                    document.getElementById("showPetKindPicker").innerText=""+disRes;
+                    document.getElementById("showPetKindPicker").value=""+disRes;
                     document.getElementById("petKind").value=disRes+"("+value+")";
                 },
                 id: 'showPetKindPicker'
@@ -303,8 +320,6 @@ function showDst(data){
             children:newArray
         };
         dataArray.push(tmp);
-
-
     }
 
     weui.picker(dataArray, {
@@ -389,9 +404,9 @@ $(function(){
             pet.petWeight=petWeight;
             var petHeight =$("#petHeight",this).val();
             pet.petHeight=petHeight;
-            var selDWJYHGInput =$("#selDWJYHGInput",this).is(':checked')+"";
+            var selDWJYHGInput =$("#selDWJYHGInput",this).val()+"";
             pet.selDWJYHG=selDWJYHGInput;
-            var selHkxInput =$("#selHkxInput",this).is(':checked')+"";
+            var selHkxInput =$("#selHkxInput",this).val()+"";
             pet.selHkx=selHkxInput;
             pets.push(pet);
         });
@@ -449,6 +464,11 @@ $(function(){
                 return;
             }
         }
+        if($("#weuiAgree").is(":checked") !=true){
+            showErrorTips("请阅读并同意《宠物运输协议》");
+            return;
+        }
+
         var param = {};
         var petstr = JSON.stringify(pets);
         param.pets=petstr;

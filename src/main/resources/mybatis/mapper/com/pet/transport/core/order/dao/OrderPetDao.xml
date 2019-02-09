@@ -37,4 +37,27 @@
     <delete id="deletePetsByOrderId" parameterType="Map">
         delete FROM CORE_ORDER_PET WHERE ORDER_ID = #{orderId}
     </delete>
+
+    <!-- 批量更新第一种方法，通过接收传进来的参数list进行循环着组装sql -->
+    <update id="batchUpdateOrderPet" parameterType="java.util.Map">
+        <!-- 接收list参数，循环着组装sql语句，注意for循环的写法
+             separator=";" 代表着每次循环完，在sql后面放一个分号
+             item="cus" 循环List的每条的结果集
+             collection="list" list 即为 map传过来的参数key -->
+        <foreach collection="petLst" separator=";" item="item">
+            update CORE_ORDER_PET set
+            ORDER_ID=#{item.orderId},
+            ORDER_NO=#{item.orderNo},
+            PET_NAME=#{item.petName},
+            PET_WEIGHT=#{item.petWeight},
+            PET_HEIGHT=#{item.petHeight},
+            PET_KIND=#{item.petKind},
+            SINGLE_TICKET_PRICE=#{item.singleTicketPrice},
+            PET_BOX_TYPE_ID=#{item.petBoxTypeId},
+            PET_BOX_TYPE_NAME=#{item.petBoxTypeName},
+            SINGLE_BOX_PRICE=#{item.singleBoxPrice},
+            SINGLE_DECLARE_PRICE=#{item.singleDeclarePrice}
+            where ID = #{item.id}
+        </foreach>
+    </update>
 </mapper>

@@ -11,9 +11,11 @@ import java.util.Map;
  * @date 2019/1/1119:38
  */
 public interface OrderPetDao {
-    public void saveBatchOrderPet(Map map);
+    int saveBatchOrderPet(Map map);
 
-    public void deletePetsByOrderId(Map delMap);
+    void deletePetsByOrderId(Map delMap);
 
     List<Map> selectOrderPetByOrderId(String orderId);
+
+    int batchUpdateOrderPet(Map map);
 }

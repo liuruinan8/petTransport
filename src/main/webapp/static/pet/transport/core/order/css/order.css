@@ -59,7 +59,7 @@
 }
 
 #app .wrapper {
-    height: calc(100% - 1.44rem);
+   /* height: calc(100% - 1.44rem);*/
     overflow: auto;
 }
 #app .footer-div {
@@ -309,7 +309,7 @@ button, input, select, textarea {
 .pet-container{
      margin: 10px 10px 10px 10px;
      /*width:60px;*/
-     height:60px;
+    /* height:60px;*/
      border: 1px dotted red;
      position:relative;
  }

@@ -268,7 +268,7 @@ public class OrderAction {
         Map param =organizeRequest(request);
 
         //orderStatus 三种 草稿draft saved  已提交sumbit  arrival 已支付pay  trans 已完成complate
-        String orderStatus = "sumbit";//(String)request.getParameter("orderStatus");
+        String orderStatus = "arrival";//(String)request.getParameter("orderStatus");
         String payStatus = "0";//(String)request.getParameter("payStatus");
         String paySerialNo = "-1";//(String)request.getParameter("paySerialNo");
         String payAccount = "-1";//(String)request.getParameter("payAccount");

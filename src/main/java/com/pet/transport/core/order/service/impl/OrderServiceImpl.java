@@ -9,6 +9,7 @@ import com.pet.transport.core.order.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,21 +63,41 @@ public class OrderServiceImpl implements IOrderService {
         }
 
         //删除订单下的所有的宠物
-        Map delMap = new HashMap();
-        delMap.put("orderId",id);
-        orderPetDao.deletePetsByOrderId(delMap);
-
+        //Map delMap = new HashMap();
+        //delMap.put("orderId",id);
+        //orderPetDao.deletePetsByOrderId(delMap);
+        Map pets = new HashMap();
+        List<Map> nowPetLst =  orderPetDao.selectOrderPetByOrderId(id);
+        for (Map pet:nowPetLst) {
+            pets.put(pet.get("ID"),pet.get("ID"));
+        }
+        List<Map> insertPetLst =  new ArrayList<Map>();
+        List<Map> updatePetLst =  new ArrayList<Map>();
         for (Map map:petLst) {
-            String petId = String.valueOf(idWorker.nextId());
-            map.put("id",petId);
-            map.put("orderId",id);
-            map.put("orderNo",orderNo);
+            if(pets.containsKey(map.get("id"))){
+                //String petId = String.valueOf(idWorker.nextId());
+                //map.put("id",petId);
+                map.put("orderId",id);
+                map.put("orderNo",orderNo);
+                updatePetLst.add(map);
+            }else{
+                String petId = String.valueOf(idWorker.nextId());
+                map.put("id",petId);
+                map.put("orderId",id);
+                map.put("orderNo",orderNo);
+                insertPetLst.add(map);
+            }
+
         }
         Map map =new HashMap();
-        map.put("petLst",petLst);
+        map.put("petLst",insertPetLst);
         //重新增加
-        orderPetDao.saveBatchOrderPet(map);
+       int ii= orderPetDao.saveBatchOrderPet(map);
+        map.put("petLst",insertPetLst);
+        //重新增加
+        int ui= orderPetDao.batchUpdateOrderPet(map);
         param.put("resultStatus",i);
+        param.put("resultPetStatus",ii+ui);
         //组装Order
         return param;
     }

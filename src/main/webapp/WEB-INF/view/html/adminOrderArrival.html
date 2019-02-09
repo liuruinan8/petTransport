@@ -159,7 +159,7 @@
 
 
             <div>
-                <input type="hidden" id="orderId">
+                <input type="hidden" id="orderId" value="${order.id}" >
                 <input type="hidden" id="ticketPrice">
                 <input type="hidden" id="petBoxPrice">
                 <input type="hidden" id="placePrice">
@@ -280,9 +280,9 @@
             <div class="weui-cells__tips"><div id="" style="color:red">本公司将收取40元手续费。</div></div>
         </div>-->
         <div class="weui-cells weui-cells_checkbox">
-            <label class="weui-cell weui-check__label" for="selHkx">
+            <label class="weui-cell weui-check__label" for="selHkxTemplate">
                 <div class="weui-cell__hd">
-                    <input type="checkbox" class="weui-check" name="checkbox1" id="selHkx" checked="checked">
+                    <input type="checkbox" class="weui-check" name="checkbox1" id="selHkxTemplate" checked="checked">
                     <i class="weui-icon-checked"></i>
                 </div>
                 <div class="weui-cell__bd">
@@ -320,6 +320,7 @@
 <script type="text/javascript" src="/pet/static/pet/transport/core/order/js/order-datapicker.js" charset="UTF-8"></script>
 <script type="text/javascript" src="/pet/static/pet/transport/common/vendor/js/vendor.js"></script>
 <script type="text/javascript" src="/pet/static/pet/transport/core/order/js/order.js"></script>
+<script type="text/javascript" src="/pet/static/pet/transport/core/order/js/order4Admin.js"></script>
 <script type="text/javascript" src="/pet/static/pet/transport/common/weui/js/weui.min.js"></script>
 <script type="text/javascript" src="/pet/static/pet/transport/common/template/template.js"></script>
 </body>

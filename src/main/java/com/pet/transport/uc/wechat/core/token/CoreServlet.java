@@ -134,7 +134,7 @@ public class CoreServlet extends HttpServlet {
         // xml格式的消息数据
         String respXml = null;
         // 默认返回的文本消息内容
-        String respContent = "未知的消息类型";
+        String respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！";
         try {
             // 调用parseXml方法解析请求消息
             Map requestMap = MessageUtil.parseXml(request);
