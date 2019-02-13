@@ -1,6 +1,8 @@
 package com.pet.transport.core.order.service;
 
 import com.pet.transport.core.order.po.Order;
+import com.pet.transport.core.order.po.OrderPerson;
+import com.pet.transport.core.order.po.OrderPet;
 
 import java.util.List;
 import java.util.Map;
@@ -21,5 +23,9 @@ public interface IOrderService {
 
    Map sumbitPerson(Map param);
 
-   List<Map> selectOrderPetByOrderId( String orderId );
+   List<OrderPet> selectOrderPetByOrderId(String orderId );
+
+   void updateOrderPersonConsignee(String orderId, String userId);
+
+   OrderPerson selectOrderPersonByOrderId(String id);
 }

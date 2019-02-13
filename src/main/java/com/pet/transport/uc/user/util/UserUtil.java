@@ -69,6 +69,10 @@ public class UserUtil {
                     map.put("userMobile",userMobile);
                     String openId = user.getOpenId();
                     map.put("openId",openId);
+                    String userType = user.getUserType();
+                    map.put("userType",userType);
+                    String isAdmin = user.getIsAdmin();
+                    map.put("isAdmin",isAdmin);
                 }
             }
 
@@ -100,6 +104,12 @@ public class UserUtil {
 
     public void addUserByMap(Map<String,String> userInfo) {
         if(userUtil.userService !=null) {
+            if(!userInfo.containsKey("userType")){
+                userInfo.put("userType","plain");
+            }
+            if(!userInfo.containsKey("isAdmin")){
+                userInfo.put("isAdmin","0");
+            }
             userUtil.userService.addUser(userInfo);
         }
     }

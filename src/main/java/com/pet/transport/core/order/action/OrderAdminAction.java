@@ -118,8 +118,31 @@ public class OrderAdminAction {
         String orderId = (String) request.getParameter("orderId");
         //TODO 判断状态是否正确 userID是否是管理员
         Order order = orderService.selectOrderById(orderId);
-        mv.addObject("order", order);
+        //TODO 判断当前用户是否是管理员
+        Map userMap =UserUtil.getInstance().getLoginUserMap();
+        String isAdmin = "0";
+        if(userMap!=null && !userMap.isEmpty()){
+            if(userMap.containsKey("isAdmin")){
+                isAdmin = (String) userMap.get("isAdmin");
+            }
+        }
 
+        if(isAdmin.equals("0")){
+            mv.addObject("orderPets", null);
+            //权限不足001
+            mv.addObject("errorCode", "001");
+            return mv;
+        }
+        String status = order.getOrderStatus();
+        if(!"sumbit".equals(status)){
+            mv.addObject("orderPets", null);
+            //状态不对
+            mv.addObject("errorCode", "101");
+            return mv;
+        }
+
+        mv.addObject("order", order);
+        mv.addObject("errorCode", "");
         List orderPets = orderService.selectOrderPetByOrderId(orderId);
         mv.addObject("orderPets", orderPets);
         return mv;

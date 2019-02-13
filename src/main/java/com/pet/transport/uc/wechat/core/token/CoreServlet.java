@@ -1,5 +1,6 @@
 package com.pet.transport.uc.wechat.core.token;
 
+import com.pet.transport.core.order.util.OrderMessageUtil;
 import com.pet.transport.uc.user.util.UserUtil;
 import com.pet.transport.uc.wechat.core.util.WeChatUtil;
 import com.pet.transport.uc.wechat.message.po.TextMessage;
@@ -17,6 +18,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CoreServlet extends HttpServlet {
@@ -162,6 +164,19 @@ public class CoreServlet extends HttpServlet {
                         String isAdmin =(String) map.get("isAdmin");
                         if(isAdmin != null &&("1".equals(isAdmin)||"2".equals(isAdmin))){
                             respContent = "管理员，你好！<br> 收货管理：http://www.airgopet.com/pet/ticket/orderaAdmin/adminOrderSumbit<br> 承运信息管理：";
+                        }
+                    }
+                }
+                if(content != null &&"收货管理".equals(content.trim())){
+                    Map map = UserUtil.getInstance().getUserMapByOpenId(fromUserName);
+                    if(map.containsKey("isAdmin")){
+                        String isAdmin =(String) map.get("isAdmin");
+                        if(isAdmin != null &&("1".equals(isAdmin)||"2".equals(isAdmin))){
+                            OrderMessageUtil orderMessageUtil = OrderMessageUtil.getInstance();
+                            Map map1 = new HashMap();
+                            map1.put("openid",fromUserName);
+                            orderMessageUtil.sendShouhuoAdminMessage(map1);
+                            respContent="请单击上方或下方通知进行收货信息维护";
                         }
                     }
                 }

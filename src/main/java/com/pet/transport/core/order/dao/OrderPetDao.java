@@ -1,5 +1,7 @@
 package com.pet.transport.core.order.dao;
 
+import com.pet.transport.core.order.po.OrderPet;
+
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +17,9 @@ public interface OrderPetDao {
 
     void deletePetsByOrderId(Map delMap);
 
-    List<Map> selectOrderPetByOrderId(String orderId);
+    List<OrderPet> selectOrderPetByOrderId(String orderId);
 
     int batchUpdateOrderPet(Map map);
+
+    void batchDeleteOrderPet(Map map);
 }

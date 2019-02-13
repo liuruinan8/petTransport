@@ -116,9 +116,10 @@
         <if test="placePrice !=''">
             ,PLACE_PRICE=#{placePrice}
         </if>
-        <if test="userId !=''">
+        <!--userId不允许更新-->
+        <!--<if test="userId !=''">
             ,USER_ID=#{userId}
-        </if>
+        </if>-->
         <if test="declarePrice !=''">
             ,DECLARE_PRICE=#{declarePrice}
         </if>

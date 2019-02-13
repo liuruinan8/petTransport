@@ -3,6 +3,7 @@ package com.pet.transport.uc.user.action;
 import com.pet.transport.common.contants.URLContants;
 import com.pet.transport.uc.shrio.util.CipherUtil;
 import com.pet.transport.uc.user.util.UserUtil;
+import com.pet.transport.uc.wechat.common.emoji.EmojiFilter;
 import com.pet.transport.uc.wechat.core.util.WeChatUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -108,7 +109,13 @@ public class UserAction {
                      *         , #{sex}, #{country}, #{province}, #{city}, #{language}, #{headImgUrl}, #{isCertified}, #{openId}
                      */
                     userMap.put("userId", userInfo.get("openid"));
-                    userMap.put("userName", userInfo.get("nickname"));
+                    String userName=EmojiFilter.filterEmoji(userInfo.get("nickname"));
+                    /*try {
+                        userName = URLEncoder.encode(userName, "utf-8");
+                    } catch (UnsupportedEncodingException e) {
+                        logger.error("昵称编码失败:"+userName);
+                    }*/
+                    userMap.put("userName", userName);
                     //取得 密码，并用MD5加密
                     String password = CipherUtil.generatePassword("YU3ia821QQ");
                     userMap.put("userPassword", password);
@@ -125,7 +132,7 @@ public class UserAction {
                     userMap.put("subscribe", "");
                     userMap.put("subscribeTime", "");
 
-                    userMap.put("nickname", userInfo.get("nickname"));
+                    userMap.put("nickname", userName);
                     userMap.put("sex", userInfo.get("sex"));
                     userMap.put("country", userInfo.get("country"));
                     userMap.put("province", userInfo.get("province"));
@@ -212,4 +219,5 @@ public class UserAction {
             return new ModelAndView(result);
         }
     }
+
 }

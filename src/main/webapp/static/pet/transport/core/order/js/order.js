@@ -43,7 +43,10 @@ function subMitOrder(){
     });
 
 }
-function orgParam(){
+function orgParam(haveMain){
+    if(haveMain == undefined){
+        haveMain = true;
+    }
     var param = {};
     var startPlaceCode = $("#startPlaceCode").val();
     if(startPlaceCode==undefined || startPlaceCode==""){
@@ -66,26 +69,31 @@ function orgParam(){
     }
     var pets=[];
     var pet={};
-    var petName = $("#petName").val();
-    pet.petName=petName;
-    var petKind = $("#petKind").val();
-    pet.petKind=petKind;
-    var petWeight = $("#petWeight").val();
-    if(petWeight==undefined || petWeight==""){
-        showErrorTips("请填写宠物重量");
-        return;
+    if(haveMain){
+        var petName = $("#petName").val();
+        pet.petName=petName;
+        var petKind = $("#petKind").val();
+        pet.petKind=petKind;
+        var petWeight = $("#petWeight").val();
+        if(petWeight==undefined || petWeight==""){
+            showErrorTips("请填写宠物重量");
+            return;
+        }
+
+        pet.petWeight=petWeight;
+        var petHeight = $("#petHeight").val();
+        pet.petHeight=petHeight;
+        var selDWJYHGInput = $("#selDWJYHGInput").is(':checked')+"";
+        pet.selDWJYHG=selDWJYHGInput;
+        var selHkxInput = $("#selHkx").is(':checked')+"";
+        pet.selHkx=selHkxInput;
+        pets.push(pet);
     }
 
-    pet.petWeight=petWeight;
-    var petHeight = $("#petHeight").val();
-    pet.petHeight=petHeight;
-    var selDWJYHGInput = $("#selDWJYHGInput").is(':checked')+"";
-    pet.selDWJYHG=selDWJYHGInput;
-    var selHkxInput = $("#selHkx").is(':checked')+"";
-    pet.selHkx=selHkxInput;
-    pets.push(pet);
     $("#petAddDiv .pet-container").each(function(){
         var pet={};
+        var petId =$("#petId",this).val();
+        pet.petId=petId;
         var petName =$("#petName",this).val();
         pet.petName=petName;
         var petKind =$("#petKind",this).val();
@@ -158,7 +166,7 @@ function orgParam(){
             return;
         }
     }
-    var id = $('#orderId').val()
+    var id = $('#orderId').val();
 
     var petstr = JSON.stringify(pets);
     param.id=id;
@@ -226,9 +234,9 @@ function editPetInfo(ele){
     var petKind =  $('#petKind',$(ele).parent().parent()).val();
     if(petKind!=""){
         var petKindName = petKind.split("(")[0];
-        $('#showPetKindPickerTemplate').text(petKindName);
+        $('#showPetKindPickerTemplate').val(petKindName);
     }else{
-        $('#showPetKindPickerTemplate').text("请填写宠物品种");
+        $('#showPetKindPickerTemplate').val("");
     }
 
     //var petKindId = petKind.split("(")[1].split(")")[0];

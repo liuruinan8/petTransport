@@ -2,6 +2,7 @@ package com.pet.transport.core.order.action;
 
 import com.pet.transport.common.util.DataConvertUtil;
 import com.pet.transport.core.order.po.Order;
+import com.pet.transport.core.order.po.OrderPerson;
 import com.pet.transport.core.order.service.IOrderService;
 import com.pet.transport.core.order.util.OrderMessageUtil;
 import com.pet.transport.core.ticket.price.service.ITicketPriceService;
@@ -61,6 +62,43 @@ public class OrderAction {
 
     private Map organizeRequest(HttpServletRequest  request){
         String id = (String) request.getParameter("id");
+        //不使用前台传过来的信息 重新计算价格信息 防止攻击
+        Map costParam = new HashMap();
+        Map param = new HashMap();
+        //获取当前登录人 判空 如果为空 从shrio中获取
+        String userId = (String)request.getParameter("userId");
+        String userMobile = (String)request.getParameter("userMobile");
+        String userType = (String)request.getParameter("userType");
+
+
+        if(!StringUtils.isEmpty(id)){
+            Order order= orderService.selectOrderById(id);
+            userId=order.getUserId();
+            userMobile = order.getUserMobile();
+            userType = (String)UserUtil.getInstance().getUserMapByUserId(userId).get("userType");
+            String orderNo=order.getOrderNo();
+            param.put("orderNo",orderNo);
+        }else{
+            if(userId == null || "".equals(userId)){
+                Map userMap =UserUtil.getInstance().getLoginUserMap();
+                if(userMap!=null && !userMap.isEmpty()){
+                    if(userMap.containsKey("userId")){
+                        userId = (String) userMap.get("userId");
+                    }
+                    if(userMobile==null ||"".equals(userMobile)){
+                        if(userMap.containsKey("userMobile")){
+                            userMobile = (String) userMap.get("userMobile");
+                        }
+                    }
+                    if(userType==null ||"".equals(userType)){
+                        if(userMap.containsKey("userType")){
+                            userType = (String) userMap.get("userType");
+                        }
+                    }
+                }
+            }
+        }
+
         String startPlaceCode = (String) request.getParameter("startPlaceCode");
         String startPlaceName = (String) request.getParameter("startPlaceName");
 
@@ -91,36 +129,14 @@ public class OrderAction {
             //默认保价为200元
             insuredPrice = String.valueOf(Integer.valueOf(declarePrice) *2/100) ;
         }
-        //获取当前登录人 判空 如果为空 从shrio中获取
-        String userId = (String)request.getParameter("userId");
-        String userMobile = (String)request.getParameter("userMobile");
-        String userType = (String)request.getParameter("userType");
-        if(userId == null || "".equals(userId)){
-            Map userMap =UserUtil.getInstance().getLoginUserMap();
-            if(userMap!=null && !userMap.isEmpty()){
-                if(userMap.containsKey("userId")){
-                    userId = (String) userMap.get("userId");
-                }
-                if(userMobile==null ||"".equals(userMobile)){
-                    if(userMap.containsKey("userMobile")){
-                        userMobile = (String) userMap.get("userMobile");
-                    }
-                }
-                if(userType==null ||"".equals(userType)){
-                    if(userMap.containsKey("userType")){
-                        userType = (String) userMap.get("userType");
-                    }
-                }
-            }
-        }
+
 
         if(StringUtils.isEmpty(userType)){
             userType = "plain";
         }
 
 
-        //不使用前台传过来的信息 重新计算价格信息 防止攻击
-        Map costParam = new HashMap();
+
 
         costParam.put("userType",userType);
         costParam.put("petLst",petLst);
@@ -156,7 +172,7 @@ public class OrderAction {
 
 
 
-        Map param = new HashMap();
+
         if(id != null && !"".equals(userId)){
             param.put("id",id);
         }
@@ -279,12 +295,23 @@ public class OrderAction {
         param.put("payAccount",payAccount);
 
         param = orderService.sumbitOrder(param);
+        Map userMap =UserUtil.getInstance().getLoginUserMap();
+        String userId = "";
+        if(userMap!=null && !userMap.isEmpty()){
+            if(userMap.containsKey("userId")){
+                userId = (String) userMap.get("userId");
+            }
+        }
+
+
         int i= (Integer) param.get("resultStatus");
         if(i==1){
             if(logger.isDebugEnabled()){
                 logger.debug("------开始发送消息--------");
             }
+
             orderMessageUtil.sendOrderSaveSuccessMessage(param);
+            orderService.updateOrderPersonConsignee((String)param.get("id"),userId);
             map.put("status","success");
             map.put("orderId",param.get("id"));
         }else{
@@ -444,8 +471,8 @@ public class OrderAction {
 
             parameters.put("spbill_create_ip", request.getRemoteAddr());
             parameters.put("out_trade_no", order.getOrderNo()); // 订单id这里我的订单id生成规则是订单id+时间
-            parameters.put("total_fee", "1"); // 测试时，每次支付一分钱，微信支付所传的金额是以分为单位的，因此实际开发中需要x100
-            // parameters.put("total_fee", order.getOrderAmount()*100+""); // 上线后，将此代码放开
+            //parameters.put("total_fee", "1"); // 测试时，每次支付一分钱，微信支付所传的金额是以分为单位的，因此实际开发中需要x100
+            parameters.put("total_fee",getMoney(order.getTotalPrice())); // 上线后，将此代码放开
             parameters.put("openid", userId);//JSAPI支付必须传openid
             // 设置签名
             String sign = WXPayUtil.generateSignature(parameters);
@@ -531,7 +558,7 @@ public class OrderAction {
                 //String orderId = out_trade_no.substring(0, out_trade_no.length() - PayCommonUtil.TIME.length());
                 logger.debug("微信支付成功验证码成功编号："+out_trade_no);
                 Order orders = orderService.selectOrderByOrderNo(out_trade_no);//ordersMapper.selectByPrimaryKey(Integer.parseInt(orderId));
-
+                OrderPerson orderPerson = orderService.selectOrderPersonByOrderId(orders.getId());
                 // 验证商户ID 和 价格 以防止篡改金额
                 if (WeChatUtil.getInstance().getMchid().equals(mch_id) && orders != null
                     // &&
@@ -557,6 +584,15 @@ public class OrderAction {
                     map.put("orderStatus","pay");
                     map.put("payStatus","1");
                     orderService.updateOrderStatus(map);
+
+                    map.put("userId",orders.getUserId());
+                    map.put("userName",orderPerson.getDeliverName());
+                    map.put("consignee",orderPerson.getConsignee());
+                    map.put("orderNo", orders.getOrderNo());
+                    map.put("totalPrice",orders.getTotalPrice());
+                    map.put("transDate",orders.getTransDate());
+
+                    orderMessageUtil.sendOrderPaySuccessMessageToConsignee(map);
                     //ordersMapper.updateByPrimaryKeySelective(orders); // 变更数据库中该订单状态
                     // ordersMapper.updatePayStatus(Integer.parseInt(orderId));
                     resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
@@ -590,5 +626,25 @@ public class OrderAction {
     public ModelAndView map(){
         return new ModelAndView("map");
     }
-
+    public  String getMoney(String amount) {
+        if(amount==null){
+            return "";
+        }
+        // 金额转化为分为单位
+        // 处理包含, ￥ 或者$的金额
+        String currency =  amount.replaceAll("\\$|\\￥|\\,", "");
+        int index = currency.indexOf(".");
+        int length = currency.length();
+        Long amLong = 0l;
+        if(index == -1){
+            amLong = Long.valueOf(currency+"00");
+        }else if(length - index >= 3){
+            amLong = Long.valueOf((currency.substring(0, index+3)).replace(".", ""));
+        }else if(length - index == 2){
+            amLong = Long.valueOf((currency.substring(0, index+2)).replace(".", "")+0);
+        }else{
+            amLong = Long.valueOf((currency.substring(0, index+1)).replace(".", "")+"00");
+        }
+        return amLong.toString();
+    }
 }

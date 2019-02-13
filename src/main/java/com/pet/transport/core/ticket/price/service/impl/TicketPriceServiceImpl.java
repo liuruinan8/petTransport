@@ -156,7 +156,10 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
             }*/
             int distance = Integer.valueOf(placeDistance);
             //  0-10km	免费	免费
-            if(distance>10 && distance<=20){
+            if(distance>0 && distance<=10){
+                // 10-20km	40元/件	20元/件
+                placePriceInt= 0;
+            }else if(distance>10 && distance<=20){
                 // 10-20km	40元/件	20元/件
                 placePriceInt= 40 + 20 * (petNum - 1);
             }else if(distance>20 && distance<=25){
@@ -177,7 +180,7 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
             }else if(distance>45 && distance<=50){
                 // 45-50km	100元/件	20元/件
                 placePriceInt= 100 + 20 * (petNum - 1);
-            }else{
+            }else if(distance>50){
                 placePriceInt=1000000000;
             }
             placePrice = String .valueOf(placePriceInt);

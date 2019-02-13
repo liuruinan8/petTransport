@@ -1,5 +1,7 @@
 package com.pet.transport.core.order.dao;
 
+import com.pet.transport.core.order.po.OrderPerson;
+
 import java.util.Map;
 
 /**
@@ -11,4 +13,8 @@ import java.util.Map;
  */
 public interface OrderPersonDao {
     public  int addOrderPerson(Map param);
+
+    void updateOrderPersonConsignee(Map param);
+
+    OrderPerson selectOrderPersonByOrderId(String orderId);
 }

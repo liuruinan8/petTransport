@@ -2,8 +2,12 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="/pet/static/pet/transport/common/weui/css/weui.min.css" rel="stylesheet">
+    <link href="/pet/static/pet/transport/common/weui/css/weui-extend.css" rel="stylesheet">
+    <script type="text/javascript" src="/pet/static/pet/transport/common/weui/js/zepto.min.js" ></script>
+    <script type="text/javascript" src="/pet/static/pet/transport/core/common/pet_common.js" ></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>距离计算</title>
+    <title>飞狗宠物旅行</title>
     <style type="text/css">
         * {
             margin: 0px;
@@ -41,14 +45,17 @@
                 location : "重庆",
                 map : map
             });
-            getResult();
+            //getResult();
         }
         function getResult() {
 
             //设置searchRequest
             var start = document.getElementById("start").value;
             var end = document.getElementById("end").value;
-
+            if(end ==undefined || end ==""){
+                showErrorTips("请填写收货点");
+                return;
+            }
             drivingService.search(start, end);
 
             //获取距离
@@ -59,9 +66,9 @@
                     var endLatLng = result.detail.end[0].latLng;
                     drivingService.search(new qq.maps.LatLng(startLatLng.lat, startLatLng.lng), new qq.maps.LatLng(endLatLng.lat, endLatLng.lng));
                 }else {
-                    infoDiv.innerHTML="两点之间的道路距离为："+result.detail.distance+"米";
+                    infoDiv.innerHTML="收货点距离机场道路距离为："+result.detail.distance+"米";
                     document.getElementById("distance").value =result.detail.distance;
-                    infoDiv1.innerHTML="两点之间的行驶时间为："+result.detail.duration+"分";
+                    infoDiv1.innerHTML="收货点距离机场行驶时间为："+result.detail.duration+"分";
                 }
 
             });
@@ -70,7 +77,8 @@
 
            var distance = document.getElementById("distance").value;
            if(distance == ""){
-                    return;
+               showErrorTips("请先点击【计算距离】");
+               return;
            }
            var end = document.getElementById("end").value;
             window.parent.document.getElementById("receiptPlace").value =end;
@@ -81,17 +89,24 @@
     </script>
 </head>
 <body onload="init()" style="background-color: wheat;">
-<div>起点 <input type='hidden' value="重庆江北国际机场T2航站楼" id="start" />
-    终点 <input type='text' value="" id="end"/>
-    <input type="button" value="计算距离" onclick="getResult()"/>
-    <input type="button" value="确定" onclick="confirm()"/>
-    <br />
-    <span>请先点击计算距离，再点击确定</span>
-    <div id="pageIndexLabel" style="width: 100px;"></div>
-    <input type='hidden'  id="distance" />
+<div class="weui-toptips weui-toptips_warn js_tooltips">信息提示</div>
+<div>
+    <input type='hidden' value="重庆江北国际机场T2航站楼" id="start" />
+    <div>
+        收货点<input style="height: 25px;width: 70%"   type='text' value="" id="end"/><br>
+        <span style="color: red">请先点击计算距离，再点击确定</span><br>
+        <input style="width: 80px;height: 30px;" type="button" value="计算距离" onclick="getResult()"/>
+        <input style="width: 80px;height: 30px;" type="button" value="确定" onclick="confirm()"/>
+        <br />
+
+        <div id="pageIndexLabel" style="width: 100px;"></div>
+        <input type='hidden'  id="distance" />
+
+
+    </div>
 </div>
-<div style='width: 500px; height: 30px' id="infoDiv">距离机场的道路距离为：</div>
-<div style='width: 500px; height: 30px' id="infoDiv1">机场的行驶时间为：</div>
+<div style='width: 500px; height: 30px' id="infoDiv">收货点距离机场道路距离为：</div>
+<div style='width: 500px; height: 30px' id="infoDiv1">收货点距离机场行驶时间为：</div>
 <div id="container"></div>
 </body>
 </html>

@@ -16,4 +16,12 @@ public final class TemplateContants {
     public static final String TEM_ORDER_STATUS_UPDATE = "1IIWzWqzVQXm45-FXzyWw2IMocxpFuWLNrTc7xpA0SY";
     //二维码生成通知
     public static final String TEM_QRCODE_CREATE = "kiUOumNGW69Hjww-HM9JP-qZ7YAxIJytx86dFbHtTYo";
+
+    //订单支付成功
+    public static final String TEM_ORDER_PAY_SUCCESS = "xOTJWLhEP9vuUtNdGiHohyFA7homJ7EXkWiY0kZsV5Y";
+
+
+    //管理 订单维护
+    public static final String TEM_ORDER_ADMIN = "_I5dDgyR1OBdyUGp8kFx0RLDFzywVaF4zqqLHpklP4A";
+
 }

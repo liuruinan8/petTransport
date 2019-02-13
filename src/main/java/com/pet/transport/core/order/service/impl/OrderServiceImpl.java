@@ -5,9 +5,14 @@ import com.pet.transport.core.order.dao.OrderDao;
 import com.pet.transport.core.order.dao.OrderPersonDao;
 import com.pet.transport.core.order.dao.OrderPetDao;
 import com.pet.transport.core.order.po.Order;
+import com.pet.transport.core.order.po.OrderPerson;
+import com.pet.transport.core.order.po.OrderPet;
 import com.pet.transport.core.order.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +40,7 @@ public class OrderServiceImpl implements IOrderService {
 
         return orderDao.selectOrderByOrderNo(orderNo);
     }
-
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,timeout=1,isolation=Isolation.DEFAULT)
     public Map sumbitOrder(Map param) {
         SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
 
@@ -55,31 +60,29 @@ public class OrderServiceImpl implements IOrderService {
 
         List<Map> petLst =  (List<Map>)param.get("petLst");
         param.remove("petLst");
-        int i = 0;
-        if(isUpdate){
-            i = orderDao.updateOrderById(param);
-        }else{
-            i = orderDao.addOrder(param);
-        }
+
+
 
         //删除订单下的所有的宠物
         //Map delMap = new HashMap();
         //delMap.put("orderId",id);
         //orderPetDao.deletePetsByOrderId(delMap);
-        Map pets = new HashMap();
-        List<Map> nowPetLst =  orderPetDao.selectOrderPetByOrderId(id);
-        for (Map pet:nowPetLst) {
-            pets.put(pet.get("ID"),pet.get("ID"));
+        Map<String,String> pets = new HashMap<String,String>();
+        List<OrderPet> nowPetLst =  orderPetDao.selectOrderPetByOrderId(id);
+        for (OrderPet pet:nowPetLst) {
+            pets.put(pet.getId(),pet.getId());
         }
         List<Map> insertPetLst =  new ArrayList<Map>();
         List<Map> updatePetLst =  new ArrayList<Map>();
+        List<Map> deletePetLst =  new ArrayList<Map>();
         for (Map map:petLst) {
-            if(pets.containsKey(map.get("id"))){
+            if(pets.containsKey(map.get("petId"))){
                 //String petId = String.valueOf(idWorker.nextId());
-                //map.put("id",petId);
+                map.put("id",map.get("petId"));
                 map.put("orderId",id);
                 map.put("orderNo",orderNo);
                 updatePetLst.add(map);
+                pets.remove(map.get("petId"));
             }else{
                 String petId = String.valueOf(idWorker.nextId());
                 map.put("id",petId);
@@ -89,13 +92,41 @@ public class OrderServiceImpl implements IOrderService {
             }
 
         }
-        Map map =new HashMap();
-        map.put("petLst",insertPetLst);
-        //重新增加
-       int ii= orderPetDao.saveBatchOrderPet(map);
-        map.put("petLst",insertPetLst);
-        //重新增加
-        int ui= orderPetDao.batchUpdateOrderPet(map);
+        int ii=0;
+        int ui=0;
+        int i = 0;
+
+        if(isUpdate){
+            i = orderDao.updateOrderById(param);
+        }else{
+            i = orderDao.addOrder(param);
+        }
+        //增加
+        if(!insertPetLst.isEmpty()){
+            Map map =new HashMap();
+            map.put("petLst",insertPetLst);
+            ii= orderPetDao.saveBatchOrderPet(map);
+        }
+
+        //修改
+        if(!updatePetLst.isEmpty()){
+            Map map1 =new HashMap();
+            map1.put("petLst",updatePetLst);
+            ui= orderPetDao.batchUpdateOrderPet(map1);
+        }
+        //删除
+        if(!pets.isEmpty()){
+            for (String petId:pets.keySet()) {
+                Map map =new HashMap();
+                map.put("id",petId);
+                deletePetLst.add(map);
+            }
+            if(!deletePetLst.isEmpty()){
+                Map map =new HashMap();
+                map.put("petLst",deletePetLst);
+                orderPetDao.batchDeleteOrderPet(map);
+            }
+        }
         param.put("resultStatus",i);
         param.put("resultPetStatus",ii+ui);
         //组装Order
@@ -136,8 +167,19 @@ public class OrderServiceImpl implements IOrderService {
         return param;
     }
 
-    public List<Map> selectOrderPetByOrderId(String orderId) {
+    public List<OrderPet> selectOrderPetByOrderId(String orderId) {
         return orderPetDao.selectOrderPetByOrderId(orderId);
+    }
+
+    public void updateOrderPersonConsignee(String orderId, String userId) {
+        Map newMap = new HashMap();
+        newMap.put("orderId",orderId);
+        newMap.put("userId",userId);
+        orderPersonDao.updateOrderPersonConsignee(newMap);
+    }
+
+    public OrderPerson selectOrderPersonByOrderId(String orderId) {
+        return orderPersonDao.selectOrderPersonByOrderId(orderId);
     }
 
     public List<Map> selectOrderByParm( Map param ) {

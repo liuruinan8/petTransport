@@ -23,6 +23,8 @@ public class OrderPerson {
     private String receiverName;
     //收运人电话
     private String receiverMobile;
+    //收货人 用于收货付款后信息推送
+    private String consignee;
 
     public String getId() {
         return id;
@@ -78,5 +80,13 @@ public class OrderPerson {
 
     public void setReceiverMobile(String receiverMobile) {
         this.receiverMobile = receiverMobile;
+    }
+
+    public String getConsignee() {
+        return consignee;
+    }
+
+    public void setConsignee(String consignee) {
+        this.consignee = consignee;
     }
 }

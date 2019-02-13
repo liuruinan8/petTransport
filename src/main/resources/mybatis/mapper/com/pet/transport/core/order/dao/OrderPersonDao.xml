@@ -10,32 +10,19 @@
         <result column="DELIVER_MOBILE" property="deliverMobile" jdbcType="VARCHAR" />
         <result column="RECEIVER_NAME" property="receiverName" jdbcType="VARCHAR" />
         <result column="RECEIVER_MOBILE" property="receiverMobile" jdbcType="VARCHAR" />
+        <result column="CONSIGNEE" property="consignee" jdbcType="VARCHAR" />
     </resultMap>
     <insert id="addOrderPerson" parameterType="Map">
         INSERT INTO CORE_ORDER_PERSON (ID, ORDER_ID, ORDER_NO,DELIVER_NAME,DELIVER_MOBILE,RECEIVER_NAME,
         RECEIVER_MOBILE)
         VALUES (#{id}, #{orderId},#{orderNo},#{deliverName},#{deliverMobile},#{receiverMobile},#{receiverMobile});
     </insert> <!---->
-
-    <update id="updateOrderTicket" parameterType="Map">
-        update CORE_ORDER_PERSON set
-        <if test="deliverName !=null">
-            DELIVER_NAME=#{deliverName},
-        </if>
-        <if test="deliverMobile !=null">
-            DELIVER_MOBILE=#{deliverMobile},
-        </if>
-        <if test="receiverName !=null">
-            RECEIVER_NAME=#{receiverName},
-        </if>
-        <if test="receiverMobile !=null">
-            RECEIVER_MOBILE=#{receiverMobile},
-        </if>
-        1=1
-        where  ID = #{Id}
+    <update id="updateOrderPersonConsignee" parameterType="Map">
+        update CORE_ORDER_PERSON set CONSIGNEE=#{userId}
+        where  ORDER_ID = #{orderId}
     </update>
     <!-- 查询单条记录-->
     <select id="selectOrderPersonByOrderId" parameterType="string" resultMap="BaseResultMap">
-        SELECT * FROM CORE_ORDER_PERSON WHERE ORDER_ID = #{id}
+        SELECT * FROM CORE_ORDER_PERSON WHERE ORDER_ID = #{orderId}
     </select>
 </mapper>

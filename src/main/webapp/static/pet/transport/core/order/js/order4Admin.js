@@ -14,7 +14,7 @@ $(function(){
 
 });
 function adminSubmitOrder(){
-    var param = orgParam();
+    var param = orgParam(false);
     $.ajax({
         type : "POST",
         contentType: "application/x-www-form-urlencoded;charset=UTF-8",
@@ -25,7 +25,7 @@ function adminSubmitOrder(){
             if(retData.status =="success"){
                 $('#orderId').val(retData.orderId);
                 //跳转到另外一个页面
-                //location.href="/pet/ticket/orderAdmin/adminSupplyPerson?orderId="+retData.orderId;
+                location.href="/pet/ticket/orderaAdmin/adminOrderSumbit";
             }else{
                 $('#hkxsysm,#sumbitSuccess').fadeOut();
                 $('#sumbitFail').fadeIn();
@@ -78,6 +78,8 @@ function adminPrice(){
 
     $("#petAddDiv .pet-container").each(function(){
         var pet={};
+        var petId =$("#petId",this).val();
+        pet.petId=petId;
         var petName =$("#petName",this).val();
         pet.petName=petName;
         var petKind =$("#petKind",this).val();
@@ -125,6 +127,8 @@ function adminPrice(){
     var param = {};
     var petstr = JSON.stringify(pets);
     param.pets=petstr;
+    var id = $('#orderId').val();
+    param.id=id;
     //param.userMobile=userMobile;
     param.startPlaceCode=startPlaceCode;
     param.destinationPlaceCode=destinationPlaceCode;
