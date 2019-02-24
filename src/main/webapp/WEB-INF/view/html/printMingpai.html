@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>飞狗宠物出行</title>
+</head>
+<style>
+    .a4-endwise{
+        width: 690px;
+        height: 978px;
+        border: 0px #000 solid;
+        overflow: hidden;
+        padding: 0;
+        word-break:break-all;
+        background-image: url('/pet/images/pet/transport/core/order/printBackgroud.jpg');
+    }
+    .a4-broadwise{
+        width: 1569px;
+        height: 1073px;
+        border: 1px #000 solid;
+        overflow: hidden;
+        padding: 0;
+        word-break:break-all;
+    }
+    .print{
+        position: fixed;
+        top: 1%;
+        right: 10%;
+    }
+    /*li {
+        list-style-type:none;
+        line-height: 25px;
+        font-family: \@微软雅黑;
+        font-weight: bold;
+    }*/
+    .a4-mptable{
+        width: 100%;height: 100%
+    }
+    .a4-mptr{
+        height: 314px
+    }
+    .a4-mptd{
+        width:224px;
+        height: 314px
+    }
+    .a4-mpul{
+        padding: 0 0 0 0;
+        margin: 35px 0 0 75px;
+        height: 198px;
+    }
+    .a4-mpli{
+        list-style-type:none;
+        line-height: 25px;
+        font-family: \@微软雅黑;
+        font-weight: bold;
+        margin-left: 10px;
+        min-height: 25px;
+    }
+    .a4-mpliCharmin{
+        list-style-type:none;
+        line-height: 25px;
+        font-family: \@微软雅黑;
+        font-weight: bold;
+        min-height: 25px;
+        font-size: 5px;
+    }
+    .a4-mpliChar{
+        list-style-type:none;
+        line-height: 25px;
+        font-family: \@微软雅黑;
+        font-weight: bold;
+        min-height: 25px;
+    }
+    .a4-mpliRed{
+        list-style-type:none;
+        font-family: \@微软雅黑;
+        font-weight: bold;
+        color: red;
+        font-size: 29px;
+        line-height: 32px;
+        margin-left: 15px;
+        min-height: 25px;
+    }
+</style>
+<body >
+<div class="container a4-endwise" id="test">
+    <table class="a4-mptable">
+        <tr class="a4-mptr">
+            <td class="a4-mptd">
+                <ul class="a4-mpul">
+                    <li class="a4-mpliRed">${pet1.petName}</li>
+                    <li class="a4-mpli">${pet1.petKind}</li>
+                    <li class="a4-mpli">${pet1.petAge}</li>
+                    <li class="a4-mpli">${pet1.petSex}</li>
+                    <#if pet1.petCharacter?length gt 11>
+                        <li class="a4-mpliCharmin">${pet1.petCharacter}</li>
+                    <#else>
+                        <li class="a4-mpliChar">${pet1.petCharacter}</li>
+                    </#if>
+                    <li class="a4-mpliRed">${pet1.startPlaceName}</li>
+                    <li class="a4-mpliRed">${pet1.endPlaceName}</li>
+                </ul>
+            </td>
+            <td class="a4-mptd">
+                <ul class="a4-mpul">
+                    <li class="a4-mpliRed">${pet2.petName}</li>
+                    <li class="a4-mpli">${pet2.petKind}</li>
+                    <li class="a4-mpli">${pet2.petAge}</li>
+                    <li class="a4-mpli">${pet2.petSex}</li>
+                    <#if pet2.petCharacter?length gt 11>
+                        <li class="a4-mpliCharmin">${pet2.petCharacter}</li>
+                    <#else>
+                        <li class="a4-mpliChar">${pet2.petCharacter}</li>
+                    </#if>
+                    <li class="a4-mpliRed">${pet2.startPlaceName}</li>
+                    <li class="a4-mpliRed">${pet2.endPlaceName}</li>
+                </ul>
+            </td><td class="a4-mptd">
+            <ul class="a4-mpul">
+                <li class="a4-mpliRed">${pet3.petName}</li>
+                <li class="a4-mpli">${pet3.petKind}</li>
+                <li class="a4-mpli">${pet3.petAge}</li>
+                <li class="a4-mpli">${pet3.petSex}</li>
+                <#if pet3.petCharacter?length gt 11>
+                    <li class="a4-mpliCharmin">${pet3.petCharacter}</li>
+                <#else>
+                    <li class="a4-mpliChar">${pet3.petCharacter}</li>
+                </#if>
+                <li class="a4-mpliRed">${pet3.startPlaceName}</li>
+                <li class="a4-mpliRed">${pet3.endPlaceName}</li>
+            </ul>
+        </td>
+        </tr>
+        <tr>
+            <td class="a4-mptd">
+                <ul class="a4-mpul">
+                    <li class="a4-mpliRed">${pet4.petName}</li>
+                    <li class="a4-mpli">${pet4.petKind}</li>
+                    <li class="a4-mpli">${pet4.petAge}</li>
+                    <li class="a4-mpli">${pet4.petSex}</li>
+                    <#if pet4.petCharacter?length gt 11>
+                        <li class="a4-mpliCharmin">${pet4.petCharacter}</li>
+                    <#else>
+                        <li class="a4-mpliChar">${pet4.petCharacter}</li>
+                    </#if>
+                    <li class="a4-mpliRed">${pet4.startPlaceName}</li>
+                    <li class="a4-mpliRed">${pet4.endPlaceName}</li>
+                </ul>
+            </td>
+            <td class="a4-mptd">
+                <ul class="a4-mpul">
+                    <li class="a4-mpliRed">${pet5.petName}</li>
+                    <li class="a4-mpli">${pet5.petKind}</li>
+                    <li class="a4-mpli">${pet5.petAge}</li>
+                    <li class="a4-mpli">${pet5.petSex}</li>
+                    <#if pet5.petCharacter?length gt 11>
+                    <li class="a4-mpliCharmin">${pet5.petCharacter}</li>
+                    <#else>
+                    <li class="a4-mpliChar">${pet5.petCharacter}</li>
+                </#if>
+                    <li class="a4-mpliRed">${pet5.startPlaceName}</li>
+                    <li class="a4-mpliRed">${pet5.endPlaceName}</li>
+                </ul>
+            </td>
+            <td class="a4-mptd">
+                <ul class="a4-mpul">
+                    <li class="a4-mpliRed">${pet6.petName}</li>
+                    <li class="a4-mpli">${pet6.petKind}</li>
+                    <li class="a4-mpli">${pet6.petAge}</li>
+                    <li class="a4-mpli">${pet6.petSex}</li>
+                    <#if pet6.petCharacter?length gt 11>
+                    <li class="a4-mpliCharmin">${pet6.petCharacter}</li>
+                    <#else>
+                    <li class="a4-mpliChar">${pet6.petCharacter}</li>
+                </#if>
+                    <li class="a4-mpliRed">${pet6.startPlaceName}</li>
+                    <li class="a4-mpliRed">${pet6.endPlaceName}</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td class="a4-mptd">
+                <ul class="a4-mpul">
+                    <li class="a4-mpliRed">${pet7.petName}</li>
+                    <li class="a4-mpli">${pet7.petKind}</li>
+                    <li class="a4-mpli">${pet7.petAge}</li>
+                    <li class="a4-mpli">${pet7.petSex}</li>
+                    <#if pet7.petCharacter?length gt 11>
+                    <li class="a4-mpliCharmin">${pet7.petCharacter}</li>
+                    <#else>
+                    <li class="a4-mpliChar">${pet7.petCharacter}</li>
+                </#if>
+                    <li class="a4-mpliRed">${pet7.startPlaceName}</li>
+                    <li class="a4-mpliRed">${pet7.endPlaceName}</li>
+                </ul>
+            </td>
+            <td class="a4-mptd">
+                <ul class="a4-mpul">
+                    <li class="a4-mpliRed">${pet8.petName}</li>
+                    <li class="a4-mpli">${pet8.petKind}</li>
+                    <li class="a4-mpli">${pet8.petAge}</li>
+                    <li class="a4-mpli">${pet8.petSex}</li>
+                    <#if pet8.petCharacter?length gt 11>
+                    <li class="a4-mpliCharmin">${pet8.petCharacter}</li>
+                    <#else>
+                    <li class="a4-mpliChar">${pet8.petCharacter}</li>
+                </#if>
+                    <li class="a4-mpliRed">${pet8.startPlaceName}</li>
+                    <li class="a4-mpliRed">${pet8.endPlaceName}</li>
+                </ul>
+            </td>
+            <td class="a4-mptd">
+                <ul class="a4-mpul">
+                    <li class="a4-mpliRed">${pet9.petName}</li>
+                    <li class="a4-mpli">${pet9.petKind}</li>
+                    <li class="a4-mpli">${pet9.petAge}</li>
+                    <li class="a4-mpli">${pet9.petSex}</li>
+                    <li class="a4-mpliChar">${pet9.petCharacter}</li>
+                    <#if pet9.petCharacter?length gt 11>
+                    <li class="a4-mpliCharmin">${pet9.petCharacter}</li>
+                    <#else>
+                    <li class="a4-mpliChar">${pet9.petCharacter}</li>
+                </#if>
+                    <li class="a4-mpliRed">${pet9.endPlaceName}</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

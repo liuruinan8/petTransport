@@ -4,6 +4,7 @@ import com.pet.transport.common.test.SpringTestCase;
 import com.pet.transport.common.util.DataConvertUtil;
 import com.pet.transport.core.ticket.startPlaceDetail.po.StartPlaceDetail;
 import com.pet.transport.core.ticket.startPlaceDetail.service.IStartPlaceDetailService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,7 +17,7 @@ public class StartPlaceDetailTest extends SpringTestCase {
     @Qualifier("startPlaceDetailServiceImpl")
     private IStartPlaceDetailService startPlaceDetailService;
 
-    @Test
+    //@Test
     public void selectAllDetailStartPlace(){
         Map paramMap = new HashMap();
         paramMap.put("startPlaceCode","5028_CKG");
@@ -27,12 +28,14 @@ public class StartPlaceDetailTest extends SpringTestCase {
         String json = startPlaceDetailService.selectAllDetailStartPlaceToJson(paramMap);
         System.out.println(json);
     }
-    @Test
+   @Test
     public void selectDetailByDetailCode(){
         Map paramMap = new HashMap();
         paramMap.put("detailCode","500101000000 ");
         StartPlaceDetail dt = startPlaceDetailService.selectDetailByDetailCode(paramMap);
         String json = DataConvertUtil.convertBeanToJson(dt);
-        System.out.println(json);
+
+       Assert.assertTrue(true);
+        //System.out.println(json);
     }
 }

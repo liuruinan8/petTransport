@@ -3,6 +3,7 @@ package com.pet.transport.core.order.action;
 import com.pet.transport.common.util.DataConvertUtil;
 import com.pet.transport.core.order.po.Order;
 import com.pet.transport.core.order.po.OrderPerson;
+import com.pet.transport.core.order.po.OrderPet;
 import com.pet.transport.core.order.service.IOrderService;
 import com.pet.transport.core.order.util.OrderMessageUtil;
 import com.pet.transport.core.ticket.price.service.ITicketPriceService;
@@ -135,23 +136,21 @@ public class OrderAction {
             userType = "plain";
         }
 
-
+        String otherPrice = (String)request.getParameter("otherPrice");
 
 
         costParam.put("userType",userType);
         costParam.put("petLst",petLst);
-        //costParam.put("selHkx",selHkx);
         costParam.put("selSmjc",selSmjc);
         costParam.put("transDate",transDate);
-        //costParam.put("placeAreaCode",placeAreaCode);
-       // costParam.put("petKind",petKind);
-        //costParam.put("petWeight",petWeight);
         costParam.put("placeDistance",placeDistance);
 
         costParam.put("startPlaceCode",startPlaceCode);
         costParam.put("destinationPlaceCode",destinationPlaceCode);
         costParam.put("insuredPrice",insuredPrice);
         costParam.put("declarePrice",declarePrice);
+
+        costParam.put("otherPrice",otherPrice);
         Map map = ticketPriceServiceImpl.getAllCost(costParam);
 
         //票价需要从后台生成 不能依赖前台传递的值
@@ -182,11 +181,7 @@ public class OrderAction {
         param.put("destinationPlaceCode",destinationPlaceCode);
         param.put("destinationPlaceName",destinationPlaceName);
         param.put("transDate",transDate);
-        //param.put("petWeight",petWeight);
-        //param.put("petKind",petKind);
         param.put("ticketPrice",ticketPrice);
-        param.put("petBoxTypeId",petBoxTypeId);
-        param.put("petBoxTypeName",petBoxTypeName);
         param.put("petBoxPrice",petBoxPrice);
         //param.put("placeAreaCode",placeAreaCode);
         //param.put("placeAreaName",placeAreaName);
@@ -198,6 +193,7 @@ public class OrderAction {
         param.put("userType",userType);
         param.put("insuredPrice",insuredPrice);
         param.put("declarePrice",declarePrice);
+        param.put("otherPrice",otherPrice);
         param.put("totalPrice",totalPrice);
         return param;
     }
@@ -470,7 +466,7 @@ public class OrderAction {
             parameters.put("body", "订单号-" + order.getOrderNo());
 
             parameters.put("spbill_create_ip", request.getRemoteAddr());
-            parameters.put("out_trade_no", order.getOrderNo()); // 订单id这里我的订单id生成规则是订单id+时间
+            parameters.put("out_trade_no", order.getOrderNo()+"-"+System.currentTimeMillis()); // 订单id这里我的订单id生成规则是订单id+时间
             //parameters.put("total_fee", "1"); // 测试时，每次支付一分钱，微信支付所传的金额是以分为单位的，因此实际开发中需要x100
             parameters.put("total_fee",getMoney(order.getTotalPrice())); // 上线后，将此代码放开
             parameters.put("openid", userId);//JSAPI支付必须传openid
@@ -488,7 +484,6 @@ public class OrderAction {
             logger.debug("最终的map是：" + parMap.toString());
             if (parMap != null)
             {
-                //orders.setWxPayOrderString(JSON.toJSONString(parMap));
                 if(parMap!=null){
                     baseResult.setData(DataConvertUtil.convertMapToJson(parMap));
                 }
@@ -551,21 +546,16 @@ public class OrderAction {
                 // 如果返回成功
                 String mch_id = (String) packageParams.get("mch_id"); // 商户号
                 String out_trade_no = (String) packageParams.get("out_trade_no"); // 商户订单号
+                out_trade_no = out_trade_no.split("-")[0];
                 String total_fee = (String) packageParams.get("total_fee");
-                // String transaction_id = (String)
-                // packageParams.get("transaction_id"); // 微信支付订单号
-                // 查询订单 根据订单号查询订单
-                //String orderId = out_trade_no.substring(0, out_trade_no.length() - PayCommonUtil.TIME.length());
+                String transaction_id = (String)packageParams.get("transaction_id"); // 微信支付订单号
                 logger.debug("微信支付成功验证码成功编号："+out_trade_no);
-                Order orders = orderService.selectOrderByOrderNo(out_trade_no);//ordersMapper.selectByPrimaryKey(Integer.parseInt(orderId));
+                Order orders = orderService.selectOrderByOrderNo(out_trade_no);
                 OrderPerson orderPerson = orderService.selectOrderPersonByOrderId(orders.getId());
                 // 验证商户ID 和 价格 以防止篡改金额
-                if (WeChatUtil.getInstance().getMchid().equals(mch_id) && orders != null
-                    // &&
-                    // total_fee.trim().toString().equals(orders.getOrderAmount())
-                    // // 实际项目中将此注释删掉，以保证支付金额相等
-                        )
-                {
+                // 实际项目中将此注释删掉，以保证支付金额相等&&total_fee.trim().toString().equals(orders.getTotalPrice())
+
+                if (WeChatUtil.getInstance().getMchid().equals(mch_id) && orders != null&&total_fee.trim().toString().equals(getMoney(orders.getTotalPrice()))){
                     /** 这里是我项目里的消费状态
                      * 1.待付款=0 2.付款完成=1
                      * 3.消费成功=2
@@ -574,15 +564,12 @@ public class OrderAction {
                      * 6.退款成功=-3
                      * 7.退款失败=3（由于商户拒绝退款或其他原因导致退款失败）
                      */
-                    //insertWxNotice(packageParams);
-                    //orders.setPayStatus("1");
-                    //orders.setPayAccount();
-                    //orders.setPayWay("1"); // 变更支付方式为wx
-                    //orders.setOrderState("1"); // 订单状态为已付款
+                    //orders.setPayAccount(transaction_id);
                     Map map = new HashMap();
                     map.put("id",orders.getId());
                     map.put("orderStatus","pay");
                     map.put("payStatus","1");
+                    map.put("paySerialNo",transaction_id);
                     orderService.updateOrderStatus(map);
 
                     map.put("userId",orders.getUserId());
@@ -593,8 +580,6 @@ public class OrderAction {
                     map.put("transDate",orders.getTransDate());
 
                     orderMessageUtil.sendOrderPaySuccessMessageToConsignee(map);
-                    //ordersMapper.updateByPrimaryKeySelective(orders); // 变更数据库中该订单状态
-                    // ordersMapper.updatePayStatus(Integer.parseInt(orderId));
                     resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
                             + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
                 } else
@@ -625,6 +610,88 @@ public class OrderAction {
     @ResponseBody
     public ModelAndView map(){
         return new ModelAndView("map");
+    }
+
+    @RequestMapping("/printMingpai")
+    @ResponseBody
+    public ModelAndView printMingpai(HttpServletRequest request){
+        String posStr = request.getParameter("pos");
+        //获取起始打印位置 1-9
+        int pos = 1;
+        try{
+            pos =Integer.valueOf(posStr);
+        }catch (Exception e){
+            logger.error("数字传递错误"+e.getMessage());
+        }
+        String orderId = request.getParameter("orderId");
+        ModelAndView mv = new ModelAndView("printMingpai");
+        //根据orderId获取所有的宠物列表
+        Order order = orderService.selectOrderById(orderId);
+        String startPlaceName = order.getStartPlaceName();
+        String endPlaceName = order.getDestinationPlaceName();
+        List<OrderPet> pets = orderService.selectOrderPetByOrderId(orderId);
+        int size =0;
+        if(!pets.isEmpty()){
+            size = pets.size()>10-pos?10-pos:pets.size();
+        }
+
+
+        //依次填充
+        for(int i=1;i<pos;i++){
+            Map petMap = new HashMap();
+            petMap.put("petName","");
+            petMap.put("petKind","");
+            petMap.put("petAge","");
+            petMap.put("petSex","");
+            petMap.put("petCharacter","");
+            petMap.put("startPlaceName","");
+            petMap.put("endPlaceName","");
+            mv.addObject("pet"+(i), petMap);
+        }
+
+        for(int i=pos;i<=pos+size-1;i++){
+            Map petMap = new HashMap();
+            OrderPet pet = pets.get(pos-i);
+            String petName="萌宠";
+            if(pet.getPetName()!=null && !"".equals(pet.getPetName())){
+                petName=pet.getPetName();
+            }
+            petMap.put("petName",petName);
+            String petKind=" ";
+            if(pet.getPetKind()!=null && !"".equals(pet.getPetKind())){
+                petKind=pet.getPetKind()!=null?pet.getPetKind().split("\\(")[0]:"";
+            }
+            petMap.put("petKind",petKind);
+            String petAge=" ";
+            if(pet.getPetAge()!=null  && !"".equals(pet.getPetAge())){
+                petAge=pet.getPetAge()+"月";
+            }
+            petMap.put("petAge",petAge);
+            String petSex=" ";
+            if(pet.getPetSex()!=null && !"".equals(pet.getPetSex())){
+                petSex=pet.getPetSex();
+            }
+            petMap.put("petSex",petSex);
+            String petCharacter ="萌萌哒";
+            if(pet.getPetCharacter()!=null && !"".equals(pet.getPetCharacter())){
+                if(pet.getPetCharacter().length()<14){
+                    if(pet.getPetCharacter().length()>11){
+                        petCharacter=pet.getPetCharacter().replaceAll(" ", ""); ;
+                    }else{
+                        petCharacter=pet.getPetCharacter();
+                    }
+
+                }else{
+                    petCharacter=pet.getPetCharacter().substring(0,14);
+                }
+
+            }
+            petMap.put("petCharacter",petCharacter);
+            petMap.put("startPlaceName",startPlaceName!=null?startPlaceName.split("\\/")[0]:"");
+            petMap.put("endPlaceName",endPlaceName!=null?endPlaceName.split("\\/")[0]:"");
+            mv.addObject("pet"+(i), petMap);
+        }
+        return mv;
     }
     public  String getMoney(String amount) {
         if(amount==null){

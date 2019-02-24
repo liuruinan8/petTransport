@@ -197,7 +197,7 @@ $.ajax({
             for(var i=0;i<array.length;i++){
                 var tmp = {
                     label:array[i].kindName,
-                    value:array[i].kindCode+";"+array[i].kindName
+                    value:array[i].kindCode+";"+array[i].kindName+";"+array[i].kindCharacter
                 };
                 newArray.push(tmp);
             }
@@ -219,15 +219,19 @@ $.ajax({
                     //console.log(result)
                     var value = result[1].split(";")[0];
                     var disRes = result[1].split(";")[1];
+                    var kindCharacter =  result[1].split(";")[2];
                     document.getElementById("showPetKindPickerTemplate").value=disRes;
                     document.getElementById("petKindTemplate").value=disRes+"("+value+")";
+                    document.getElementById("petCharacterTemplate").value=kindCharacter;
                 },
                 onConfirm: function (result) {
                     // console.log(result)
                     var value = result[1].split(";")[0];
                     var disRes = result[1].split(";")[1];
+                    var kindCharacter =  result[1].split(";")[2];
                     document.getElementById("showPetKindPickerTemplate").value=""+disRes;
                     document.getElementById("petKindTemplate").value=disRes+"("+value+")";
+                    document.getElementById("petCharacterTemplate").value=kindCharacter;
                 },
                 id: 'showPetKindPickerTemplate'
             });
@@ -243,15 +247,19 @@ $.ajax({
                     //console.log(result)
                     var value = result[1].split(";")[0];
                     var disRes = result[1].split(";")[1];
+                    var kindCharacter =  result[1].split(";")[2];
                     document.getElementById("showPetKindPicker").value=disRes;
                     document.getElementById("petKind").value=disRes+"("+value+")";
+                    document.getElementById("petCharacter").value=kindCharacter;
                 },
                 onConfirm: function (result) {
                     // console.log(result)
                     var value = result[1].split(";")[0];
                     var disRes = result[1].split(";")[1];
+                    var kindCharacter =  result[1].split(";")[2];
                     document.getElementById("showPetKindPicker").value=""+disRes;
                     document.getElementById("petKind").value=disRes+"("+value+")";
+                    document.getElementById("petCharacter").value=kindCharacter;
                 },
                 id: 'showPetKindPicker'
             });
@@ -358,18 +366,23 @@ $(function(){
      * 监听费用预估按钮
      */
     $('#price_count_sumbit').on('click', function () {
+        //未执行完之前禁止点击第二次
+        $('#price_count_sumbit').addClass("weui-btn_disabled");
         var startPlaceCode = $("#startPlaceCode").val();
         if(startPlaceCode==undefined || startPlaceCode==""){
+            $('#price_count_sumbit').removeClass("weui-btn_disabled");
             showErrorTips("请选择出发地");
             return;
         }
         var destinationPlaceCode = $("#destinationPlaceCode").val();
         if(destinationPlaceCode==undefined || destinationPlaceCode==""){
+            $('#price_count_sumbit').removeClass("weui-btn_disabled");
             showErrorTips("请选择目的地");
             return;
         }
         var selectDate = $("#selectDate").val();
         if(selectDate==undefined || selectDate==""){
+            $('#price_count_sumbit').removeClass("weui-btn_disabled");
             showErrorTips("请选择航班时间");
             return;
         }
@@ -382,12 +395,21 @@ $(function(){
         pet.petKind=petKind;
         var petWeight = $("#petWeight").val();
         if(petWeight==undefined || petWeight==""){
+            $('#price_count_sumbit').removeClass("weui-btn_disabled");
             showErrorTips("请填写宠物重量");
             return;
         }
         pet.petWeight=petWeight;
         var petHeight = $("#petHeight").val();
         pet.petHeight=petHeight;
+
+        var petAge = $("#petAge").val();
+        pet.petAge=petAge;
+        var petCharacter = $("#petCharacter").val();
+        pet.petCharacter=petCharacter;
+        var petSex = $("input[name='petSex']:checked").val();;
+        pet.petSex=petSex;
+
         var selDWJYHGInput = $("#selDWJYHGInput").is(':checked')+"";
         pet.selDWJYHG=selDWJYHGInput;
         var selHkxInput = $("#selHkx").is(':checked')+"";
@@ -411,46 +433,26 @@ $(function(){
             pets.push(pet);
         });
         if(pets.length==0){
+            $('#price_count_sumbit').removeClass("weui-btn_disabled");
             showErrorTips("请添加宠物信息");
             return;
         }
-       /* var petKind = $("#petKind").val();
-        if(petKind==undefined || petKind==""){
-            showErrorTips("请填写宠物品种");
-            return;
-        }
-
-        var petWeight = $("#petWeight").val();
-        if(petWeight==undefined || petWeight==""){
-            showErrorTips("请填写宠物重量");
-            return;
-        }
-        var userMobile = $("#userMobile").val();
-        if(userMobile==undefined || userMobile==""){
-            showErrorTips("请填写联系人手机号码");
-            return;
-        }*/
-        /*if($("#selDWJYHG").is(":checked") ==false){
-            showErrorTips("请确认已经开具出发当日有效的《动物检疫许可证》！"); //
-            return;
-        }*/
-        /*var selHkx = $("#selHkx").val();
-        if(selHkx==undefined || selHkx==""){
-            //showErrorTips("请选择"); 使用提示的方式进行提示没有选择航空箱
-        }*/
         var placeDistance = $("#placeDistance").val();
         if($("#selSmjc").is(":checked") ==true){
             //选择了上门取宠 才进行校验
            var  receiptPlace = $("#receiptPlace").val();
             if(receiptPlace==undefined || receiptPlace==""){
+                $('#price_count_sumbit').removeClass("weui-btn_disabled");
                 showErrorTips("请选择接宠地点");
                 return;
             }
             if(placeDistance==undefined || placeDistance==""){
                 showErrorTips("请选择接宠地点");
+                $('#price_count_sumbit').removeClass("weui-btn_disabled");
                 return;
             }
             if(placeDistance>50){
+                $('#price_count_sumbit').removeClass("weui-btn_disabled");
                 showErrorTips("由于接送地点距离机场超过50公里，本司无法提供上门取宠服务");
                 return;
             }
@@ -460,11 +462,18 @@ $(function(){
         if($("#selBjfw").is(":checked") ==true){
             //选择了保价服务 才进行校验
             if(declarePrice==undefined || declarePrice==""){
+                $('#price_count_sumbit').removeClass("weui-btn_disabled");
                 showErrorTips("请填写声明价值");
                 return;
             }
         }
+
+        var otherPrice = $("#otherPrice").val();
+        if(!otherPrice){
+            otherPrice="0";
+        }
         if($("#weuiAgree").is(":checked") !=true){
+            $('#price_count_sumbit').removeClass("weui-btn_disabled");
             showErrorTips("请阅读并同意《宠物运输协议》");
             return;
         }
@@ -472,25 +481,22 @@ $(function(){
         var param = {};
         var petstr = JSON.stringify(pets);
         param.pets=petstr;
-        //param.userMobile=userMobile;
         param.startPlaceCode=startPlaceCode;
         param.destinationPlaceCode=destinationPlaceCode;
         param.placeDistance=placeDistance;
         param.transDate=selectDate;
-        //param.petKind=petKind;
-        //param.petWeight=petWeight;
-        //param.selHkx=$("#selHkx").is(":checked");
         param.selSmjc=$("#selSmjc").is(":checked");
         param.selBjfw=$("#selBjfw").is(":checked");
         param.declarePrice=declarePrice;
         param.insuredPrice=declarePrice*2/100;
+        param.otherPrice=otherPrice;
         $.ajax({
             type : "POST",
             contentType: "application/x-www-form-urlencoded;charset=UTF-8",
             url : "/pet/ticket/price/countCost",
             data : param,
             success : function(data) {
-                console.log(data);
+                $('#price_count_sumbit').removeClass("weui-btn_disabled");
                 var placeData = JSON.parse(data);
                 var ticketPrice=placeData.ticketPrice;
                 var petBoxPrice=placeData.petBoxPrice;
@@ -513,6 +519,7 @@ $(function(){
                 dialog.fadeIn(200);
             },
             error : function(){
+                $('#price_count_sumbit').removeClass("weui-btn_disabled");
                 showErrorTips("出现网络错误");
             }
 
@@ -523,7 +530,7 @@ $(function(){
      */
     $('#submitOrder').on('click', function (e) {
         e.preventDefault();
-        subMitOrder();
+        subMitOrder($('#submitOrder'));
     });
     /**
      * 监听查看航空箱适用规则
@@ -566,6 +573,14 @@ $(function(){
         }else{
             $('#declarePrice').val("");
             $('#bjfwInfo').hide();
+        }
+    });
+    $('#selQtfy').on('click', function () {
+        if($("#selQtfy").is(":checked") ==true){
+            $('#qtfyInfo').show();
+        }else{
+            $('#otherPrice').val("0 ");
+            $('#qtfyInfo').hide();
         }
     });
     /**

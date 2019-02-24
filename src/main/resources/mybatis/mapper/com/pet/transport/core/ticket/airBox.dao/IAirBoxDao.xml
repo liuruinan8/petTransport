@@ -26,4 +26,9 @@
             AND IS_BIG_BOX = #{isBigBox}
         </if>
     </select>
+    <!-- 查询单条记录-->
+    <select id="selectAllAirBoxList" resultMap="BaseResultMap"  parameterType="Map">
+        <![CDATA[ SELECT * FROM ticket_AirBox
+        ]]>
+    </select>
 </mapper>

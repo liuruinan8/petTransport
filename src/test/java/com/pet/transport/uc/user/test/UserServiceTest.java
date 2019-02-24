@@ -3,6 +3,7 @@ package com.pet.transport.uc.user.test;
 import com.pet.transport.common.test.SpringTestCase;
 import com.pet.transport.uc.user.po.User;
 import com.pet.transport.uc.user.service.UserService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,7 +17,7 @@ public class UserServiceTest extends SpringTestCase {
     @Qualifier("userServiceImpl")
     private UserService userService;
 
-    @Test
+    //@Test
     public void updateUser(){
         Map user = new HashMap();
         user.put("userId","test1");
@@ -25,7 +26,7 @@ public class UserServiceTest extends SpringTestCase {
         userService.updateUser(user);
         System.out.println("update UserUer Success" );
     }
-    @Test
+    //@Test
     public void addUser(){
         Map user = new HashMap();
         user.put("userId","test2");
@@ -36,7 +37,8 @@ public class UserServiceTest extends SpringTestCase {
     }
     @Test
     public void selectUserByIdTest(){
-        User user = userService.selectUserById("test1");
-        System.out.println(user.getUserName() + ":" + user.getUserPassword());
+        User user = userService.selectUserById("oYey51dd_IglORsAzWzGKTgtygPU");
+        //System.out.println(user.getUserName() + ":" + user.getUserPassword());
+        Assert.assertTrue(user!=null);
     }
 }

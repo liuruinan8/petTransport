@@ -161,20 +161,25 @@
         </dependency>
 
         <!-- javaee-api包 注意和项目使用的JDK版本对应 -->
-        <dependency>
+        <!--<dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>6.0</version>
             <scope>provided</scope>
-        </dependency>
-
-        <!-- javaee-web-api包 注意和项目使用的JDK版本对应 -->
+        </dependency>-->
         <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- javaee-web-api包 注意和项目使用的JDK版本对应 -->
+        <!--<dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>6.0</version>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>commons-fileupload</groupId>

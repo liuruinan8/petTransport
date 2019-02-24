@@ -1,9 +1,12 @@
 package com.pet.transport.uc.wechat.core.token;
 
-import com.pet.transport.core.order.util.OrderMessageUtil;
+import com.pet.transport.common.util.DataConvertUtil;
 import com.pet.transport.uc.user.util.UserUtil;
 import com.pet.transport.uc.wechat.core.util.WeChatUtil;
+import com.pet.transport.uc.wechat.message.po.Image;
+import com.pet.transport.uc.wechat.message.po.ImageMessage;
 import com.pet.transport.uc.wechat.message.po.TextMessage;
+import com.pet.transport.uc.wechat.message.util.MessageSendUtil;
 import com.pet.transport.uc.wechat.message.util.MessageUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,7 +20,6 @@ import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -136,7 +138,7 @@ public class CoreServlet extends HttpServlet {
         // xml格式的消息数据
         String respXml = null;
         // 默认返回的文本消息内容
-        String respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！";
+        String respContent = "欢迎关注飞狗宠物出行，您可以点击 开始旅行-->下单 为爱宠开启旅程！";
         try {
             // 调用parseXml方法解析请求消息
             Map requestMap = MessageUtil.parseXml(request);
@@ -150,11 +152,13 @@ public class CoreServlet extends HttpServlet {
             TextMessage textMessage = new TextMessage();
             textMessage.setToUserName(fromUserName);
             textMessage.setFromUserName(toUserName);
-            textMessage.setCreateTime(new Date().getTime());
+            textMessage.setCreateTime(System.currentTimeMillis());
             textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+
+            logger.debug("msgType"+msgType );
             // 文本消息
             if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {
-                respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！";
+                respContent = "欢迎关注飞狗宠物出行，您可以点击 开始旅行-->下单 为爱宠开启旅程！";
                 //判断是否是管理员
                 // 文本消息内容
                 String content =(String)  requestMap.get("Content");
@@ -162,8 +166,10 @@ public class CoreServlet extends HttpServlet {
                     Map map = UserUtil.getInstance().getUserMapByOpenId(fromUserName);
                     if(map.containsKey("isAdmin")){
                         String isAdmin =(String) map.get("isAdmin");
-                        if(isAdmin != null &&("1".equals(isAdmin)||"2".equals(isAdmin))){
-                            respContent = "管理员，你好！<br> 收货管理：http://www.airgopet.com/pet/ticket/orderaAdmin/adminOrderSumbit<br> 承运信息管理：";
+                        if(isAdmin != null &&("1".equals(isAdmin))){
+                            respContent = "管理员，你好！ \n " +
+                                    "收货管理：http://m.airgopet.com/pet/ticket/orderAdmin/adminOrderSumbit \n" +
+                                    "承运/打印管理：http://m.airgopet.com/pet/ticket/orderAdmin/adminOrderPayed" ;
                         }
                     }
                 }
@@ -172,7 +178,7 @@ public class CoreServlet extends HttpServlet {
                     if(map.containsKey("isAdmin")){
                         String isAdmin =(String) map.get("isAdmin");
                         if(isAdmin != null &&("1".equals(isAdmin)||"2".equals(isAdmin))){
-                            OrderMessageUtil orderMessageUtil = OrderMessageUtil.getInstance();
+                            MessageSendUtil orderMessageUtil = MessageSendUtil.getInstance();
                             Map map1 = new HashMap();
                             map1.put("openid",fromUserName);
                             orderMessageUtil.sendShouhuoAdminMessage(map1);
@@ -180,36 +186,60 @@ public class CoreServlet extends HttpServlet {
                         }
                     }
                 }
-
-
+                if(content != null &&"打印管理".equals(content.trim())){
+                    Map map = UserUtil.getInstance().getUserMapByOpenId(fromUserName);
+                    if(map.containsKey("isAdmin")){
+                        String isAdmin =(String) map.get("isAdmin");
+                        if(isAdmin != null &&("1".equals(isAdmin)||"3".equals(isAdmin))){
+                            MessageSendUtil orderMessageUtil = MessageSendUtil.getInstance();
+                            Map map1 = new HashMap();
+                            map1.put("openid",fromUserName);
+                            orderMessageUtil.sendPrintAdminMessage(map1);
+                            respContent="请单击上方或下方通知进行信息打印";
+                        }
+                    }
+                }
+                if(content != null &&"客服".equals(content.trim())){
+                    respContent = "欢迎关注飞狗宠物出行，您可以点击 开始旅行-->下单 为爱宠开启旅程！\n"
+                            +"关注客服微信号【feigoukefu】或者拨打客服电话【17623498881】联系我们 \n"
+                            +"扫一扫上方二维码直接联系客服";
+                    String json = initImageMessage(fromUserName,toUserName);
+                    MessageSendUtil.getInstance().sendKfMessage(json);
+                    //respXml=initImageMessage(fromUserName,toUserName);
+                }
             }
             // 图片消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)) {
-                respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！！";
+                respContent = "欢迎关注飞狗宠物出行，您可以点击 开始旅行-->下单 为爱宠开启旅程！！";
             }
             // 语音消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_VOICE)) {
-                respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！";
+                respContent = "欢迎关注飞狗宠物出行，您可以点击 开始旅行-->下单 为爱宠开启旅程！";
             }
             // 视频消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_VIDEO)) {
-                respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！";
+                respContent = "欢迎关注飞狗宠物出行，您可以点击 开始旅行-->下单 为爱宠开启旅程！";
             }
             // 地理位置消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_LOCATION)) {
-                respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！";
+                respContent = "欢迎关注飞狗宠物出行，您可以点击 开始旅行-->下单 为爱宠开启旅程！";
             }
             // 链接消息
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_LINK)) {
-                respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！";
+                respContent = "欢迎关注飞狗宠物出行，您可以点击 开始旅行-->下单 为爱宠开启旅程！";
             }
             // 事件推送
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {
                 // 事件类型
                 String eventType = (String) requestMap.get("Event");
+                logger.debug("eventType:"+eventType);
                 // 关注
                 if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
-                    respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！";
+                    respContent = "欢迎关注飞狗宠物出行，您可以点击 开始旅行-->下单 为爱宠开启旅程！\n"
+                            +"关注客服微信号【feigoukefu】或者拨打客服电话【17623498881】联系我们 \n"
+                            +"扫一扫上方二维码直接联系客服";
+                    String json = initImageMessage(fromUserName,toUserName);
+                    MessageSendUtil.getInstance().sendKfMessage(json);
                 }
                 // 取消关注
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {
@@ -225,7 +255,7 @@ public class CoreServlet extends HttpServlet {
                     //
                     if(eventKey.indexOf("qrscene_")>-1){
                         //关注后会进行提示 此处不再处理
-                        respContent = "欢迎关注飞狗宠物旅行，您可以点击 开始旅行-->下单 为您的宠物订购一张旅行机票！！";
+                        respContent = "欢迎关注飞狗宠物出行，您可以点击 开始旅行-->下单 为爱宠开启旅程！！";
                     }else{
                         //获取scansrt
                         //在二维码表中查询 相关具体的推荐人
@@ -254,16 +284,48 @@ public class CoreServlet extends HttpServlet {
             }
             // 设置文本消息的内容
             textMessage.setContent(respContent);
+            if(respXml!=null){
+                //同时发送文本以及图片消息
+                respXml = MessageUtil.textMessageToXml(textMessage)+respXml;
+            }else{
+                // 将文本消息对象转换成xml
+                respXml = MessageUtil.textMessageToXml(textMessage);
+            }
 
-            // 将文本消息对象转换成xml
-            respXml = MessageUtil.textMessageToXml(textMessage);
+            logger.debug("respXml"+respXml);
             return respXml;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return "success";
     }
-
+    //初始化图片消息
+    public  String initImageMessage(String toUserName,String fromUserName){
+        String message="";
+        //获取access_token
+        String access_token =  weChatUtil.getAccessToken();
+        //String path = "/home/images/qr4tuijian.jpg";//需替换图片路径
+        //File file = new File(path);
+        try{
+            Image image = new Image();
+            ImageMessage imageMessage = new ImageMessage();
+            String mediaId = "11eF87TXNh9Nb-60QiSeg2SJss7JZVT4S6TlRK2kCjI";//MaterialUtil.uploadPermanentMaterial(access_token,file,"image","","");
+            logger.debug("二维码素材上传成功，开始组装信息"+mediaId);
+            image.setMedia_id(mediaId);
+            imageMessage.setFromUserName(fromUserName);
+            imageMessage.setToUserName(toUserName);
+            imageMessage.setMsgType(MessageUtil.REQ_MESSAGE_TYPE_IMAGE);
+            imageMessage.setCreateTime(System.currentTimeMillis());
+            imageMessage.setImage(image);
+            //imageMessage.setMediaId(mediaId);
+            //message = MessageUtil.imageMessageToXml(imageMessage);
+            message = DataConvertUtil.convertBeanToJson(imageMessage);
+            message = message.replaceAll("ToUserName","touser").replaceAll("MsgType","msgtype");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return message;
+    }
     /**
      * 验证签名
      *

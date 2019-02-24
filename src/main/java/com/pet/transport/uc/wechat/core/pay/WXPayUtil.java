@@ -118,7 +118,7 @@ public class WXPayUtil {
         parameters.put("mch_id", WeChatUtil.getInstance().getMchid());
         parameters.put("nonce_str", generateNonceStr());
         parameters.put("fee_type", "CNY");
-        parameters.put("notify_url", "http://www.airgopet.com/pet//ticket/order/wxPayNotify");
+        parameters.put("notify_url", "http://m.airgopet.com/pet//ticket/order/wxPayNotify");
         parameters.put("trade_type", "JSAPI");
         return parameters;
     }

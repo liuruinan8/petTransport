@@ -31,15 +31,10 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
     @Qualifier("startPlaceDetailServiceImpl")
     private IStartPlaceDetailService startPlaceDetailService;
     public Map getAllCost(Map param) {
-        //String startPlaceCode = (String) param.get("startPlaceCode");
-        //String destinationPlaceCode = (String) param.get("destinationPlaceCode");
-        //String transDate = (String) param.get("transDate");
         String userType = (String) param.get("userType");
         if(StringUtils.isEmpty(userType)){
             userType = "plain";
         }
-        //String petWeight = (String) param.get("petWeight");
-        //String selHkx = (String) param.get("selHkx");
         String selSmjc = (String) param.get("selSmjc");
         String placeDistance = (String) param.get("placeDistance");
         String insuredPrice = (String) param.get("insuredPrice");
@@ -50,10 +45,6 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
         int petNum = petLst.size();
         //计算机票价格
         String ticketPrice = "0";
-        /*DestinationPlace destinationPlace=destinationPlaceService.selectDestinationPlaceByStartPlaceAndDistPlace(param);
-        if(destinationPlace!=null){
-            ticketPrice =destinationPlace.getPrice();
-        }*/
 
         DestinationPlacePrice destinationPlacePrice=destinationPlaceService.selectPriceByStartPlaceAndDistPlaceAndUseType(param);
         //最低收费
@@ -140,20 +131,11 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
 
 
         ticketPrice = String.valueOf(weightPrice+overWeightPrice+basePrice+quarantineCertPrice);
-        //int weightPrice = (totalWeight-40>0?totalWeight-40:0)*rateC +
-         //       *rateB +
-          //      (totalWeight-40>0?totalWeight-40:0)*rateA;
         String petBoxPrice = String.valueOf(petBoxPriceAll);
 
         String placePrice = "0";
         int placePriceInt = 0;
         if(selSmjc!=null && (selSmjc.equals("true")||selSmjc.equals("on"))){
-            /*Map placeMap = new HashMap();
-            placeMap.put("detailCode",placeAreaCode);
-            StartPlaceDetail dt = startPlaceDetailService.selectDetailByDetailCode(placeMap);
-            if(dt != null){
-                placePrice = dt.getPrice();
-            }*/
             int distance = Integer.valueOf(placeDistance);
             //  0-10km	免费	免费
             if(distance>0 && distance<=10){
@@ -185,19 +167,22 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
             }
             placePrice = String .valueOf(placePriceInt);
         }
-
+        String otherPrice = (String) param.get("otherPrice");
+        if(otherPrice == null || "".equals(otherPrice) || "null".equals(otherPrice)){
+            otherPrice = "0";
+        }
         Double totalPrice = Double.parseDouble(ticketPrice) +
                 Double.parseDouble(petBoxPrice) +
                 Double.parseDouble(placePrice) +
-                Double.parseDouble(insuredPrice) ;
+                Double.parseDouble(insuredPrice)+
+                Double.parseDouble(otherPrice);
         Map map = new HashMap();
         map.put("ticketPrice",ticketPrice);
         map.put("petBoxPrice",petBoxPrice);
         map.put("petLst",petLst);
-        //map.put("boxTypeId",boxTypeId);
-        //map.put("boxTypeName",boxTypeName);
         map.put("placePrice",placePrice);
         map.put("insuredPrice",insuredPrice);
+        map.put("otherPrice",otherPrice);
         map.put("totalPrice",totalPrice.toString());
         return map;
     }

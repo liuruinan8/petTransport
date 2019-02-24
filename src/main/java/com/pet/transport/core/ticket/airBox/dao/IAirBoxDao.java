@@ -4,5 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IAirBoxDao {
-    public List selectAirBoxListByFeature(Map map);
+     List selectAirBoxListByFeature(Map map);
+    List selectAllAirBoxList(Map map);
+
 }

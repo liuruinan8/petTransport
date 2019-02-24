@@ -1,5 +1,9 @@
 package com.pet.transport.core.order.dao;
 
+import com.pet.transport.core.order.po.OrderTicket;
+
+import java.util.Map;
+
 /**
  * @author zimok
  * @Title: OrderTicketDao
@@ -8,4 +12,9 @@ package com.pet.transport.core.order.dao;
  * @date 2019/1/1119:38
  */
 public interface OrderTicketDao {
+    OrderTicket selectOrderTicketByOrderId(String orderId);
+
+    int addOrderTicket(Map param);
+
+    int updateOrderTicket(Map param);
 }

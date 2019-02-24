@@ -21,18 +21,18 @@
         <div class="weui-cells weui-cells_form">
             <div class="weui-cell weui-cell_orderForm">
                 <div class="weui-cell__hd">
-                    <label class="weui-label">寄件人姓名</label>
+                    <label class="weui-label">航空公司</label>
                 </div>
                 <div class="weui-cell__bd">
-                    <input id="deliverName" class="weui-input" type="text" placeholder="请填写寄件人姓名">
+                    <input id="flight" class="weui-input" type="text" placeholder="请填写航空公司" value="${orderTicket.flight}">
                 </div>
             </div>
             <div class="weui-cell weui-cell_orderForm">
                 <div class="weui-cell__hd">
-                    <label class="weui-label">寄件人手机号</label>
+                    <label class="weui-label">航班号</label>
                 </div>
                 <div class="weui-cell__bd">
-                    <input id="deliverMobile" class="weui-input" type="tel" placeholder="请填写寄件人手机号">
+                    <input id="flightNo" class="weui-input" type="text" placeholder="请填写航班号" value="${orderTicket.flightNo}">
                 </div>
             </div>
             <!--
@@ -40,24 +40,23 @@
             -->
             <div class="weui-cell weui-cell_orderForm">
                 <div class="weui-cell__hd">
-                    <label class="weui-label">收件人姓名</label>
+                    <label class="weui-label">起飞时间</label>
                 </div>
                 <div class="weui-cell__bd">
-                    <input id="receiverName" class="weui-input" type="text" placeholder="请填写收件人姓名">
+                    <input id="takeOffTime" class="weui-input" type="datetime-local" placeholder="请填写起飞时间" value="${orderTicket.takeOffTime}">
                 </div>
             </div>
             <div class="weui-cell weui-cell_orderForm">
                 <div class="weui-cell__hd">
-                    <label class="weui-label">收件人手机号</label>
+                    <label class="weui-label">预计到达时间</label>
                 </div>
                 <div class="weui-cell__bd">
-                    <input id="receiverMobile" class="weui-input" type="tel" placeholder="请填写收件人手机号">
+                    <input id="arriveTime" class="weui-input" type="datetime-local" placeholder="请填写预计到达时间" value="${orderTicket.arriveTime}">
                 </div>
             </div>
         </div>
         <div class="">
-            <!--<a href="javascript:;" id="gaveUpOrder" class="weui-btn weui-btn_warn">稍后补充</a>-->
-            <a href="javascript:;" id="submitOrder" class="weui-btn weui-btn_primary">提交订单</a>
+            <a href="javascript:;" id="submitTicket" class="weui-btn weui-btn_primary">提交承运信息</a>
         </div>
     </div>
     <div class="weui_msg hide" id="sumbitSuccess" style="opacity: 0; display: none;">
@@ -69,7 +68,6 @@
         <div class="weui_opr_area">
             <p class="weui_btn_area">
                  <a id="noticeU" href="javascript:;" class="weui_btn weui_btn_primary">我已知晓</a>
-                <!-- <a id="offlinePay" href="javascript:;" class="weui_btn weui_btn_default">稍后支付</a>-->
             </p>
         </div>
         <div class="weui_extra_area">
@@ -97,59 +95,51 @@
 <script>
     var orderId = '${order.id}';
     var orderNo = '${order.orderNo}';
-
-    $('#noticeU').on('click', function (e) {
-        location.href="/pet/ticket/order/mine/";
-    });
+    var ticketId='${orderTicket.id}';
     /**
      * 监听提交按钮
      */
-    $('#submitOrder').on('click', function (e) {
-        $('#submitOrder').addClass("weui-btn_disabled");
+    $('#submitTicket').on('click', function (e) {
         e.preventDefault();
-        var deliverName = $("#deliverName").val();
-        if(deliverName==undefined || deliverName==""){
-            showErrorTips("请填写寄件人姓名");
-            $('#submitOrder').removeClass("weui-btn_disabled");
+        var flight = $("#flight").val();
+        if(flight==undefined || flight==""){
+            showErrorTips("请填写航空公司");
             return;
         }
 
-        var deliverMobile = $("#deliverMobile").val();
-        if(deliverMobile==undefined || deliverMobile==""){
-            showErrorTips("请填写寄件人手机号");
-            $('#submitOrder').removeClass("weui-btn_disabled");
+        var flightNo = $("#flightNo").val();
+        if(flightNo==undefined || flightNo==""){
+            showErrorTips("请填写航班号");
             return;
         }
 
-        var receiverName = $("#receiverName").val();
-        if(receiverName==undefined || receiverName==""){
-            showErrorTips("请填写收件人姓名");
-            $('#submitOrder').removeClass("weui-btn_disabled");
+        var takeOffTime = $("#takeOffTime").val();
+        if(takeOffTime==undefined || takeOffTime==""){
+            showErrorTips("请填写起飞时间");
             return;
         }
 
-        var receiverMobile = $("#receiverMobile").val();
-        if(receiverMobile==undefined || receiverMobile==""){
-            showErrorTips("请填写收件人手机号");
-            $('#submitOrder').removeClass("weui-btn_disabled");
+        var arriveTime = $("#arriveTime").val();
+        if(arriveTime==undefined || arriveTime==""){
+            showErrorTips("请填写预计到达时间");
             return;
         }
 
         var param = {};
+        param.orderTicketId=ticketId;
         param.orderId=orderId;
         param.orderNo=orderNo;
-        param.deliverName=deliverName;
-        param.deliverMobile=deliverMobile;
-        param.receiverName=receiverName;
-        param.receiverMobile=receiverMobile;
+        param.flight=flight;
+        param.flightNo=flightNo;
+        param.takeOffTime=takeOffTime;
+        param.arriveTime=arriveTime;
 
         $.ajax({
             type : "POST",
             contentType: "application/x-www-form-urlencoded;charset=UTF-8",
-            url : "/pet/ticket/order/sumbitPerson",
+            url : "/pet/ticket/orderAdmin/sumbitAdminTicket",
             data : param,
             success : function(data) {
-                $('#submitOrder').removeClass("weui-btn_disabled");
                 var retData = JSON.parse(data);
                 if(retData.status =="success"){
                     $('#sumbitSuccess').fadeIn();
@@ -159,7 +149,6 @@
                 // console.log(data);
             },
             error : function(){
-                $('#submitOrder').removeClass("weui-btn_disabled");
                 showErrorTips("出现网络错误");
             }
 

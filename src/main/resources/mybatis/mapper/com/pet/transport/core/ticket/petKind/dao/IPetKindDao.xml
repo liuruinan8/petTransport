@@ -11,6 +11,9 @@
         <result column="CREATOR_ID" property="creatorId" jdbcType="VARCHAR" />
         <result column="CREATOR_NAME" property="creatorName" jdbcType="VARCHAR" />
         <result column="KIND_NAME_SIMPLE" property="kindNameSimple" jdbcType="VARCHAR" />
+        <result column="KIND_CHARACTER" property="kindCharacter" jdbcType="VARCHAR" />
+        <result column="SHOULDER_HEIGHT" property="shoulderHeight" jdbcType="VARCHAR" />
+        <result column="BODY_WEIGHT" property="bodyWeight" jdbcType="VARCHAR" />
     </resultMap>
     <!-- 查询单条记录-->
     <select id="selectPetKindById" parameterType="string" resultMap="BaseResultMap">

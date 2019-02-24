@@ -14,7 +14,7 @@ public class OrderTicket {
     private String orderId;
     //订单编号
     private String orderNo;
-    //承运航班
+    //承运航空公司
     private String flight;
     //航班号
     private String flightNo;

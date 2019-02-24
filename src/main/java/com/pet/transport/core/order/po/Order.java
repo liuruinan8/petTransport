@@ -15,20 +15,8 @@ public class Order {
     private String destinationPlaceName;
     //寄送日期
     private String transDate;
-    //宠物类型
-    @Deprecated
-    private String petKind;
-    //宠物体重
-    @Deprecated
-    private String petWeight;
     //宠物机票总价格
     private String ticketPrice;
-    //航空箱
-    @Deprecated
-    private String petBoxTypeId;
-    //航空箱名称
-    @Deprecated
-    private String petBoxTypeName;
     //航空箱价格
     private String petBoxPrice;
     //上门地址所在地区划
@@ -54,6 +42,9 @@ public class Order {
     private String declarePrice;
     //保价
     private String insuredPrice;
+
+    //其他价格
+    private String otherPrice;
     //总价
     private String totalPrice;
     //订单状态 save arrival pay trans complate
@@ -88,13 +79,6 @@ public class Order {
     public void setStartPlaceName(String startPlaceName) {
         this.startPlaceName = startPlaceName;
     }
-    public String getPetKind() {
-        return petKind;
-    }
-
-    public void setPetKind(String petKind) {
-        this.petKind = petKind;
-    }
 
     public String getDestinationPlaceCode() {
         return destinationPlaceCode;
@@ -120,13 +104,6 @@ public class Order {
         this.transDate = transDate;
     }
 
-    public String getPetWeight() {
-        return petWeight;
-    }
-
-    public void setPetWeight(String petWeight) {
-        this.petWeight = petWeight;
-    }
 
     public String getTicketPrice() {
         return ticketPrice;
@@ -136,21 +113,6 @@ public class Order {
         this.ticketPrice = ticketPrice;
     }
 
-    public String getPetBoxTypeId() {
-        return petBoxTypeId;
-    }
-
-    public void setPetBoxTypeId(String petBoxTypeId) {
-        this.petBoxTypeId = petBoxTypeId;
-    }
-
-    public String getPetBoxTypeName() {
-        return petBoxTypeName;
-    }
-
-    public void setPetBoxTypeName(String petBoxTypeName) {
-        this.petBoxTypeName = petBoxTypeName;
-    }
 
     public String getPetBoxPrice() {
         return petBoxPrice;
@@ -214,6 +176,14 @@ public class Order {
 
     public void setInsuredPrice(String insuredPrice) {
         this.insuredPrice = insuredPrice;
+    }
+
+    public String getOtherPrice() {
+        return otherPrice;
+    }
+
+    public void setOtherPrice(String otherPrice) {
+        this.otherPrice = otherPrice;
     }
 
     public String getTotalPrice() {

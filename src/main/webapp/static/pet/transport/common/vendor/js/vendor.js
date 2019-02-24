@@ -4296,7 +4296,7 @@ object-assign
                     console.log(s()(e))
                 }
             }), l.onMenuShareTimeline({
-                title: "飞狗宠物旅行",
+                title: "飞狗宠物出行",
                 desc: "买张飞狗旅行机票开始飞吧！",
                 link: t,
                 imgUrl: e,
@@ -4305,7 +4305,7 @@ object-assign
                 cancel: function () {
                 }
             }), l.onMenuShareAppMessage({
-                title: "飞狗宠物旅行",
+                title: "飞狗宠物出行",
                 link: t,
                 desc: "买张飞狗旅行机票开始飞吧！",
                 imgUrl: e,
@@ -5082,7 +5082,7 @@ object-assign
     "use strict"
 }, function (e, t, n) {
     "use strict";
-    var r = n(345), o = (n.n(r), {appname: "飞狗宠物旅行", url_host: window.location.host, background: "#FBF9FE"});
+    var r = n(345), o = (n.n(r), {appname: "飞狗宠物出行", url_host: window.location.host, background: "#FBF9FE"});
     t.a = o
 }, function (e, t, n) {
     "use strict";

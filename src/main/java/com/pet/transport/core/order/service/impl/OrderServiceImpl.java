@@ -4,10 +4,14 @@ import com.pet.transport.common.util.SnowflakeIdWorker;
 import com.pet.transport.core.order.dao.OrderDao;
 import com.pet.transport.core.order.dao.OrderPersonDao;
 import com.pet.transport.core.order.dao.OrderPetDao;
+import com.pet.transport.core.order.dao.OrderTicketDao;
 import com.pet.transport.core.order.po.Order;
 import com.pet.transport.core.order.po.OrderPerson;
 import com.pet.transport.core.order.po.OrderPet;
+import com.pet.transport.core.order.po.OrderTicket;
 import com.pet.transport.core.order.service.IOrderService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -22,6 +26,8 @@ import java.util.Map;
 @Service("orderServiceImpl")
 public class OrderServiceImpl implements IOrderService {
 
+    private Log logger = LogFactory.getLog(OrderServiceImpl.class);
+
     @Autowired
     private  OrderDao orderDao;
 
@@ -31,23 +37,25 @@ public class OrderServiceImpl implements IOrderService {
     @Autowired
     private OrderPersonDao orderPersonDao;
 
-    public Order selectOrderById(String id){
+    @Autowired
+    private OrderTicketDao orderTicketDao;
 
+
+    public Order selectOrderById(String id){
         return orderDao.selectOrderById(id);
     }
 
     public Order selectOrderByOrderNo(String orderNo){
-
         return orderDao.selectOrderByOrderNo(orderNo);
     }
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,timeout=1,isolation=Isolation.DEFAULT)
     public Map sumbitOrder(Map param) {
-        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
 
         String id = (String) param.get("id");
         String orderNo = (String) param.get("orderNo");
         boolean isUpdate =false;
         if(id ==null || "".equals(id)){
+            SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
             id = String.valueOf(idWorker.nextId());
             param.put("id",id);
             if(orderNo ==null || "".equals(orderNo)){
@@ -84,6 +92,7 @@ public class OrderServiceImpl implements IOrderService {
                 updatePetLst.add(map);
                 pets.remove(map.get("petId"));
             }else{
+                SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
                 String petId = String.valueOf(idWorker.nextId());
                 map.put("id",petId);
                 map.put("orderId",id);
@@ -150,9 +159,9 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     public Map sumbitPerson(Map param) {
-        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
         String id = (String) param.get("id");
         if(id ==null || "".equals(id)){
+            SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
             id = String.valueOf(idWorker.nextId());
             param.put("id",id);
         }
@@ -182,7 +191,37 @@ public class OrderServiceImpl implements IOrderService {
         return orderPersonDao.selectOrderPersonByOrderId(orderId);
     }
 
-    public List<Map> selectOrderByParm( Map param ) {
+    public OrderTicket selectOrderTicketByOrderId(String orderId) {
+        return orderTicketDao.selectOrderTicketByOrderId(orderId);
+    }
+
+    public Map sumbitAdminTicket(Map param) {
+        String id = (String) param.get("orderTicketId");
+        boolean isUpdate =false;
+        if(id ==null || "".equals(id)){
+            SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+            id = String.valueOf(idWorker.nextId());
+            param.put("id",id);
+        }else{
+            param.put("id",id);
+            isUpdate =true;
+        }
+        int i=0;
+        if(isUpdate){
+            i=orderTicketDao.updateOrderTicket(param);
+        }else{
+            i=orderTicketDao.addOrderTicket(param);
+        }
+        //更新主表状态为已提交
+        Map newMap = new HashMap();
+        newMap.put("id",param.get("orderId"));
+        newMap.put("orderStatus","complate");
+        updateOrderStatus(newMap);
+        param.put("resultStatus",i);
+        return param;
+    }
+
+    public List<Map> selectOrderByParm(Map param) {
         return orderDao.selectOrderByStatus(param);
     }
 }

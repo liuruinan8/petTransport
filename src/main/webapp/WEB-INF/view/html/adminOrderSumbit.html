@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>飞狗宠物旅行</title>
+    <title>飞狗宠物出行</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="/pet/static/pet/transport/common/mescroll/mescroll.min.css" rel="stylesheet">
@@ -176,7 +176,7 @@
                     });
                 },
                 arrivalOrder(orderId){
-                    location.href='http://www.airgopet.com/pet/ticket/orderaAdmin/adminOrderDetailArrival?orderId='+orderId;
+                    location.href='http://m.airgopet.com/pet/ticket/orderAdmin/adminOrderDetailArrival?orderId='+orderId;
                 }
             }
         });
@@ -194,7 +194,7 @@
         }
         $.ajax({
             type: 'GET',
-            url: '/pet/ticket/orderaAdmin/orderLstAdmin',
+            url: '/pet/ticket/orderAdmin/orderLstAdmin/sumbit',
             // data to be added to query string:
             data: {
                 keyword: keyword,

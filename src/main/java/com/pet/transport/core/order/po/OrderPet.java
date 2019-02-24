@@ -22,6 +22,12 @@ public class OrderPet {
     private String petName;
     //宠物体重
     private String petWeight;
+    //宠物年龄
+    private String petAge;
+    //宠物性别
+    private String petSex;
+    //宠物性格
+    private String petCharacter;
     //价格
     private String singleTicketPrice;
     //航空箱
@@ -89,6 +95,30 @@ public class OrderPet {
 
     public void setPetWeight(String petWeight) {
         this.petWeight = petWeight;
+    }
+
+    public String getPetAge() {
+        return petAge;
+    }
+
+    public void setPetAge(String petAge) {
+        this.petAge = petAge;
+    }
+
+    public String getPetSex() {
+        return petSex;
+    }
+
+    public void setPetSex(String petSex) {
+        this.petSex = petSex;
+    }
+
+    public String getPetCharacter() {
+        return petCharacter;
+    }
+
+    public void setPetCharacter(String petCharacter) {
+        this.petCharacter = petCharacter;
     }
 
     public String getSingleTicketPrice() {

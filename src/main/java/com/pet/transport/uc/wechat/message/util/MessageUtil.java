@@ -1,9 +1,6 @@
 package com.pet.transport.uc.wechat.message.util;
 
-import com.pet.transport.uc.wechat.message.po.Article;
-import com.pet.transport.uc.wechat.message.po.MusicMessage;
-import com.pet.transport.uc.wechat.message.po.NewsMessage;
-import com.pet.transport.uc.wechat.message.po.TextMessage;
+import com.pet.transport.uc.wechat.message.po.*;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
@@ -21,18 +18,18 @@ import java.util.List;
 import java.util.Map;
 public class MessageUtil {
     public static final String RESP_MESSAGE_TYPE_TEXT = "text";
-    public static final Object REQ_MESSAGE_TYPE_TEXT = "text";
-    public static final Object REQ_MESSAGE_TYPE_IMAGE = "image";
-    public static final Object REQ_MESSAGE_TYPE_VOICE = "voice";
-    public static final Object REQ_MESSAGE_TYPE_VIDEO = "video";
-    public static final Object REQ_MESSAGE_TYPE_LOCATION = "location";
-    public static final Object REQ_MESSAGE_TYPE_LINK = "link";
-    public static final Object REQ_MESSAGE_TYPE_EVENT = "event";
-    public static final Object EVENT_TYPE_SUBSCRIBE = "SUBSCRIBE";
-    public static final Object EVENT_TYPE_UNSUBSCRIBE = "UNSUBSCRIBE";
-    public static final Object EVENT_TYPE_SCAN = "SCAN";
-    public static final Object EVENT_TYPE_LOCATION = "LOCATION";
-    public static final Object EVENT_TYPE_CLICK = "CLICK";
+    public static final String REQ_MESSAGE_TYPE_TEXT = "text";
+    public static final String REQ_MESSAGE_TYPE_IMAGE = "image";
+    public static final String REQ_MESSAGE_TYPE_VOICE = "voice";
+    public static final String REQ_MESSAGE_TYPE_VIDEO = "video";
+    public static final String REQ_MESSAGE_TYPE_LOCATION = "location";
+    public static final String REQ_MESSAGE_TYPE_LINK = "link";
+    public static final String REQ_MESSAGE_TYPE_EVENT = "event";
+    public static final String EVENT_TYPE_SUBSCRIBE = "subscribe";
+    public static final String EVENT_TYPE_UNSUBSCRIBE = "unsubscribe";
+    public static final String EVENT_TYPE_SCAN = "scan";
+    public static final String EVENT_TYPE_LOCATION = "location";
+    public static final String EVENT_TYPE_CLICK = "click";
     public static String PREFIX_CDATA = "<![CDATA[";
     public static String SUFFIX_CDATA = "]]>";
     /**
@@ -131,5 +128,16 @@ public class MessageUtil {
         xstream.alias("xml", newsMessage.getClass());
         xstream.alias("item", new Article().getClass());
         return xstream.toXML(newsMessage);
+    }
+
+    /**
+     * 将图片消息转换为xml
+     * @param imageMessage
+     * @return
+     */
+    public static String imageMessageToXml(ImageMessage imageMessage){
+        //XStream xStream = new XStream(new StaxDriver());
+        xstream.alias("xml", imageMessage.getClass());
+        return xstream.toXML(imageMessage);
     }
 }

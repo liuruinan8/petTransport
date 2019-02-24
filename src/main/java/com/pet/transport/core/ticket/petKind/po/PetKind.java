@@ -18,6 +18,18 @@ public class PetKind {
      */
     private String kindNameSimple;
     /**
+     * 品种特点
+     */
+    private String kindCharacter;
+    /**
+     * 肩高
+     */
+    private String shoulderHeight;
+    /**
+     * 体重
+     */
+    private String bodyWeight;
+    /**
      * 类型创建时间
      */
     private String createTime;
@@ -96,5 +108,29 @@ public class PetKind {
 
     public void setKindNameSimple(String kindNameSimple) {
         this.kindNameSimple = kindNameSimple;
+    }
+
+    public String getKindCharacter() {
+        return kindCharacter;
+    }
+
+    public void setKindCharacter(String kindCharacter) {
+        this.kindCharacter = kindCharacter;
+    }
+
+    public String getShoulderHeight() {
+        return shoulderHeight;
+    }
+
+    public void setShoulderHeight(String shoulderHeight) {
+        this.shoulderHeight = shoulderHeight;
+    }
+
+    public String getBodyWeight() {
+        return bodyWeight;
+    }
+
+    public void setBodyWeight(String bodyWeight) {
+        this.bodyWeight = bodyWeight;
     }
 }

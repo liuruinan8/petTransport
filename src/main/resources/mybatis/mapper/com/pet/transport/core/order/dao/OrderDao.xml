@@ -22,6 +22,7 @@
         <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
         <result column="DECLARE_PRICE" property="declarePrice" jdbcType="VARCHAR" />
         <result column="INSURED_PRICE" property="insuredPrice" jdbcType="VARCHAR" />
+        <result column="OTHER_PRICE" property="otherPrice" jdbcType="VARCHAR" />
         <result column="TOTAL_PRICE" property="totalPrice" jdbcType="VARCHAR" />
         <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
         <result column="PAY_STATUS" property="payStatus" jdbcType="VARCHAR" />
@@ -31,11 +32,11 @@
     <insert id="addOrder" parameterType="Map">
         INSERT INTO CORE_ORDER (ID, ORDER_NO, START_PLACE_CODE,START_PLACE_NAME,DESTINATION_PLACE_CODE,
         DESTINATION_PLACE_NAME,TRANS_DATE,TICKET_PRICE,PET_BOX_PRICE,PLACE_AREA_CODE,PLACE_AREA_NAME,
-        PLACE_DETAIL,PLACE_DISTANCE,PLACE_PRICE,USER_ID,DECLARE_PRICE,INSURED_PRICE,TOTAL_PRICE,ORDER_STATUS,
+        PLACE_DETAIL,PLACE_DISTANCE,PLACE_PRICE,USER_ID,DECLARE_PRICE,INSURED_PRICE,OTHER_PRICE,TOTAL_PRICE,ORDER_STATUS,
         PAY_STATUS,PAY_SERIAL_NO,PAY_ACCOUNT)
         VALUES (#{id}, #{orderNo},#{startPlaceCode},#{startPlaceName},#{destinationPlaceCode},
         #{destinationPlaceName},#{transDate},#{ticketPrice},#{petBoxPrice},#{placeAreaCode},#{placeAreaName},
-        #{placeDetail}, #{placeDistance},#{placePrice},#{userId},#{declarePrice},#{insuredPrice},#{totalPrice},#{orderStatus}
+        #{placeDetail}, #{placeDistance},#{placePrice},#{userId},#{declarePrice},#{insuredPrice},#{otherPrice},#{totalPrice},#{orderStatus}
         ,#{payStatus},#{paySerialNo},#{payAccount});
     </insert> <!---->
     <!-- 查询单条记录-->
@@ -67,7 +68,10 @@
     <update id="updateOrderStatus" parameterType="Map">
         UPDATE CORE_ORDER SET ORDER_STATUS=#{orderStatus}
         <if test="payStatus !=''">
-        ,PAY_STATUS=#{payStatus}
+          ,PAY_STATUS=#{payStatus}
+        </if>
+        <if test="paySerialNo !=''">
+            ,PAY_SERIAL_NO=#{paySerialNo}
         </if>
         WHERE ID=#{id}
     </update>
@@ -125,6 +129,9 @@
         </if>
         <if test="insuredPrice !=''">
             ,INSURED_PRICE=#{insuredPrice}
+        </if>
+        <if test="otherPrice !=''">
+            ,OTHER_PRICE=#{otherPrice}
         </if>
         <if test="totalPrice !=''">
             ,TOTAL_PRICE=#{totalPrice}

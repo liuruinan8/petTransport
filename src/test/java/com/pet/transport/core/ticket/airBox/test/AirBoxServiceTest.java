@@ -3,6 +3,7 @@ package com.pet.transport.core.ticket.airBox.test;
 import com.pet.transport.common.test.SpringTestCase;
 import com.pet.transport.core.ticket.airBox.po.AirBox;
 import com.pet.transport.core.ticket.airBox.service.IAirBoxService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,6 +30,6 @@ public class AirBoxServiceTest extends SpringTestCase {
         }else{
             System.out.println("Not Find");
         }
-
+        Assert.assertTrue(true);
     }
 }

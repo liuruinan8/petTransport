@@ -4,5 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface IAirBoxService {
-    public List selectAirBoxListByFeature(Map map);
+    List selectAirBoxListByFeature(Map map);
+
+    List selectAllAirBoxList(Map map);
+
+    String selectAllAirBoxListJsonData(Map paramMap);
 }

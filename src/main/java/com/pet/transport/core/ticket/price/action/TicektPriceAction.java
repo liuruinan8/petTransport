@@ -51,10 +51,7 @@ public class TicektPriceAction {
         //String selBjfw=(String) request.getParameter("selBjfw");
         String declarePrice = (String)request.getParameter("declarePrice");
         String insuredPrice = (String)request.getParameter("insuredPrice");
-        /*if(selBjfw!=null && (selBjfw.equals("true")||selBjfw.equals("on"))){
-            //默认保价为200元
-            //insuredPrice = "200";
-        }*/
+        String otherPrice = (String)request.getParameter("otherPrice");
         //获取当前登录人 判空 如果为空 从shrio中获取
         String userId = (String)request.getParameter("userId");
         String userMobile = (String)request.getParameter("userMobile");
@@ -99,6 +96,7 @@ public class TicektPriceAction {
         costParam.put("destinationPlaceCode",destinationPlaceCode);
         costParam.put("declarePrice",declarePrice);
         costParam.put("insuredPrice",insuredPrice);
+        costParam.put("otherPrice",otherPrice);
 
         Map map = ticketPriceServiceImpl.getAllCost(costParam);
         if(map!=null){

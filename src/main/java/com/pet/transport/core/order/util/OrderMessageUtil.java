@@ -112,7 +112,7 @@ public class OrderMessageUtil {
             WechatTemplate wechatTemplate = new WechatTemplate();
             wechatTemplate.setTemplate_id(TemplateContants.TEM_ORDER_DAISHOUHUO);
             wechatTemplate.setTouser(openid);
-            wechatTemplate.setUrl(URLContants.WEB_URL+"/ticket/orderaAdmin/adminOrderDetailArrival?orderId="+orderId);
+            wechatTemplate.setUrl(URLContants.WEB_URL+"/ticket/orderAdmin/adminOrderDetailArrival?orderId="+orderId);
             Map<String,WechatTemplateData> mapdata = new HashMap<String,WechatTemplateData>();
             // 封装模板数据
             WechatTemplateData first = new WechatTemplateData();
@@ -220,12 +220,11 @@ public class OrderMessageUtil {
         }
     }
 
-
-    public void sendShouhuoAdminMessage(Map order){
-        List<String> lst = new ArrayList<String>();
-        String openid = (String) order.get("openid");
+//TEM_ORDER_STATUS_UPDATE
+    public void sendOrderTicketSuccessToUserMessage(Map param) {
+        String openid = (String) param.get("userId");
         if( logger.isDebugEnabled()){
-            logger.debug("-----sendShouhuoAdminMessage---要推送的接受openid:"+openid);
+            logger.debug("---sendOrderSaveSuccessMessage-----要推送的接受openid:"+openid);
         }
         //String openid="oYey51VVExpQZ38giMltpW_TIo2M";
         // 获取基础支持的access_token
@@ -234,40 +233,38 @@ public class OrderMessageUtil {
         String resultUrl2 = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+access_token;
         // 封装基础数据
         WechatTemplate wechatTemplate = new WechatTemplate();
-        wechatTemplate.setTemplate_id(TemplateContants.TEM_ORDER_ADMIN);
+        wechatTemplate.setTemplate_id(TemplateContants.TEM_ORDER_STATUS_UPDATE);
         wechatTemplate.setTouser(openid);
-        wechatTemplate.setUrl(URLContants.WEB_URL+"/ticket/orderaAdmin/adminOrderSumbit");
+        wechatTemplate.setUrl(URLContants.WEB_URL+"/ticket/order/mine");
         Map<String,WechatTemplateData> mapdata = new HashMap<String,WechatTemplateData>();
         // 封装模板数据
         WechatTemplateData first = new WechatTemplateData();
-        first.setValue("欢迎进入收货管理页面，详情请点击");
+        first.setValue("您的订单已经开始承运，请注意联系机场或者收件人查收宠物，谢谢您的使用");
         first.setColor("#173177");
         mapdata.put("first", first);
 
-        WechatTemplateData keyword1 = new WechatTemplateData();
-        keyword1.setValue("点击进入收货管理");
-        keyword1.setColor("#173177");
-        mapdata.put("keyword1", keyword1);
+        WechatTemplateData OrderSn = new WechatTemplateData();
+        OrderSn.setValue(param.get("orderNo")+"");
+        OrderSn.setColor("#173177");
+        mapdata.put("OrderSn", OrderSn);
 
-        WechatTemplateData keyword2 = new WechatTemplateData();
-        keyword2.setValue("点击进入收货管理");
-        keyword2.setColor("#173177");
-        mapdata.put("keyword2", keyword2);
-
+        WechatTemplateData OrderStatus = new WechatTemplateData();
+        OrderStatus.setValue("已承运");
+        OrderStatus.setColor("#173177");
+        mapdata.put("OrderStatus", OrderStatus);
 
         WechatTemplateData remark = new WechatTemplateData();
-        remark.setValue("请及时安排人员进行收货");
+        remark.setValue("承运航空公司:"+param.get("flight")+"\r\n"+"承运航班:"+param.get("flightNo")+"\r\n起飞时间："+param.get("takeOffTime")+"\r\n预计到达时间:"+param.get("arriveTime"));
         remark.setColor("#173177");
         mapdata.put("remark", remark);
 
         wechatTemplate.setData(mapdata);
         if( logger.isDebugEnabled()){
-            logger.debug("-----sendShouhuoAdminMessage----开始推送消息access_token："+access_token);
+            logger.debug("----sendOrderSaveSuccessMessage-----开始推送消息access_token："+access_token);
         }
         WechatResponse response = orderMessageUtil.templateMessageServiceImpl.sendTemplateMessage(access_token,wechatTemplate);
         if( logger.isDebugEnabled()){
-            logger.debug("-----sendShouhuoAdminMessage---结束推送消息---------");
+            logger.debug("-----sendOrderSaveSuccessMessage---结束推送消息---------");
         }
-
     }
 }
