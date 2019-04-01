@@ -169,7 +169,7 @@ function adminPrice(){
     param.selSmjc=$("#selSmjc").is(":checked");
     param.selBjfw=$("#selBjfw").is(":checked");
     param.declarePrice=declarePrice;
-    param.insuredPrice=declarePrice*2/100;
+    param.insuredPrice=declarePrice*5/100;
     param.otherPrice=otherPrice;
 
     $.ajax({

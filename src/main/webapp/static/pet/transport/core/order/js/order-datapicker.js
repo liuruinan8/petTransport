@@ -451,9 +451,9 @@ $(function(){
                 $('#price_count_sumbit').removeClass("weui-btn_disabled");
                 return;
             }
-            if(placeDistance>50){
+            if(placeDistance>65){
                 $('#price_count_sumbit').removeClass("weui-btn_disabled");
-                showErrorTips("由于接送地点距离机场超过50公里，本司无法提供上门取宠服务");
+                showErrorTips("由于接送地点距离机场超过65公里，本司无法提供上门取宠服务");
                 return;
             }
 
@@ -488,7 +488,7 @@ $(function(){
         param.selSmjc=$("#selSmjc").is(":checked");
         param.selBjfw=$("#selBjfw").is(":checked");
         param.declarePrice=declarePrice;
-        param.insuredPrice=declarePrice*2/100;
+        param.insuredPrice=declarePrice*5/100;
         param.otherPrice=otherPrice;
         $.ajax({
             type : "POST",

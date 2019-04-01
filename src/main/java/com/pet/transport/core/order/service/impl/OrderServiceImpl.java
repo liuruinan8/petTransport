@@ -50,12 +50,11 @@ public class OrderServiceImpl implements IOrderService {
     }
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Exception.class,timeout=1,isolation=Isolation.DEFAULT)
     public Map sumbitOrder(Map param) {
-
+        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
         String id = (String) param.get("id");
         String orderNo = (String) param.get("orderNo");
         boolean isUpdate =false;
         if(id ==null || "".equals(id)){
-            SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
             id = String.valueOf(idWorker.nextId());
             param.put("id",id);
             if(orderNo ==null || "".equals(orderNo)){
@@ -92,7 +91,7 @@ public class OrderServiceImpl implements IOrderService {
                 updatePetLst.add(map);
                 pets.remove(map.get("petId"));
             }else{
-                SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+
                 String petId = String.valueOf(idWorker.nextId());
                 map.put("id",petId);
                 map.put("orderId",id);

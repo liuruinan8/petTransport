@@ -137,32 +137,41 @@ public class TicketPriceServiceImpl implements ITicketPriceService {
         int placePriceInt = 0;
         if(selSmjc!=null && (selSmjc.equals("true")||selSmjc.equals("on"))){
             int distance = Integer.valueOf(placeDistance);
-            //  0-10km	免费	免费
-            if(distance>0 && distance<=10){
-                // 10-20km	40元/件	20元/件
+            //  0-5km	免费	免费
+            if(distance>0 && distance<=5){
                 placePriceInt= 0;
-            }else if(distance>10 && distance<=20){
-                // 10-20km	40元/件	20元/件
-                placePriceInt= 40 + 20 * (petNum - 1);
-            }else if(distance>20 && distance<=25){
-                // 20-25km	50元/件	20元/件
-                placePriceInt= 50 + 20 * (petNum - 1);
-            }else if(distance>25 && distance<=30){
+            }else if(distance>5 && distance<=10){
+                placePriceInt= 30 + 10 * (petNum - 1);
+            }else if(distance>10 && distance<=15){
+                placePriceInt= 40 + 10 * (petNum - 1);
+            }else if(distance>15 && distance<=20){
                 // 25-30km	60元/件	20元/件
-                placePriceInt= 60 + 20 * (petNum - 1);
-            }else if(distance>30 && distance<=35){
+                placePriceInt= 50 + 10 * (petNum - 1);
+            }else if(distance>20 && distance<=25){
                 // 30-35km	70元/件	20元/件
-                placePriceInt= 70 + 20 * (petNum - 1);
-            }else if(distance>35 && distance<=40){
+                placePriceInt= 70 + 10 * (petNum - 1);
+            }else if(distance>25 && distance<=30){
                 // 35-40km	80元/件	20元/件
-                placePriceInt= 80 + 20 * (petNum - 1);
-            }else if(distance>40 && distance<=45){
+                placePriceInt= 90 + 10 * (petNum - 1);
+            }else if(distance>30 && distance<=35){
                 // 40-45km	90元/件	20元/件
-                placePriceInt= 90 + 20 * (petNum - 1);
+                placePriceInt= 100 + 10 * (petNum - 1);
+            }else if(distance>35 && distance<=40){
+                // 45-50km	100元/件	20元/件
+                placePriceInt= 120 + 10 * (petNum - 1);
             }else if(distance>45 && distance<=50){
                 // 45-50km	100元/件	20元/件
-                placePriceInt= 100 + 20 * (petNum - 1);
-            }else if(distance>50){
+                placePriceInt= 150 + 10 * (petNum - 1);
+            }else if(distance>50 && distance<=55){
+                // 45-50km	100元/件	20元/件
+                placePriceInt= 160 + 10 * (petNum - 1);
+            }else if(distance>55 && distance<=60){
+                // 45-50km	100元/件	20元/件
+                placePriceInt= 170 + 10 * (petNum - 1);
+            }else if(distance>65 && distance<=65){
+                // 45-50km	100元/件	20元/件
+                placePriceInt= 180 + 10 * (petNum - 1);
+            }else if(distance>65){
                 placePriceInt=1000000000;
             }
             placePrice = String .valueOf(placePriceInt);

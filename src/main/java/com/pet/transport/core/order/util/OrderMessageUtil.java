@@ -239,7 +239,16 @@ public class OrderMessageUtil {
         Map<String,WechatTemplateData> mapdata = new HashMap<String,WechatTemplateData>();
         // 封装模板数据
         WechatTemplateData first = new WechatTemplateData();
-        first.setValue("您的订单已经开始承运，请注意联系机场或者收件人查收宠物，谢谢您的使用");
+        first.setValue("亲爱的铲屎官您好：\n" +
+                "您的爱宠大宝将乘坐航班"+param.get("flightNo")
+                +"（"+param.get("flight")+"）从"
+                +param.get("startPlaceName")
+                +"飞往"+param.get("destinationPlaceName")
+                +"，航班预计" +
+                "起飞时间"+param.get("takeOffTime")+"\r\n，" +
+                "预计到达时间"+param.get("arriveTime")+"。\n" +
+                "请您于飞机落地后前往到达行李提取处（行李转盘）接宠。"
+        );
         first.setColor("#173177");
         mapdata.put("first", first);
 
@@ -254,7 +263,7 @@ public class OrderMessageUtil {
         mapdata.put("OrderStatus", OrderStatus);
 
         WechatTemplateData remark = new WechatTemplateData();
-        remark.setValue("承运航空公司:"+param.get("flight")+"\r\n"+"承运航班:"+param.get("flightNo")+"\r\n起飞时间："+param.get("takeOffTime")+"\r\n预计到达时间:"+param.get("arriveTime"));
+        remark.setValue("飞狗宠物出行祝您生活愉快！    咨询电话：17623498881。");
         remark.setColor("#173177");
         mapdata.put("remark", remark);
 
@@ -267,4 +276,5 @@ public class OrderMessageUtil {
             logger.debug("-----sendOrderSaveSuccessMessage---结束推送消息---------");
         }
     }
+    //+"温馨提示：1.冬天建议准备一个宠物使用过的垫子和宠物主人的旧衣物，可以缓解宠物紧张情绪并起到保暖作用，还能减缓颠簸或碰撞让宠物更舒适；夏天建议准备宠物使用过的狗碗、饮水器、玩具等：玩具可以防止小宝贝无聊。2.冬天如果宠物有衣服，可以在交宠时给宠物穿上；3.在约定交宠时间前2H内不要喂食、喂水；防止因车辆运输导致的晕车、呕吐；4.在交宠时可以为狗狗放置少许食物（幼宠必备：6月以下猫，3月以下狗）。"
 }

@@ -224,6 +224,8 @@ public class OrderAdminAction {
             }
             Order order = orderService.selectOrderById(orderId);
             param.put("userId",order.getUserId());
+            param.put("startPlaceName",order.getStartPlaceName());
+            param.put("destinationPlaceName",order.getDestinationPlaceName());
             orderMessageUtil.sendOrderTicketSuccessToUserMessage(param);
             map.put("status","success");
             map.put("orderId",orderId);

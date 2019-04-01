@@ -45,6 +45,13 @@
                 location : "重庆",
                 map : map
             });
+            //LEAST_TIME最少时间</option>
+            //LEAST_DISTANCE">最短距离</option>
+            //AVOID_HIGHWAYS">避开高速</option>
+            //REAL_TRAFFIC">实时路况</option>
+            //PREDICT_TRAFFIC">预测路况
+            var policy ="LEAST_TIME";
+            drivingService.setPolicy(qq.maps.DrivingPolicy[policy]);
             //getResult();
         }
         function getResult() {

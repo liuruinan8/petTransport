@@ -131,7 +131,7 @@
                         <#else>
                             <input id="selHkxInput" type="hidden" value="true">
                         </#if>
-                        <#if pet.quarantineCertAss==0>
+                        <#if pet.quarantineCertAss==''||pet.quarantineCertAss==0>
                             <input id="selDWJYHGInput" type="hidden" value="false">
                         <#else>
                             <input id="selDWJYHGInput" type="hidden" value="true">
@@ -205,7 +205,7 @@
                     <div class="weui-cell__bd">
                         <input id="declarePrice" placeholder="3000～20000" value="${order.declarePrice}"  style="width: 40%" onkeyup="value=value.replace(/[^\d]/g,'')" type="number" pattern="[0-9]*">
                         <label id="value_money_label">元</label>
-                        <span id="insuredPrice" class="order-money font-style"  style="width: 50%">费率2%</span>
+                        <span id="insuredPrice" class="order-money font-style"  style="width: 50%">费率5%</span>
                     </div>
                 </div>
             </div>
