@@ -7,7 +7,12 @@
     <groupId>com.pet.transport</groupId>
     <artifactId>petTransport</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <modules>
+        <module>petTransportAdmin</module>
+        <module>petTransportApi</module>
+        <module>petTransportWechat</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <properties>
         <!-- spring版本号3.2.8.RELEASE -->
