@@ -7,7 +7,7 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath*:/application.xml,
-            classpath*:/shrio/spring-shrio.xml
+            classpath*:/com/pet/transport/uc/shrio/spring-shrio.xml
         </param-value>
     </context-param>
     <!-- 设计路径变量值
